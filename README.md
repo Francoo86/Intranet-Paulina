@@ -21,7 +21,7 @@ Iniciar el proyecto:
 4) Si es la primera vez usando este proyecto, hay que escribir:  
    ```docker compose build --no-cache```
 5) Para poder iniciarlo:  
-   ```docker compose up --pull --wait```
+   ```docker compose up --pull -d --wait```
 6) Ingresamos a nuestro navegador de preferencia y escribimos ```https://localhost```.
 7) Si se hicieron los pasos correctamente debería mostrar el proyecto.
 8) Para poder terminar con su ejecución escribimos:
