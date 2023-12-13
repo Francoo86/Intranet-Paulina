@@ -22,6 +22,9 @@ class Audience
     #[ORM\Column(length: 255)]
     private ?string $locality = null;
 
+    #[ORM\OneToOne(mappedBy: 'Audience', cascade: ['persist', 'remove'])]
+    private ?Publicity $publicity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,23 @@ class Audience
     public function setLocality(string $locality): static
     {
         $this->locality = $locality;
+
+        return $this;
+    }
+
+    public function getPublicity(): ?Publicity
+    {
+        return $this->publicity;
+    }
+
+    public function setPublicity(Publicity $publicity): static
+    {
+        // set the owning side of the relation if necessary
+        if ($publicity->getAudience() !== $this) {
+            $publicity->setAudience($this);
+        }
+
+        $this->publicity = $publicity;
 
         return $this;
     }

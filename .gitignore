@@ -20,3 +20,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 migrations/Version20231212195719.php
+migrations/Version20231212221732.php
+migrations/Version20231212230735.php
+migrations/Version20231213011453.php
