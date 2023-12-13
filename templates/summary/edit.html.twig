@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Summary{% endblock %}
+
+{% block body %}
+    <h1>Edit Summary</h1>
+
+    {{ include('summary/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_summary_index') }}">back to list</a>
+
+    {{ include('summary/_delete_form.html.twig') }}
+{% endblock %}

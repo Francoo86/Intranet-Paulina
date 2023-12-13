@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Balance{% endblock %}
+
+{% block body %}
+    <h1>Edit Balance</h1>
+
+    {{ include('balance/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_balance_index') }}">back to list</a>
+
+    {{ include('balance/_delete_form.html.twig') }}
+{% endblock %}
