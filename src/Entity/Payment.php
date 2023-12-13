@@ -23,10 +23,6 @@ class Payment
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Payments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Customer $customer = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -64,18 +60,6 @@ class Payment
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
 
         return $this;
     }

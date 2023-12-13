@@ -20,15 +20,6 @@ class Notification
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Notifications')]
-    private ?Customer $customer = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Balance $Balance = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Summary $Summarys = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -54,42 +45,6 @@ class Notification
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getBalance(): ?Balance
-    {
-        return $this->Balance;
-    }
-
-    public function setBalance(?Balance $Balance): static
-    {
-        $this->Balance = $Balance;
-
-        return $this;
-    }
-
-    public function getSummarys(): ?Summary
-    {
-        return $this->Summarys;
-    }
-
-    public function setSummarys(?Summary $Summarys): static
-    {
-        $this->Summarys = $Summarys;
 
         return $this;
     }

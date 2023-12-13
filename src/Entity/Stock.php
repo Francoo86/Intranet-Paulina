@@ -19,13 +19,6 @@ class Stock
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\OneToOne(mappedBy: 'Stocks', cascade: ['persist', 'remove'])]
-    private ?Publicity $publicity = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Balance $Balances = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -51,35 +44,6 @@ class Stock
     public function setAmount(int $amount): static
     {
         $this->amount = $amount;
-
-        return $this;
-    }
-
-    public function getPublicity(): ?Publicity
-    {
-        return $this->publicity;
-    }
-
-    public function setPublicity(Publicity $publicity): static
-    {
-        // set the owning side of the relation if necessary
-        if ($publicity->getStocks() !== $this) {
-            $publicity->setStocks($this);
-        }
-
-        $this->publicity = $publicity;
-
-        return $this;
-    }
-
-    public function getBalances(): ?Balance
-    {
-        return $this->Balances;
-    }
-
-    public function setBalances(Balance $Balances): static
-    {
-        $this->Balances = $Balances;
 
         return $this;
     }
