@@ -15,7 +15,7 @@ class ManagerType extends AbstractType
             ->add('first_name')
             ->add('last_name')
             ->add('email')
-            ->add('phone', null, [
+            ->add('phoneNumber', null, [
                 'property_path' => 'phoneNumber',
             ])
         ;
