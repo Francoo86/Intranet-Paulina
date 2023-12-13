@@ -15,7 +15,9 @@ class BroadcasterType extends AbstractType
             ->add('first_name')
             ->add('last_name')
             ->add('email')
-            ->add('phone')
+            ->add('phone', null, [
+                'property_path' => 'phoneNumber',
+            ])
         ;
     }
 
