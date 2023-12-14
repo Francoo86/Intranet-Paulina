@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manager index{% endblock %}
+
+{% block body %}
+    <h1>Manager index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for manager in managers %}
+            <tr>
+                <td>{{ manager.id }}</td>
+                <td>
+                    <a href="{{ path('app_manager_show', {'id': manager.id}) }}">show</a>
+                    <a href="{{ path('app_manager_edit', {'id': manager.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_manager_new') }}">Create new</a>
+{% endblock %}

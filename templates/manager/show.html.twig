@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manager{% endblock %}
+
+{% block body %}
+    <h1>Manager</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ manager.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_manager_index') }}">back to list</a>
+
+    <a href="{{ path('app_manager_edit', {'id': manager.id}) }}">edit</a>
+
+    {{ include('manager/_delete_form.html.twig') }}
+{% endblock %}
