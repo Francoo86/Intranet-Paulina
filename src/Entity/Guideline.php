@@ -23,18 +23,6 @@ class Guideline
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $creation_date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Guidelines')]
-    private ?Broadcaster $broadcaster = null;
-
-    #[ORM\ManyToOne(inversedBy: 'guidelines')]
-    private ?Broadcaster $Broadcaster = null;
-
-    #[ORM\ManyToOne(inversedBy: 'Guideline')]
-    private ?Manager $manager = null;
-
-    #[ORM\ManyToOne(inversedBy: 'guidelines')]
-    private ?Manager $Manager = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -72,30 +60,6 @@ class Guideline
     public function setCreationDate(\DateTimeInterface $creation_date): static
     {
         $this->creation_date = $creation_date;
-
-        return $this;
-    }
-
-    public function getBroadcaster(): ?Broadcaster
-    {
-        return $this->broadcaster;
-    }
-
-    public function setBroadcaster(?Broadcaster $broadcaster): static
-    {
-        $this->broadcaster = $broadcaster;
-
-        return $this;
-    }
-
-    public function getManager(): ?Manager
-    {
-        return $this->manager;
-    }
-
-    public function setManager(?Manager $manager): static
-    {
-        $this->manager = $manager;
 
         return $this;
     }
