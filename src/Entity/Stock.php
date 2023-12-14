@@ -19,6 +19,16 @@ class Stock
     #[ORM\Column]
     private ?int $amount = null;
 
+    #[ORM\OneToOne(inversedBy: 'stock', cascade: ['persist', 'remove'])]
+    private ?Publicity $Publicity = null;
+
+    #[ORM\OneToOne(inversedBy: 'stock', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Balance $Balance = null;
+
+    #[ORM\OneToOne(mappedBy: 'Stock', cascade: ['persist', 'remove'])]
+    private ?Balance $balance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +54,30 @@ class Stock
     public function setAmount(int $amount): static
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getPublicity(): ?Publicity
+    {
+        return $this->Publicity;
+    }
+
+    public function setPublicity(?Publicity $Publicity): static
+    {
+        $this->Publicity = $Publicity;
+
+        return $this;
+    }
+
+    public function getBalance(): ?Balance
+    {
+        return $this->Balance;
+    }
+
+    public function setBalance(Balance $Balance): static
+    {
+        $this->Balance = $Balance;
 
         return $this;
     }

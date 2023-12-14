@@ -17,6 +17,18 @@ class Report
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $creation_date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Reports')]
+    private ?Manager $manager = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reports')]
+    private ?Manager $Manager = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Reports')]
+    private ?Publicity $publicity = null;
+
+    #[ORM\ManyToOne(inversedBy: 'reports')]
+    private ?Publicity $Publicity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +42,30 @@ class Report
     public function setCreationDate(\DateTimeInterface $creation_date): static
     {
         $this->creation_date = $creation_date;
+
+        return $this;
+    }
+
+    public function getManager(): ?Manager
+    {
+        return $this->manager;
+    }
+
+    public function setManager(?Manager $manager): static
+    {
+        $this->manager = $manager;
+
+        return $this;
+    }
+
+    public function getPublicity(): ?Publicity
+    {
+        return $this->publicity;
+    }
+
+    public function setPublicity(?Publicity $publicity): static
+    {
+        $this->publicity = $publicity;
 
         return $this;
     }
