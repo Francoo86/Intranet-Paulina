@@ -19,4 +19,3 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-migrations/Version20231214071917.php
