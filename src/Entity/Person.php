@@ -2,12 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\MappedSuperclass
- */
+#[ORM\MappedSuperclass]
 class Person
 {
     #[ORM\Id]
