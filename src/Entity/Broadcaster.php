@@ -6,15 +6,7 @@ use App\Repository\BroadcasterRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BroadcasterRepository::class)]
-class Broadcaster
+class Broadcaster extends Person
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 }
