@@ -17,7 +17,6 @@ class PublicityType extends AbstractType
             ->add('duration')
             ->add('description')
             ->add('Audience')
-            ->add('Stock')
             ->add('customer')
         ;
     }
