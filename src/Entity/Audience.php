@@ -16,11 +16,11 @@ class Audience
     #[ORM\Column(length: 255)]
     private ?string $demography = null;
 
-    #[ORM\Column]
-    private array $interests = [];
-
     #[ORM\Column(length: 255)]
     private ?string $locality = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -32,21 +32,9 @@ class Audience
         return $this->demography;
     }
 
-    public function setDemography(?string $demography): static
+    public function setDemography(string $demography): static
     {
         $this->demography = $demography;
-
-        return $this;
-    }
-
-    public function getInterests(): array
-    {
-        return $this->interests;
-    }
-
-    public function setInterests(array $interests): static
-    {
-        $this->interests = $interests;
 
         return $this;
     }
@@ -59,6 +47,18 @@ class Audience
     public function setLocality(string $locality): static
     {
         $this->locality = $locality;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }
