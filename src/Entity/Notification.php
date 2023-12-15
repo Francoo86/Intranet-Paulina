@@ -20,15 +20,6 @@ class Notification
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Notification')]
-    private ?Customer $customer = null;
-
-    #[ORM\OneToOne(mappedBy: 'Notification', cascade: ['persist', 'remove'])]
-    private ?Balance $balance = null;
-
-    #[ORM\OneToOne(inversedBy: 'notification', cascade: ['persist', 'remove'])]
-    private ?Summary $Summary = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -54,52 +45,6 @@ class Notification
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): static
-    {
-        $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getBalance(): ?Balance
-    {
-        return $this->balance;
-    }
-
-    public function setBalance(?Balance $balance): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($balance === null && $this->balance !== null) {
-            $this->balance->setNotification(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($balance !== null && $balance->getNotification() !== $this) {
-            $balance->setNotification($this);
-        }
-
-        $this->balance = $balance;
-
-        return $this;
-    }
-
-    public function getSummary(): ?Summary
-    {
-        return $this->Summary;
-    }
-
-    public function setSummary(?Summary $Summary): static
-    {
-        $this->Summary = $Summary;
 
         return $this;
     }
