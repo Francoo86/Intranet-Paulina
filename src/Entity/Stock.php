@@ -19,6 +19,12 @@ class Stock
     #[ORM\Column]
     private ?int $amount = null;
 
+    #[ORM\OneToOne(inversedBy: 'stock', cascade: ['persist', 'remove'])]
+    private ?Publicity $Publicity = null;
+
+    #[ORM\OneToOne(mappedBy: 'Stock', cascade: ['persist', 'remove'])]
+    private ?Balance $balance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,5 +52,44 @@ class Stock
         $this->amount = $amount;
 
         return $this;
+    }
+
+    public function getPublicity(): ?Publicity
+    {
+        return $this->Publicity;
+    }
+
+    public function setPublicity(?Publicity $Publicity): static
+    {
+        $this->Publicity = $Publicity;
+
+        return $this;
+    }
+
+    public function getBalance(): ?Balance
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(?Balance $balance): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($balance === null && $this->balance !== null) {
+            $this->balance->setStock(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($balance !== null && $balance->getStock() !== $this) {
+            $balance->setStock($this);
+        }
+
+        $this->balance = $balance;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->getId();
     }
 }

@@ -19,6 +19,12 @@ class Balance
     #[ORM\Column]
     private ?bool $active = null;
 
+    #[ORM\OneToOne(inversedBy: 'balance', cascade: ['persist', 'remove'])]
+    private ?Stock $Stock = null;
+
+    #[ORM\OneToOne(mappedBy: 'Balance', cascade: ['persist', 'remove'])]
+    private ?Notification $notification = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +50,40 @@ class Balance
     public function setActive(bool $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getStock(): ?Stock
+    {
+        return $this->Stock;
+    }
+
+    public function setStock(?Stock $Stock): static
+    {
+        $this->Stock = $Stock;
+
+        return $this;
+    }
+
+    public function getNotification(): ?Notification
+    {
+        return $this->notification;
+    }
+
+    public function setNotification(?Notification $notification): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($notification === null && $this->notification !== null) {
+            $this->notification->setBalance(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($notification !== null && $notification->getBalance() !== $this) {
+            $notification->setBalance($this);
+        }
+
+        $this->notification = $notification;
 
         return $this;
     }

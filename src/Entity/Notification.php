@@ -20,6 +20,9 @@ class Notification
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\OneToOne(inversedBy: 'notification', cascade: ['persist', 'remove'])]
+    private ?Balance $Balance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class Notification
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getBalance(): ?Balance
+    {
+        return $this->Balance;
+    }
+
+    public function setBalance(?Balance $Balance): static
+    {
+        $this->Balance = $Balance;
 
         return $this;
     }

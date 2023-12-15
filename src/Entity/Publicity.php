@@ -40,6 +40,9 @@ class Publicity
     #[ORM\ManyToOne(inversedBy: 'Publicity')]
     private ?Customer $customer = null;
 
+    #[ORM\OneToOne(mappedBy: 'Publicity', cascade: ['persist', 'remove'])]
+    private ?Stock $stock = null;
+
     public function __construct()
     {
         $this->Report = new ArrayCollection();
