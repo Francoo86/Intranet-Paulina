@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Balance{% endblock %}
+
+{% block body %}
+    <h1>Balance</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ balance.id }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ balance.amount }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ balance.active ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_balance_index') }}">back to list</a>
+
+    <a href="{{ path('app_balance_edit', {'id': balance.id}) }}">edit</a>
+
+    {{ include('balance/_delete_form.html.twig') }}
+{% endblock %}
