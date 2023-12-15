@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PublicityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +27,23 @@ class Publicity
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\OneToMany(mappedBy: 'publicity', targetEntity: Report::class)]
+    private Collection $Report;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Audience $Audience = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Stock $Stock = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Publicity')]
+    private ?Customer $customer = null;
+
+    public function __construct()
+    {
+        $this->Report = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,5 +96,76 @@ class Publicity
         $this->description = $description;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getReport(): Collection
+    {
+        return $this->Report;
+    }
+
+    public function addReport(Report $report): static
+    {
+        if (!$this->Report->contains($report)) {
+            $this->Report->add($report);
+            $report->setPublicity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): static
+    {
+        if ($this->Report->removeElement($report)) {
+            // set the owning side to null (unless already changed)
+            if ($report->getPublicity() === $this) {
+                $report->setPublicity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAudience(): ?Audience
+    {
+        return $this->Audience;
+    }
+
+    public function setAudience(?Audience $Audience): static
+    {
+        $this->Audience = $Audience;
+
+        return $this;
+    }
+
+    public function getStock(): ?Stock
+    {
+        return $this->Stock;
+    }
+
+    public function setStock(?Stock $Stock): static
+    {
+        $this->Stock = $Stock;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getSentence();
     }
 }

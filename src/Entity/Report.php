@@ -20,6 +20,9 @@ class Report
     #[ORM\ManyToOne(inversedBy: 'Report')]
     private ?Manager $manager = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Report')]
+    private ?Publicity $publicity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -47,5 +50,22 @@ class Report
         $this->manager = $manager;
 
         return $this;
+    }
+
+    public function getPublicity(): ?Publicity
+    {
+        return $this->publicity;
+    }
+
+    public function setPublicity(?Publicity $publicity): static
+    {
+        $this->publicity = $publicity;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string)$this->getId();
     }
 }

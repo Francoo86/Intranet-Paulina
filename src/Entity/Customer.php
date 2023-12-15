@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -24,6 +26,14 @@ class Customer
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Publicity::class)]
+    private Collection $Publicity;
+
+    public function __construct()
+    {
+        $this->Publicity = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -76,5 +86,40 @@ class Customer
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Publicity>
+     */
+    public function getPublicity(): Collection
+    {
+        return $this->Publicity;
+    }
+
+    public function addPublicity(Publicity $publicity): static
+    {
+        if (!$this->Publicity->contains($publicity)) {
+            $this->Publicity->add($publicity);
+            $publicity->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicity(Publicity $publicity): static
+    {
+        if ($this->Publicity->removeElement($publicity)) {
+            // set the owning side to null (unless already changed)
+            if ($publicity->getCustomer() === $this) {
+                $publicity->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() . " of " . $this->getOrganisation();
     }
 }

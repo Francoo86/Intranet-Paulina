@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audience{% endblock %}
+
+{% block body %}
+    <h1>Audience</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ audience.id }}</td>
+            </tr>
+            <tr>
+                <th>Demography</th>
+                <td>{{ audience.demography }}</td>
+            </tr>
+            <tr>
+                <th>Locality</th>
+                <td>{{ audience.locality }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ audience.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_audience_index') }}">back to list</a>
+
+    <a href="{{ path('app_audience_edit', {'id': audience.id}) }}">edit</a>
+
+    {{ include('audience/_delete_form.html.twig') }}
+{% endblock %}
