@@ -8,8 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ManagerRepository::class)]
-class Manager extends Person
+class Manager
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Guideline::class)]
     private Collection $Guideline;
@@ -21,6 +25,11 @@ class Manager extends Person
     {
         $this->Guideline = new ArrayCollection();
         $this->Report = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**

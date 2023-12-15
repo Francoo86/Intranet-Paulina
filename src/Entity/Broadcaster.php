@@ -8,14 +8,24 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BroadcasterRepository::class)]
-class Broadcaster extends Person
+class Broadcaster
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
     #[ORM\OneToMany(mappedBy: 'broadcaster', targetEntity: Guideline::class)]
     private Collection $Guideline;
 
     public function __construct()
     {
         $this->Guideline = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
