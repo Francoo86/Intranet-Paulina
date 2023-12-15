@@ -65,12 +65,12 @@ class Person
         return $this;
     }
 
-    public function getPhoneNumber(): ?int
+    public function getPhone(): ?int
     {
         return $this->phone;
     }
 
-    public function setPhoneNumber(int $phone): static
+    public function setPhone(int $phone): static
     {
         $this->phone = $phone;
 

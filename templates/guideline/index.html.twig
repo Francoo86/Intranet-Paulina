@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Guideline index{% endblock %}
+
+{% block body %}
+    <h1>Guideline index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Show_name</th>
+                <th>Emission_number</th>
+                <th>Creation_date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for guideline in guidelines %}
+            <tr>
+                <td>{{ guideline.id }}</td>
+                <td>{{ guideline.showName }}</td>
+                <td>{{ guideline.emissionNumber }}</td>
+                <td>{{ guideline.creationDate ? guideline.creationDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_guideline_show', {'id': guideline.id}) }}">show</a>
+                    <a href="{{ path('app_guideline_edit', {'id': guideline.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_guideline_new') }}">Create new</a>
+{% endblock %}
