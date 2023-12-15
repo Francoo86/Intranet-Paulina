@@ -23,6 +23,12 @@ class Notification
     #[ORM\OneToOne(inversedBy: 'notification', cascade: ['persist', 'remove'])]
     private ?Balance $Balance = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Notification')]
+    private ?Customer $customer = null;
+
+    #[ORM\OneToOne(inversedBy: 'notification', cascade: ['persist', 'remove'])]
+    private ?Summary $Summary = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -60,6 +66,30 @@ class Notification
     public function setBalance(?Balance $Balance): static
     {
         $this->Balance = $Balance;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
+
+        return $this;
+    }
+
+    public function getSummary(): ?Summary
+    {
+        return $this->Summary;
+    }
+
+    public function setSummary(?Summary $Summary): static
+    {
+        $this->Summary = $Summary;
 
         return $this;
     }

@@ -30,9 +30,21 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Publicity::class)]
     private Collection $Publicity;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Payment::class)]
+    private Collection $Payment;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Summary::class)]
+    private Collection $Summary;
+
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Notification::class)]
+    private Collection $Notification;
+
     public function __construct()
     {
         $this->Publicity = new ArrayCollection();
+        $this->Payment = new ArrayCollection();
+        $this->Summary = new ArrayCollection();
+        $this->Notification = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -121,5 +133,95 @@ class Customer
     public function __toString(): string
     {
         return $this->getName() . " of " . $this->getOrganisation();
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayment(): Collection
+    {
+        return $this->Payment;
+    }
+
+    public function addPayment(Payment $payment): static
+    {
+        if (!$this->Payment->contains($payment)) {
+            $this->Payment->add($payment);
+            $payment->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): static
+    {
+        if ($this->Payment->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getCustomer() === $this) {
+                $payment->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Summary>
+     */
+    public function getSummary(): Collection
+    {
+        return $this->Summary;
+    }
+
+    public function addSummary(Summary $summary): static
+    {
+        if (!$this->Summary->contains($summary)) {
+            $this->Summary->add($summary);
+            $summary->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSummary(Summary $summary): static
+    {
+        if ($this->Summary->removeElement($summary)) {
+            // set the owning side to null (unless already changed)
+            if ($summary->getCustomer() === $this) {
+                $summary->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotification(): Collection
+    {
+        return $this->Notification;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->Notification->contains($notification)) {
+            $this->Notification->add($notification);
+            $notification->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->Notification->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getCustomer() === $this) {
+                $notification->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 }
