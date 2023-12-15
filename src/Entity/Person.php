@@ -5,7 +5,12 @@ namespace App\Entity;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PersonRepository::class)]
+/**
+ * @ORM\Entity(repositoryClass=PersonRepository::class)
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discriminator", type="string")
+ * @ORM\DiscriminatorMap({"person" = "Person", "manager" = "Manager", "broadcaster" = "Broadcaster"})
+ */
 class Person
 {
     #[ORM\Id]
