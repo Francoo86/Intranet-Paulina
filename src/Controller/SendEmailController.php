@@ -84,4 +84,57 @@ class SendEmailController extends AbstractController
             return new Response($th->getMessage());
         }
     }
+
+
+    #[Route('/send/AllEmail/Data', name: 'app_send_email')]
+    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAll();
+    
+        foreach ($customers as $customer) {
+            $name = $customer->getName() ?? 'to be defined';
+            $organisation = $customer->getOrganisation() ?? 'to be defined';
+            $phone = $customer->getPhone() ?? 'to be defined';
+            $emailAddress = $customer->getEmail() ?? 'to be defined';
+    
+            $publicityDetails = [];
+            foreach ($customer->getPublicity() as $publicity) {
+                $publicityDetails[] = $publicity->getSentence();
+            }
+            $publicityDetails = !empty($publicityDetails) ? implode(', ', $publicityDetails) : 'to be defined';
+
+            $paymentDetails = [];
+            foreach ($customer->getPayment() as $payment) {
+                $paymentDetails[] = $payment->getAmount();
+            }
+            $paymentDetails = !empty($paymentDetails) ? implode(', ', $paymentDetails) : 'to be defined';
+
+            $summaryDetails = [];
+            foreach ($customer->getSummary() as $summary) {
+                $summaryDetails[] = $summary->getId();
+            }
+            $summaryDetails = !empty($summaryDetails) ? implode(', ', $summaryDetails) : 'to be defined';
+
+            $notificationDetails = [];
+            foreach ($customer->getNotification() as $notification) {
+                $notificationDetails[] = $notification->getMessage();
+            }
+            $notificationDetails = !empty($notificationDetails) ? implode(', ', $notificationDetails) : 'to be defined';
+                
+            $message = "Hola $name de la organización $organisation. Phone: $phone. Publicity: $publicityDetails. Payment: $paymentDetails. Summary: $summaryDetails. Notification: $notificationDetails.";
+    
+            $email = (new Email())
+                ->from('sendersig@gmail.com')
+                ->subject('SIG-GMAIL')
+                ->addTo($emailAddress)
+                ->text($message);
+    
+            $mailer->send($email);
+        }
+    
+        return new Response('Correos enviados con éxito !!!');
+    }
+    
+
+    
 }
