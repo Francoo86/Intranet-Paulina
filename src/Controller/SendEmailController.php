@@ -11,27 +11,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class SendEmailController extends AbstractController
 {
     const SUCCESS_MESSAGE = "Message was sent succesfully.";
 
     #[Route('/send/email', name: 'app_send_email_exito', methods: ['POST'])]
-    public function sendEmail(MailerInterface $mailer): JsonResponse
+    public function sendEmail(MailerInterface $mailer, Request $req): JsonResponse
     {
         try{
+            $request_email = $req->get('email');
+            //Check if email exists.
+            $request_email = $request_email != null ? $request_email : "example@gmail.com";
+
             $email = (new Email())
                 ->from('sendersig@gmail.com')
-                ->to('example@gmail.com')
+                ->to($request_email)
                 ->subject('SIG-GMAIL')
                 //->text('Sending emails is fun!')
                 ->html('<p>Correo de prueba SIG</p>');
 
             $mailer->send($email);
-            return $this->json(array(["message" => "Message was sent succesfully."]));//new Response('Correo enviado con exito :)');
+            return $this->json(array(
+                ["message" => sprintf("Message was sent to %s successfully.", $request_email)]
+            ));
         }catch(\Throwable $th){
-            return $this->json(array(["message" => $th->getMessage()]));
-            //return new Response($th->getMessage());
+            return $this->json(array(["message" => $th->getMessage(), "data" => $request_email]));
         }
     }
 
@@ -62,7 +68,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail', name: 'app_send_email', method: ['POST'])]
+    #[Route('/send/AllEmail', name: 'app_send_email', methods: ['POST'])]
     public function sendAllEmail(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -90,7 +96,7 @@ class SendEmailController extends AbstractController
     }
 
 
-    #[Route('/send/AllEmail/Data', name: 'app_send_email', method: ['POST'])]
+    #[Route('/send/AllEmail/Data', name: 'app_send_email', methods: ['POST'])]
     public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         $customers = $customerRepository->findAll();
