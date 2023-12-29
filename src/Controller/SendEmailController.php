@@ -16,7 +16,7 @@ class SendEmailController extends AbstractController
 {
     const SUCCESS_MESSAGE = "Message was sent succesfully.";
 
-    #[Route('/send/email', name: 'app_send_email_exito', methods: ['GET', 'POST'])]
+    #[Route('/send/email', name: 'app_send_email_exito', methods: ['POST'])]
     public function sendEmail(MailerInterface $mailer): JsonResponse
     {
         try{
@@ -24,7 +24,7 @@ class SendEmailController extends AbstractController
                 ->from('sendersig@gmail.com')
                 ->to('example@gmail.com')
                 ->subject('SIG-GMAIL')
-                ->text('Sending emails is fun!')
+                //->text('Sending emails is fun!')
                 ->html('<p>Correo de prueba SIG</p>');
 
             $mailer->send($email);
@@ -35,7 +35,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail/test', name: 'app_send_email')]
+    #[Route('/send/AllEmail/test', name: 'app_send_email', methods: ['POST'])]
     public function sendAllEmailTest(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -62,7 +62,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail', name: 'app_send_email')]
+    #[Route('/send/AllEmail', name: 'app_send_email', method: ['POST'])]
     public function sendAllEmail(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -90,7 +90,7 @@ class SendEmailController extends AbstractController
     }
 
 
-    #[Route('/send/AllEmail/Data', name: 'app_send_email')]
+    #[Route('/send/AllEmail/Data', name: 'app_send_email', method: ['POST'])]
     public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         $customers = $customerRepository->findAll();
