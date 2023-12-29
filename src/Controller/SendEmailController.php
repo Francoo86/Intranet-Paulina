@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SendEmailController extends AbstractController
 {
-    const SUCCESS_MESSAGE = "Message was sent succesfully.";
-
     #[Route('/send/email', name: 'app_send_email_exito', methods: ['POST'])]
     public function sendEmail(MailerInterface $mailer, Request $req): JsonResponse
     {
@@ -25,14 +23,19 @@ class SendEmailController extends AbstractController
             //Check if email exists.
             $request_email = $request_email != null ? $request_email : "example@gmail.com";
 
+            //The same check for message.
+            $request_msg = $req->get('message');
+            $request_msg = $request_msg != null ? $request_msg : "Correo de prueba SIG.";
+
             $email = (new Email())
                 ->from('sendersig@gmail.com')
                 ->to($request_email)
                 ->subject('SIG-GMAIL')
                 //->text('Sending emails is fun!')
-                ->html('<p>Correo de prueba SIG</p>');
+                ->html(sprintf('<p>%s</p>', $request_msg));
 
             $mailer->send($email);
+
             return $this->json(array(
                 ["message" => sprintf("Message was sent to %s successfully.", $request_email)]
             ));
