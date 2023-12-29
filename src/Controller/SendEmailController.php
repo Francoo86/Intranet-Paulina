@@ -10,11 +10,14 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\CustomerRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SendEmailController extends AbstractController
 {
-    #[Route('/send/email', name: 'app_send_email')]
-    public function sendEmail(MailerInterface $mailer): Response
+    const SUCCESS_MESSAGE = "Message was sent succesfully.";
+
+    #[Route('/send/email', name: 'app_send_email_exito', methods: ['GET', 'POST'])]
+    public function sendEmail(MailerInterface $mailer): JsonResponse
     {
         try{
             $email = (new Email())
@@ -25,9 +28,10 @@ class SendEmailController extends AbstractController
                 ->html('<p>Correo de prueba SIG</p>');
 
             $mailer->send($email);
-            return new Response('Correo enviado con exito :)');
+            return $this->json(array(["message" => "Message was sent succesfully."]));//new Response('Correo enviado con exito :)');
         }catch(\Throwable $th){
-            return new Response($th->getMessage());
+            return $this->json(array(["message" => $th->getMessage()]));
+            //return new Response($th->getMessage());
         }
     }
 
