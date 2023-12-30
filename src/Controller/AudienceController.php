@@ -42,7 +42,7 @@ class AudienceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_audience_show', methods: ['GET'])]
+    #[Route('/{id<\d+>}', name: 'app_audience_show', methods: ['GET'])]
     public function show(Audience $audience): Response
     {
         return $this->render('audience/show.html.twig', [
@@ -50,7 +50,7 @@ class AudienceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_audience_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id<\d+>}/edit', name: 'app_audience_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Audience $audience, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AudienceType::class, $audience);
@@ -68,7 +68,7 @@ class AudienceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_audience_delete', methods: ['POST'])]
+    #[Route('/{id<\d+>}', name: 'app_audience_delete', methods: ['POST'])]
     public function delete(Request $request, Audience $audience, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$audience->getId(), $request->request->get('_token'))) {
@@ -77,5 +77,15 @@ class AudienceController extends AbstractController
         }
 
         return $this->redirectToRoute('app_audience_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/stats', name: 'app_audience_stats', methods: ['GET'])]
+    public function Stats(AudienceRepository $audienceRepository): Response
+    {
+        $demographicsCount = $audienceRepository->getDemographicsCount();
+    
+        return $this->render('audience/stats.html.twig', [
+            'demographicsCount' => $demographicsCount,
+        ]);
     }
 }

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="piechart"></div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Demography', 'Count'],
+          {% for item in demographicsCount %}
+            ['{{ item.demography }}', {{ item.count }}],
+          {% endfor %}
+        ]);
+
+        //Title a
+        var options = {'title':'Audiencia según su Demografia', 'width':550, 'height':400};
+
+        // Display the chart inside the <div>
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
+{% endblock %}

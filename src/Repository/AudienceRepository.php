@@ -21,6 +21,16 @@ class AudienceRepository extends ServiceEntityRepository
         parent::__construct($registry, Audience::class);
     }
 
+    public function getDemographicsCount(): array
+    {
+        $qb = $this->createQueryBuilder('a');
+
+        return $qb->select('a.demography, COUNT(a.id) as count')
+            ->groupBy('a.demography')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 //    /**
 //     * @return Audience[] Returns an array of Audience objects
 //     */
