@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GuidelineRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,6 +30,14 @@ class Guideline
 
     #[ORM\ManyToOne(inversedBy: 'Guideline')]
     private ?Manager $manager = null;
+
+    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
+    private Collection $publicities;
+
+    public function __construct()
+    {
+        $this->publicities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +100,36 @@ class Guideline
     public function setManager(?Manager $manager): static
     {
         $this->manager = $manager;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Publicity>
+     */
+    public function getPublicities(): Collection
+    {
+        return $this->publicities;
+    }
+
+    public function addPublicity(Publicity $publicity): static
+    {
+        if (!$this->publicities->contains($publicity)) {
+            $this->publicities->add($publicity);
+            $publicity->setGuideline($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicity(Publicity $publicity): static
+    {
+        if ($this->publicities->removeElement($publicity)) {
+            // set the owning side to null (unless already changed)
+            if ($publicity->getGuideline() === $this) {
+                $publicity->setGuideline(null);
+            }
+        }
 
         return $this;
     }
