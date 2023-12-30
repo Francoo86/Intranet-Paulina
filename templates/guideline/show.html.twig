@@ -23,6 +23,15 @@
                 <th>Creation_date</th>
                 <td>{{ guideline.creationDate ? guideline.creationDate|date('Y-m-d') : '' }}</td>
             </tr>
+            <tr>
+                <th>Publicidades asociadas</th>
+                {% for publicity in guideline.publicities%}
+                    <tr>
+                        <td>{{publicity.description}}</td>
+                        <td><a href="{{path('app_publicity_edit', {'id': publicity.id})}}">editar publicidad</a>
+                    </tr>
+                {%endfor%}
+            </tr>
         </tbody>
     </table>
 
