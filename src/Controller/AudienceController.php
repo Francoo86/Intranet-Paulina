@@ -83,9 +83,11 @@ class AudienceController extends AbstractController
     public function Stats(AudienceRepository $audienceRepository): Response
     {
         $demographicsCount = $audienceRepository->getDemographicsCount();
+        $locationCount = $audienceRepository->getLocationCount();
     
         return $this->render('audience/stats.html.twig', [
             'demographicsCount' => $demographicsCount,
+            'locationCount' => $locationCount,
         ]);
     }
 }

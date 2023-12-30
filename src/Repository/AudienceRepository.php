@@ -31,6 +31,16 @@ class AudienceRepository extends ServiceEntityRepository
             ->getArrayResult();
     }
 
+    public function getLocationCount(): array
+    {
+    $qb = $this->createQueryBuilder('a');
+
+    return $qb->select('a.locality, COUNT(a.id) as count')
+        ->groupBy('a.locality')
+        ->getQuery()
+        ->getArrayResult();
+    }
+
 //    /**
 //     * @return Audience[] Returns an array of Audience objects
 //     */
