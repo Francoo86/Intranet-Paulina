@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+</head>
+<body>
+    
+    {% include 'webpage/navbar.html.twig' %}
+    <div class="main-content">
+        <h1>Bienvenido {{ user.getEmail() }} </h1>
+        <p>Este es el menu de administración</p>
+    </div>
+
+</body>
+</html>

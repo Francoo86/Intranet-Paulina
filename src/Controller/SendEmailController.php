@@ -20,10 +20,8 @@ class SendEmailController extends AbstractController
     {
         try{
             $request_email = $req->get('email');
-            //Check if email exists.
             $request_email = $request_email != null ? $request_email : "example@gmail.com";
 
-            //The same check for message.
             $request_msg = $req->get('message');
             $request_msg = $request_msg != null ? $request_msg : "Correo de prueba SIG.";
 
@@ -44,7 +42,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail/test', name: 'app_send_email', methods: ['POST'])]
+    #[Route('/send/AllEmail/test', name: 'app_send_email_test', methods: ['POST'])]
     public function sendAllEmailTest(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -71,7 +69,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail', name: 'app_send_email', methods: ['POST'])]
+    #[Route('/send/AllEmail', name: 'app_send_all_email', methods: ['POST'])]
     public function sendAllEmail(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -99,7 +97,7 @@ class SendEmailController extends AbstractController
     }
 
 
-    #[Route('/send/AllEmail/Data', name: 'app_send_email', methods: ['POST'])]
+    #[Route('/send/AllEmail/Data', name: 'app_send_all_email_data', methods: ['POST'])]
     public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         $customers = $customerRepository->findAll();
