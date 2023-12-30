@@ -2,18 +2,33 @@
 
 {% block title %}Register{% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
-
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('path/to/your/form.css') }}">
 {% endblock %}
+
+{% block body %}
+    <div class="form">
+        <h1 class="form-title">Register</h1>
+
+        {{ form_errors(registrationForm) }}
+
+        {{ form_start(registrationForm) }}
+            <label for="{{ registrationForm.email.vars.id }}" class="form-label">Email</label>
+            {{ form_widget(registrationForm.email, { 'attr': {'class': 'form-control form-input', 'autocomplete': 'off', 'required': true} }) }}
+
+            <label for="{{ registrationForm.plainPassword.vars.id }}" class="form-label">Password</label>
+            {{ form_widget(registrationForm.plainPassword, { 'attr': {'class': 'form-control form-input', 'autocomplete': 'new-password', 'required': true} }) }}
+
+            <div class="form-check">
+                {{ form_widget(registrationForm.agreeTerms, { 'attr': {'class': 'form-check-input', 'required': true} }) }}
+                <label class="form-check-label" for="{{ registrationForm.agreeTerms.vars.id }}">I agree to the terms</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg btn-info form-btn form-btn-info">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}
+
+
+
