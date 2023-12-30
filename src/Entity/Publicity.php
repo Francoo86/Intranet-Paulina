@@ -43,6 +43,9 @@ class Publicity
     #[ORM\OneToOne(mappedBy: 'Publicity', cascade: ['persist', 'remove'])]
     private ?Stock $stock = null;
 
+    #[ORM\ManyToOne(inversedBy: 'publicities')]
+    private ?Guideline $Guideline = null;
+
     public function __construct()
     {
         $this->Report = new ArrayCollection();
@@ -109,6 +112,7 @@ class Publicity
         return $this->Report;
     }
 
+    /*
     public function addReport(Report $report): static
     {
         if (!$this->Report->contains($report)) {
@@ -129,7 +133,7 @@ class Publicity
         }
 
         return $this;
-    }
+    }*/
 
     public function getAudience(): ?Audience
     {
@@ -170,5 +174,17 @@ class Publicity
     public function __toString(): string
     {
         return $this->getSentence();
+    }
+
+    public function getGuideline(): ?Guideline
+    {
+        return $this->Guideline;
+    }
+
+    public function setGuideline(?Guideline $Guideline): static
+    {
+        $this->Guideline = $Guideline;
+
+        return $this;
     }
 }

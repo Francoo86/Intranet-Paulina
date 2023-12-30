@@ -20,8 +20,9 @@ class Report
     #[ORM\ManyToOne(inversedBy: 'Report')]
     private ?Manager $manager = null;
 
+    /*
     #[ORM\ManyToOne(inversedBy: 'Report')]
-    private ?Publicity $publicity = null;
+    private ?Publicity $publicity = null;*/
 
     public function getId(): ?int
     {
@@ -52,6 +53,7 @@ class Report
         return $this;
     }
 
+    /*
     public function getPublicity(): ?Publicity
     {
         return $this->publicity;
@@ -62,7 +64,7 @@ class Report
         $this->publicity = $publicity;
 
         return $this;
-    }
+    }*/
 
     public function __toString(): string
     {
