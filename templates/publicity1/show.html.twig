@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publicity{% endblock %}
+
+{% block body %}
+    <h1>Publicity</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ publicity.id }}</td>
+            </tr>
+            <tr>
+                <th>Sentence</th>
+                <td>{{ publicity.sentence }}</td>
+            </tr>
+            <tr>
+                <th>Background</th>
+                <td>{{ publicity.background }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ publicity.duration }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ publicity.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_publicity1_index') }}">back to list</a>
+
+    <a href="{{ path('app_publicity1_edit', {'id': publicity.id}) }}">edit</a>
+
+    {{ include('publicity1/_delete_form.html.twig') }}
+{% endblock %}

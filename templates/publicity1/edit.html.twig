@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Publicity{% endblock %}
+
+{% block body %}
+    <h1>Edit Publicity</h1>
+
+    {{ include('publicity1/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_publicity1_index') }}">back to list</a>
+
+    {{ include('publicity1/_delete_form.html.twig') }}
+{% endblock %}
