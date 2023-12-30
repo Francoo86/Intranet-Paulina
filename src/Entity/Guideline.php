@@ -133,4 +133,9 @@ class Guideline
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->show_name;
+    }
 }

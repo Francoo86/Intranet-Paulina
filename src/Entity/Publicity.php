@@ -31,8 +31,9 @@ class Publicity
     #[ORM\OneToMany(mappedBy: 'publicity', targetEntity: Report::class)]
     private Collection $Report;
 
+    /*
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Audience $Audience = null;
+    private ?Audience $Audience = null;*/
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Stock $Stock = null;
@@ -45,6 +46,9 @@ class Publicity
 
     #[ORM\ManyToOne(inversedBy: 'publicities')]
     private ?Guideline $Guideline = null;
+
+    #[ORM\ManyToOne(inversedBy: 'publicities')]
+    private ?Audience $Audience = null;
 
     public function __construct()
     {
@@ -135,6 +139,7 @@ class Publicity
         return $this;
     }*/
 
+    /*
     public function getAudience(): ?Audience
     {
         return $this->Audience;
@@ -145,7 +150,7 @@ class Publicity
         $this->Audience = $Audience;
 
         return $this;
-    }
+    }*/
 
     public function getStock(): ?Stock
     {
@@ -184,6 +189,18 @@ class Publicity
     public function setGuideline(?Guideline $Guideline): static
     {
         $this->Guideline = $Guideline;
+
+        return $this;
+    }
+
+    public function getAudience(): ?Audience
+    {
+        return $this->Audience;
+    }
+
+    public function setAudience(?Audience $Audience): static
+    {
+        $this->Audience = $Audience;
 
         return $this;
     }

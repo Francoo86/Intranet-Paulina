@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AudienceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AudienceRepository::class)]
@@ -21,6 +23,14 @@ class Audience
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
+
+    #[ORM\OneToMany(mappedBy: 'Audience', targetEntity: Publicity::class)]
+    private Collection $publicities;
+
+    public function __construct()
+    {
+        $this->publicities = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,5 +76,35 @@ class Audience
     public function __toString(): string
     {
         return $this->getDemography();
+    }
+
+    /**
+     * @return Collection<int, Publicity>
+     */
+    public function getPublicities(): Collection
+    {
+        return $this->publicities;
+    }
+
+    public function addPublicity(Publicity $publicity): static
+    {
+        if (!$this->publicities->contains($publicity)) {
+            $this->publicities->add($publicity);
+            $publicity->setAudience($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublicity(Publicity $publicity): static
+    {
+        if ($this->publicities->removeElement($publicity)) {
+            // set the owning side to null (unless already changed)
+            if ($publicity->getAudience() === $this) {
+                $publicity->setAudience(null);
+            }
+        }
+
+        return $this;
     }
 }
