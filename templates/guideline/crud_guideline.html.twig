@@ -124,178 +124,42 @@
                               </div>
                             </td>
                           </tr>
-
-                          <div
-                          class="modal fade"
-                          role="dialog"
-                          tabindex="-1"
-                          id="user-form-modal_1"
-                        >
-                          <div class="modal-dialog modal-lg" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title">Edición de pauta</h5>
-                                <button type="button" class="close" data-dismiss="modal">
-                                  <span aria-hidden="true">×</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="py-1">
-                                  <form class="form" method="post">
-                                    <div class="row">
-                                      <div class="col">
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Nombre del programa</label>
-                                              <input
-                                                class="form-control"
-                                                type="text"
-                                                name="name"
-                                                placeholder=""
-                                                value="{{guideline.showName}}"
-                                              />
-                                            </div>
-                                          </div>
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Numero de emisión</label>
-                                              <input
-                                                class="form-control"
-                                                type="number"
-                                                name="username"
-                                                placeholder=""
-                                                value="{{guideline.showName}}"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Fecha de creación</label>
-                                              <input
-                                                class="form-control"
-                                                type="date"
-                                                placeholder="01-01-2000"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <!--
-                                    <div class="row">
-                                      <div class="col-12 col-sm-6 mb-3">
-                                        <div class="mb-2">
-                                          <b>Change Password</b>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>Current Password</label>
-                                              <input
-                                                class="form-control"
-                                                type="password"
-                                                placeholder="••••••"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>New Password</label>
-                                              <input
-                                                class="form-control"
-                                                type="password"
-                                                placeholder="••••••"
-                                              />
-                                            </div>
-                                          </div>
-                                          <div class="col">
-                                            <div class="form-group">
-                                              <label>
-                                                Confirm
-                                                <span class="d-none d-xl-inline"
-                                                  >Password
-                                                </span>
-                                              </label>
-                                              <input
-                                                class="form-control"
-                                                type="password"
-                                                placeholder="••••••"
-                                              />
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div class="col-12 col-sm-5 offset-sm-1 mb-3">
-                                        <div class="mb-2">
-                                          <b>Keeping in Touch</b>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col">
-                                            <label>Email Notifications</label>
-                                            <div class="custom-controls-stacked px-2">
-                                              <div class="custom-control custom-checkbox">
-                                                <input
-                                                  type="checkbox"
-                                                  class="custom-control-input"
-                                                  id="notifications-blog"
-                                                  checked
-                                                />
-                                                <label
-                                                  class="custom-control-label"
-                                                  for="notifications-blog"
-                                                  >Blog posts
-                                                </label>
-                                              </div>
-                                              <div class="custom-control custom-checkbox">
-                                                <input
-                                                  type="checkbox"
-                                                  class="custom-control-input"
-                                                  id="notifications-news"
-                                                  checked
-                                                />
-                                                <label
-                                                  class="custom-control-label"
-                                                  for="notifications-news"
-                                                  >Newsletter
-                                                </label>
-                                              </div>
-                                              <div class="custom-control custom-checkbox">
-                                                <input
-                                                  type="checkbox"
-                                                  class="custom-control-input"
-                                                  id="notifications-offers"
-                                                  checked
-                                                />
-                                                <label
-                                                  class="custom-control-label"
-                                                  for="notifications-offers"
-                                                  >Personal Offers
-                                                </label>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>-->
-                                    <div class="row">
-                                      <div class="col d-flex justify-content-end">
-                                        <button class="btn btn-primary" type="submit">
-                                          Guardar cambios
-                                        </button>
-                                      </div>
-                                    </div>
-                                  </form>
+                          {% endfor %}
+                          {% for edit_form in allForms %}
+                          {% set id = edit_form.form.vars.value.id %}
+                            <div
+                            class="modal fade"
+                            role="dialog"
+                            tabindex="-1"
+                            id="user-form-modal_{{id}}"
+                          >
+                            <div class="modal-dialog modal-lg" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Edición de pauta</h5>
+                                  <button type="button" class="close" data-dismiss="modal">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
                                 </div>
+
+                                <div class="modal-body">
+                                  <div class="py-1">
+                                      {{form_start(edit_form.form)}}
+                                        {{ form_widget(edit_form.form) }}
+
+                                      <div class="row">
+                                        <div class="col d-flex justify-content-end">
+                                        </div>
+                                      </div>
+                                      {{ form_end(edit_form.form)}}
+                                  </div>
+                                </div>
+
                               </div>
+                              
                             </div>
                           </div>
-                        </div>
-                        {% endfor %}
+                      {% endfor %}
                         </tbody>
                       </table>
                     </div>

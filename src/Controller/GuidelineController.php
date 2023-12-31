@@ -7,6 +7,8 @@ use App\Form\GuidelineType;
 use App\Repository\GuidelineRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +16,56 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/guideline')]
 class GuidelineController extends AbstractController
 {
-    #[Route('/', name: 'app_guideline_index', methods: ['GET'])]
-    public function index(GuidelineRepository $guidelineRepository): Response
+    #[Route('/', name: 'app_guideline_index', methods: ['GET', 'POST'])]
+    public function index(GuidelineRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
+        /*
+        $guideline = new Guideline();
+        $form = $this->createForm(GuidelineType::class, $guideline);
+        $form->handleRequest($req);*/
+
+
+        /*
         //I dont like this way for doing this things but yeah, there is nothing to do about these deadlines.
+        if($req->getMethod() === "POST"){
+            if ($form->isSubmitted() && $form->isValid()) {
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }*/
+
+        $allGuidelines = $guidelineRepository->findAll();
+        $allForms = [];
+
+        foreach ($allGuidelines as $guideline) {
+            $form = $factory->createNamed(sprintf("guideline_%s", $guideline->getId()), GuidelineType::class, $guideline);
+        
+            $form->add('saveEdit', SubmitType::class, [
+                'label' => "Guardar cambios",
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ]);
+
+            $form->handleRequest($req);
+            if ($req->getMethod() === "POST") {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($guideline);
+                    $entityManager->flush();
+                }
+            }
+
+            $allForms[] = [
+                //'guideline_' => $guideline,
+                'form' => $form->createView(),
+            ];
+        }
+
         return $this->render('guideline/crud_guideline.html.twig', [
-            'guidelines' => $guidelineRepository->findAll(),
+            'guidelines' => $allGuidelines,
+            'allForms' => $allForms,
         ]);
     }
 
