@@ -19,22 +19,6 @@ class GuidelineController extends AbstractController
     #[Route('/', name: 'app_guideline_index', methods: ['GET', 'POST'])]
     public function index(GuidelineRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        /*
-        $guideline = new Guideline();
-        $form = $this->createForm(GuidelineType::class, $guideline);
-        $form->handleRequest($req);*/
-
-
-        /*
-        //I dont like this way for doing this things but yeah, there is nothing to do about these deadlines.
-        if($req->getMethod() === "POST"){
-            if ($form->isSubmitted() && $form->isValid()) {
-                $entityManager->flush();
-    
-                return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
-            }
-        }*/
-
         $allGuidelines = $guidelineRepository->findAll();
         $allForms = [];
 
@@ -49,12 +33,15 @@ class GuidelineController extends AbstractController
             ]);
 
             $form->handleRequest($req);
+
             if ($req->getMethod() === "POST") {
 
                 if ($form->isSubmitted() && $form->isValid()) {
                     $entityManager->persist($guideline);
                     $entityManager->flush();
                 }
+
+                return $this->redirectToRoute('app_guideline_index');
             }
 
             $allForms[] = [
@@ -63,9 +50,22 @@ class GuidelineController extends AbstractController
             ];
         }
 
+        $guideline = new Guideline();
+
+        $creationForm = $this->createForm(GuidelineType::class, $guideline);
+        $creationForm->handleRequest($req);
+
+        if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+            $entityManager->persist($guideline);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('guideline/crud_guideline.html.twig', [
             'guidelines' => $allGuidelines,
             'allForms' => $allForms,
+            'creationForm' => $creationForm
         ]);
     }
 

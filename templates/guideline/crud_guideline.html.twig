@@ -83,6 +83,8 @@
                             <th class="max-width">Nombre de programa</th>
                             <th class="sortable">Numero de emisión</th>
                             <th class="max-width">Fecha de creación</th>
+                            <th class="max-width">Locutor</th>
+                            <th class="max-width">Manager</th>
                             <th class="max-width">Programas</th>
                             <th>Acciones</th>
                           </tr>
@@ -101,6 +103,14 @@
                               <td class="text-nowrap align-middle">
                                 <span>{{ guideline.creationDate ? guideline.creationDate|date('Y-m-d') : '' }}</span>
                               </td>
+                              <td class="text-nowrap align-middle">
+                                <span>{{ guideline.broadcaster ? guideline.broadcaster : 'Ninguno' }}</span>
+                              </td>
+
+                              <td class="text-nowrap align-middle">
+                                <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
+                              </td>
+
                               <td class="text-nowrap align-middle">
                                 <button type="button" class="btn btn-primary btn-sm">Ver</button>
                               </td>

@@ -25,11 +25,13 @@ class GuidelineType extends AbstractType
                 ])
             ->add('emission_number', NumberType::class, [
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Número de emisión'
+                'label' => 'Número de emisión',
+                'html5' => true
                 ])
             ->add('creation_date', DateType::class, [
-                'attr' => ['class' => 'form-control'],
-                'label' => 'Fecha de emisión'
+                'attr' => ['class' => 'form-control js-datepicker'],
+                'label' => 'Fecha de emisión',
+                'widget' => 'single_text',
                 ])
             ->add('broadcaster', ChoiceType::class, [
                 'attr' => ['class' => 'form-control'],
