@@ -46,7 +46,7 @@ class GuidelineController extends AbstractController
         }
 
         $newGuideline = new Guideline();
-        $creationForm = $factory->createNamed(self::NEW_ELEMENT, GuidelineType::class, $newGuideline);///createForm(GuidelineType::class, $newGuideline);
+        $creationForm = $factory->createNamed(self::NEW_ELEMENT, GuidelineType::class, $newGuideline);
         $creationForm->handleRequest($req);
 
         if($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)){
@@ -65,6 +65,7 @@ class GuidelineController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/new', name: 'app_guideline_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -84,7 +85,7 @@ class GuidelineController extends AbstractController
             'guideline' => $guideline,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}', name: 'app_guideline_show', methods: ['GET'])]
     public function show(Guideline $guideline): Response
@@ -94,6 +95,7 @@ class GuidelineController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/{id}/edit', name: 'app_guideline_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Guideline $guideline, EntityManagerInterface $entityManager): Response
     {
@@ -110,9 +112,9 @@ class GuidelineController extends AbstractController
             'guideline' => $guideline,
             'form' => $form,
         ]);
-    }
+    }*/
 
-    #[Route('/{id}', name: 'app_guideline_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_guideline_delete', methods: ['DELETE'])]
     public function delete(Request $request, Guideline $guideline, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$guideline->getId(), $request->request->get('_token'))) {
