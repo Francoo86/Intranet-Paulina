@@ -89,18 +89,10 @@
                             <th>Acciones</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="output_table">
                           {% include 'guideline/all_guidelines.html.twig' %}
 
-                            {% for edit_form in allForms %}
-                              {% set id = edit_form.form.vars.value.id %}
-                              
-                              {% include 'guideline/modal_base_form.html.twig' with {
-                                  'passedForm' : edit_form.form,
-                                  'titleForm': 'Edición de pauta',
-                                  'actualId': id,
-                              }%}
-                          {% endfor %}
+
 
                         </tbody>
                       </table>
@@ -188,9 +180,10 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label>Search by Name:</label>
+                      <label>Buscar pauta por nombre:</label>
                       <div>
                         <input
+                          id="busca_pautas"
                           class="form-control w-100"
                           type="text"
                           placeholder="Name"
@@ -264,6 +257,29 @@
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript"></script>
+
+    <script defer type="text/javascript">
+      $("#busca_pautas").change(function (e) { 
+        e.preventDefault();
+
+        let search = $(this).val();
+
+        $.ajax({
+          type: 'GET',
+          url: "{{path('app_search_guideline')}}",
+          data: {'target': search},
+          dataType: 'json',
+          //dataType: "dataType",
+          success: function (response) {
+            console.log(response);
+            //console.log(response);
+            $("#output_table").html(response);
+          }
+        });
+        
+        //console.log($(this).val());
+      });
+    </script>
   </body>
   
 {% endblock %}

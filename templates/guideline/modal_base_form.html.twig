@@ -1,48 +1,41 @@
-{% extends 'base.html.twig' %}
-    {% block body %}
-    <div
-    class="modal fade"
-    role="dialog"
-    tabindex="-1"
-    id="user-form-modal_{{actualId|default('new')}}"
-    >
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title">{{titleForm|default('Creación de pauta')}}</h5>
-            <button type="button" class="close" data-dismiss="modal">
-                <span aria-hidden="true">×</span>
-            </button>
-            </div>
+{% block body %}
+    <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal_{{actualId|default('new')}}">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{titleForm|default('Creación de pauta')}}</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
 
-            <div class="modal-body">
-            <div class="py-1">
-                {{form_start(passedForm)}}
-                    {% for key, child in passedForm.children %}
-                        {% if key != "saveEdit"%}
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        {% if key != "_token" %}
-                                            {{form_label(child)}}
-                                        {% endif %}
-                                        {{ form_widget(child) }}
+                <div class="modal-body">
+                    <div class="py-1">
+                        {{form_start(passedForm)}}
+                        {% for key, child in passedForm.children %}
+                            {% if key != "saveEdit"%}
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            {% if key != "_token" %}
+                                                {{form_label(child)}}
+                                            {% endif %}
+                                            {{ form_widget(child) }}
+                                        </div>
                                     </div>
                                 </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                {{ form_widget(passedForm.saveEdit) }}
                             </div>
-                        {% endif %}
-                    {% endfor %}
-
-                    <div class="row">
-                    <div class="col d-flex justify-content-end">
-                        {{ form_widget(passedForm.saveEdit) }}
+                        </div>
+                        {{ form_end(passedForm)}}
                     </div>
-                    </div>
-                {{ form_end(passedForm)}}
+                </div>
             </div>
-            </div>
-
         </div>
     </div>
-</div>
 {% endblock %}

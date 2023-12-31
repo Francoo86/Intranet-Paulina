@@ -21,20 +21,21 @@ class GuidelineRepository extends ServiceEntityRepository
         parent::__construct($registry, Guideline::class);
     }
 
-//    /**
-//     * @return Guideline[] Returns an array of Guideline objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Guideline[] Returns an array of Guideline objects
+     */
+    public function findByShowName($value): array
+    {
+        return $this->createQueryBuilder('g')
+            ->where('g.show_name LIKE :val')
+            //->setParameter('val', $value)
+            ->setParameter('val', '%'.$value.'%')
+            ->orderBy('g.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    public function findOneBySomeField($value): ?Guideline
 //    {
