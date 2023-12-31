@@ -17,7 +17,8 @@ class GuidelineController extends AbstractController
     #[Route('/', name: 'app_guideline_index', methods: ['GET'])]
     public function index(GuidelineRepository $guidelineRepository): Response
     {
-        return $this->render('guideline/index.html.twig', [
+        //I dont like this way for doing this things but yeah, there is nothing to do about these deadlines.
+        return $this->render('guideline/crud_guideline.html.twig', [
             'guidelines' => $guidelineRepository->findAll(),
         ]);
     }
@@ -26,6 +27,7 @@ class GuidelineController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $guideline = new Guideline();
+
         $form = $this->createForm(GuidelineType::class, $guideline);
         $form->handleRequest($request);
 

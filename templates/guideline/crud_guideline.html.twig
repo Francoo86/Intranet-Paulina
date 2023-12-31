@@ -75,82 +75,43 @@
                     </h6>
                   </div>
                   <div class="e-table">
-                    <div class="table-responsive table-lg mt-3">
+                    <div class="table-responsive table-lg mt-2">
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th class="align-top">
-                              <div
-                                class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input"
-                                  id="all-items"
-                                />
-                                <label
-                                  class="custom-control-label"
-                                  for="all-items"
-                                ></label>
-                              </div>
-                            </th>
-                            <th>Photo</th>
-                            <th class="max-width">Name</th>
-                            <th class="sortable">Date</th>
-                            <th></th>
-                            <th>Actions</th>
+                            <th class="max-width">ID</th>
+                            <th class="max-width">Nombre de programa</th>
+                            <th class="sortable">Numero de emisión</th>
+                            <th class="max-width">Fecha de creación</th>
+                            <th class="max-width">Publicidades</th>
+                            <th>Acciones</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td class="align-middle">
-                              <div
-                                class="custom-control custom-control-inline custom-checkbox custom-control-nameless m-0 align-top"
-                              >
-                                <input
-                                  type="checkbox"
-                                  class="custom-control-input"
-                                  id="item-1"
-                                />
-                                <label
-                                  class="custom-control-label"
-                                  for="item-1"
-                                ></label>
-                              </div>
-                            </td>
-                            <td class="align-middle text-center">
-                              <div
-                                class="bg-light d-inline-flex justify-content-center align-items-center align-top"
-                                style="
-                                  width: 35px;
-                                  height: 35px;
-                                  border-radius: 3px;
-                                "
-                              >
-                                <i
-                                  class="fa fa-fw fa-photo"
-                                  style="opacity: 0.8"
-                                ></i>
-                              </div>
-                            </td>
-                            <td class="text-nowrap align-middle">
-                              Adam Cotter
-                            </td>
-                            <td class="text-nowrap align-middle">
-                              <span>09 Dec 2017</span>
-                            </td>
-                            <td class="text-center align-middle">
-                              <i
-                                class="fa fa-fw text-secondary cursor-pointer fa-toggle-on"
-                              ></i>
-                            </td>
+                          {% for guideline in guidelines %}
+                              <td class="text-nowrap align-middle">
+                                <span>{{guideline.id}}</span>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <span>{{guideline.showName }}</span>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <span>{{ guideline.emissionNumber }}</span>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <span>{{ guideline.creationDate ? guideline.creationDate|date('Y-m-d') : '' }}</span>
+                              </td>
+                              <td class="text-nowrap align-middle">
+                                <button type="button" class="btn btn-primary btn-sm">Ver</button>
+                              </td>
+
                             <td class="text-center align-middle">
                               <div class="btn-group align-top">
                                 <button
                                   class="btn btn-sm btn-outline-secondary badge"
                                   type="button"
                                   data-toggle="modal"
-                                  data-target="#user-form-modal"
+                                  data-target="#user-form-modal_{{guideline.id}}"
                                 >
                                   Edit
                                 </button>
@@ -163,6 +124,178 @@
                               </div>
                             </td>
                           </tr>
+
+                          <div
+                          class="modal fade"
+                          role="dialog"
+                          tabindex="-1"
+                          id="user-form-modal_1"
+                        >
+                          <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title">Edición de pauta</h5>
+                                <button type="button" class="close" data-dismiss="modal">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="py-1">
+                                  <form class="form" method="post">
+                                    <div class="row">
+                                      <div class="col">
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Nombre del programa</label>
+                                              <input
+                                                class="form-control"
+                                                type="text"
+                                                name="name"
+                                                placeholder=""
+                                                value="{{guideline.showName}}"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Numero de emisión</label>
+                                              <input
+                                                class="form-control"
+                                                type="number"
+                                                name="username"
+                                                placeholder=""
+                                                value="{{guideline.showName}}"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Fecha de creación</label>
+                                              <input
+                                                class="form-control"
+                                                type="date"
+                                                placeholder="01-01-2000"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!--
+                                    <div class="row">
+                                      <div class="col-12 col-sm-6 mb-3">
+                                        <div class="mb-2">
+                                          <b>Change Password</b>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>Current Password</label>
+                                              <input
+                                                class="form-control"
+                                                type="password"
+                                                placeholder="••••••"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>New Password</label>
+                                              <input
+                                                class="form-control"
+                                                type="password"
+                                                placeholder="••••••"
+                                              />
+                                            </div>
+                                          </div>
+                                          <div class="col">
+                                            <div class="form-group">
+                                              <label>
+                                                Confirm
+                                                <span class="d-none d-xl-inline"
+                                                  >Password
+                                                </span>
+                                              </label>
+                                              <input
+                                                class="form-control"
+                                                type="password"
+                                                placeholder="••••••"
+                                              />
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                                        <div class="mb-2">
+                                          <b>Keeping in Touch</b>
+                                        </div>
+                                        <div class="row">
+                                          <div class="col">
+                                            <label>Email Notifications</label>
+                                            <div class="custom-controls-stacked px-2">
+                                              <div class="custom-control custom-checkbox">
+                                                <input
+                                                  type="checkbox"
+                                                  class="custom-control-input"
+                                                  id="notifications-blog"
+                                                  checked
+                                                />
+                                                <label
+                                                  class="custom-control-label"
+                                                  for="notifications-blog"
+                                                  >Blog posts
+                                                </label>
+                                              </div>
+                                              <div class="custom-control custom-checkbox">
+                                                <input
+                                                  type="checkbox"
+                                                  class="custom-control-input"
+                                                  id="notifications-news"
+                                                  checked
+                                                />
+                                                <label
+                                                  class="custom-control-label"
+                                                  for="notifications-news"
+                                                  >Newsletter
+                                                </label>
+                                              </div>
+                                              <div class="custom-control custom-checkbox">
+                                                <input
+                                                  type="checkbox"
+                                                  class="custom-control-input"
+                                                  id="notifications-offers"
+                                                  checked
+                                                />
+                                                <label
+                                                  class="custom-control-label"
+                                                  for="notifications-offers"
+                                                  >Personal Offers
+                                                </label>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>-->
+                                    <div class="row">
+                                      <div class="col d-flex justify-content-end">
+                                        <button class="btn btn-primary" type="submit">
+                                          Guardar cambios
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
                         </tbody>
                       </table>
                     </div>
@@ -206,9 +339,9 @@
                       class="btn btn-success btn-block"
                       type="button"
                       data-toggle="modal"
-                      data-target="#user-form-modal"
+                      data-target="#user-form-modal-new"
                     >
-                      New User
+                      Nueva pauta
                     </button>
                   </div>
                   <hr class="my-3" />
@@ -314,11 +447,13 @@
               </div>
             </div>
           </div>
+          <!-- ESTE MODAL NOS IMPORTA... -->
+
           <div
             class="modal fade"
             role="dialog"
             tabindex="-1"
-            id="user-form-modal"
+            id="user-form-modal-new"
           >
             <div class="modal-dialog modal-lg" role="document">
               <div class="modal-content">
@@ -330,7 +465,7 @@
                 </div>
                 <div class="modal-body">
                   <div class="py-1">
-                    <form class="form" novalidate>
+                    <form class="form">
                       <div class="row">
                         <div class="col">
                           <div class="row">
