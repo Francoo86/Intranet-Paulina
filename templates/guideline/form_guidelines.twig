@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for edit_form in allForms %}
+        {% set id = edit_form.form.vars.value.id %}
+            <div
+            class="modal fade"
+            role="dialog"
+            tabindex="-1"
+            id="user-form-modal_{{id}}"
+        >
+        
+        {% include 'guideline/modal_base_form.html.twig' with {
+            'passedForm' : edit_form.form,
+            'titleForm': 'Edición de pauta',
+            'actualId': id,
+        }%}
+
+        </div>
+    {% endfor %}
+{% endblock %}

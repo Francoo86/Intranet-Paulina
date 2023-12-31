@@ -24,14 +24,6 @@ class GuidelineController extends AbstractController
 
         foreach ($allGuidelines as $guideline) {
             $form = $factory->createNamed(sprintf("guideline_%s", $guideline->getId()), GuidelineType::class, $guideline);
-        
-            $form->add('saveEdit', SubmitType::class, [
-                'label' => "Guardar cambios",
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
-            ]);
-
             $form->handleRequest($req);
 
             if ($req->getMethod() === "POST") {
@@ -50,13 +42,14 @@ class GuidelineController extends AbstractController
             ];
         }
 
-        $guideline = new Guideline();
+        $newGuideline = new Guideline();
 
-        $creationForm = $this->createForm(GuidelineType::class, $guideline);
+        $creationForm = $factory->createNamed("new_guideline", GuidelineType::class, $newGuideline);///createForm(GuidelineType::class, $newGuideline);
         $creationForm->handleRequest($req);
 
         if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-            $entityManager->persist($guideline);
+            dd($newGuideline);
+            $entityManager->persist($newGuideline);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
