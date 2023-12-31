@@ -172,7 +172,7 @@ class SendEmailController extends AbstractController
     
                     $email = (new Email())
                         ->from('sendersig@gmail.com')
-                        ->subject('Alerta Publicidad-RadioPaulina')
+                        ->subject('SALDO BAJO de Radio Paulina')
                         ->addTo($emailAddress)
                         ->text($message);
     

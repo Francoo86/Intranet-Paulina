@@ -5,7 +5,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         #alertButton {
-            background-color: #ff0000;
+            background-color: #e51414;
             color: #ffffff;
             border: none;
             padding: 15px 32px;
@@ -21,7 +21,7 @@
 
         #alertButton:hover {
             background-color: #ffffff;
-            color: #ff0000;
+            color: #e51414;
         }
 
         #alertButton:disabled {
@@ -42,22 +42,27 @@
 
     <script>
         $(document).ready(function(){
-            $('#alertButton').click(function(){
-                $(this).prop('disabled', true); 
-                $.ajax({
-                    type: 'POST',
-                    url: '/send/AlertEmail/Data',
-                    success: function(response){
-                        alert(response);
-                        $('#alertButton').prop('disabled', false); 
-                    },
-                    error: function(error){
-                        alert('Error: ' + error.responseText);
-                        $('#alertButton').prop('disabled', false); 
-                    }
-                });
-            });
+    $('#alertButton').click(function(){
+        $(this).prop('disabled', true); 
+        var count = 0; 
+        $.ajax({
+            type: 'POST',
+            url: '/send/AlertEmail/Data',
+            success: function(response){
+                count++; 
+                alert(response);
+                $('#alertButton').prop('disabled', false); 
+            },
+            error: function(error){
+                alert('Error: ' + error.responseText);
+                $('#alertButton').prop('disabled', false); 
+            },
+            complete: function() {
+                alert('Number of alert emails sent: ' + count);
+            }
         });
+    });
+});
     </script>
 </body>
 </html>
