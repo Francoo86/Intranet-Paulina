@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Twig\Environment;
 
 class SendEmailController extends AbstractController
 {
@@ -98,91 +99,107 @@ class SendEmailController extends AbstractController
 
 
     #[Route('/send/AllEmail/Data', name: 'app_send_all_email_data', methods: ['POST'])]
-    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
+    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig): Response
     {
         $customers = $customerRepository->findAll();
     
         foreach ($customers as $customer) {
-            $name = $customer->getName() ?? 'to be defined';
-            $organisation = $customer->getOrganisation() ?? 'to be defined';
-            $phone = $customer->getPhone() ?? 'to be defined';
-            $emailAddress = $customer->getEmail() ?? 'to be defined';
+            $name = $customer->getName() ?? 'Undefined';
+            $organisation = $customer->getOrganisation() ?? 'Undefined';
+            $emailAddress = $customer->getEmail() ?? 'Undefined';
     
             $publicityDetails = [];
             foreach ($customer->getPublicity() as $publicity) {
                 $publicityDetails[] = $publicity->getSentence();
             }
-            $publicityDetails = !empty($publicityDetails) ? implode(', ', $publicityDetails) : 'to be defined';
+            $publicityDetails = !empty($publicityDetails) ? implode(', ', $publicityDetails) : 'Undefined';
 
             $paymentDetails = [];
             foreach ($customer->getPayment() as $payment) {
                 $paymentDetails[] = $payment->getAmount();
             }
-            $paymentDetails = !empty($paymentDetails) ? implode(', ', $paymentDetails) : 'to be defined';
+            $paymentDetails = !empty($paymentDetails) ? implode(', ', $paymentDetails) : 'Undefined';
 
             $summaryDetails = [];
             foreach ($customer->getSummary() as $summary) {
                 $summaryDetails[] = $summary->getId();
             }
-            $summaryDetails = !empty($summaryDetails) ? implode(', ', $summaryDetails) : 'to be defined';
+            $summaryDetails = !empty($summaryDetails) ? implode(', ', $summaryDetails) : 'Undefined';
 
             $notificationDetails = [];
             foreach ($customer->getNotification() as $notification) {
                 $notificationDetails[] = $notification->getMessage();
             }
-            $notificationDetails = !empty($notificationDetails) ? implode(', ', $notificationDetails) : 'to be defined';
-                
-            $message = "Hola $name de la organización $organisation. Phone: $phone. Publicity: $publicityDetails. Payment: $paymentDetails. Summary: $summaryDetails. Notification: $notificationDetails.";
+            $notificationDetails = !empty($notificationDetails) ? implode(', ', $notificationDetails) : 'Undefined';
+            
+            $message = $twig->render('email/info_email.html.twig', [
+                'name' => $name,
+                'organisation' => $organisation,
+                'publicity' => $publicityDetails,
+                'payment' => $paymentDetails,
+                'summary' => $summaryDetails,
+                'notification' => $notificationDetails
+            ]);
     
             $email = (new Email())
                 ->from('sendersig@gmail.com')
-                ->subject('Informacion Publicidad-RadioPaulina')
+                ->subject('Actualización de Estado - RadioPaulina')
                 ->addTo($emailAddress)
-                ->text($message);
+                ->html($message);
     
             $mailer->send($email);
         }
     
         return new Response('Correos enviados con éxito !!!');
     }
-    
+
     #[Route('/send/AlertEmail/Data', name: 'app_send_alert_email_data', methods: ['GET', 'POST'])]
-    public function sendAlertEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
+    public function sendAlertEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig): Response
     {
-        $customers = $customerRepository->findAll();
+        try {
+            $customers = $customerRepository->findAll();
+        } catch (\Exception $e) {
+            return new Response('Error al recuperar informacion de la base de datos.');
+        }
+
         $alertAmount = 1000;
-    
+
         foreach ($customers as $customer) {
             foreach ($customer->getPublicity() as $publicity) {
                 $stock = $publicity->getStock();
 
-                if ($stock && $stock->getBalance() && $stock->getBalance()->getAmount() < $alertAmount ) {
+                if ($stock && $stock->getBalance() && $stock->getBalance()->getAmount() < $alertAmount) {
 
-                    $name = $customer->getName() ?? 'to be defined';
-                    $organisation = $customer->getOrganisation() ?? 'to be defined';
-                    $emailAddress = $customer->getEmail() ?? 'to be defined';
-    
-                    $message = "Greetings $name, from: $organisation.\n";
-                    $message .= "I am informing you that your advertisement:\n";
-                    $message .= "ID: " . $publicity->getId() . "\n";
-                    $message .= "Background: " . $publicity->getBackground() . "\n";
-                    $message .= "Sentence: " . $publicity->getSentence() . "\n";
-                    $message .= "Description: " . $publicity->getDescription() . "\n";
-                    $message .= "It is about to expire. Please contact example@mail.com to keep in touch with our radio listeners.";
-    
+                    $name = $customer->getName() ?? 'Undefined';
+                    $organisation = $customer->getOrganisation() ?? 'Undefined';
+                    $emailAddress = $customer->getEmail() ?? 'Undefined';
+
+                    try {
+                        $message = $twig->render('email/alert_email.html.twig', [
+                            'name' => $name,
+                            'organisation' => $organisation,
+                            'publicity' => $publicity
+                        ]);
+                    } catch (\Exception $e) {
+                        return new Response('Error al renderisar template del email');
+                    }
+
                     $email = (new Email())
                         ->from('sendersig@gmail.com')
-                        ->subject('SALDO BAJO de Radio Paulina')
+                        ->subject('¡Atención! Saldo Crítico en tu publicidad en RadioPaulina')
                         ->addTo($emailAddress)
-                        ->text($message);
-    
-                    $mailer->send($email);
+                        ->html($message);
+
+                    try {
+                        $mailer->send($email);
+                    } catch (\Exception $e) {
+                        return new Response('Error al enviar email');
+                    }
                 }
             }
         }
-    
+
         return new Response('Alert emails sent successfully');
     }
-    
     
 }

@@ -18,13 +18,33 @@
             border-radius: 12px;
             transition-duration: 0.4s;
         }
-
+        #infoButton {
+            background-color: #508bc4;
+            color: #ffffff;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition-duration: 0.4s;
+        }
         #alertButton:hover {
             background-color: #ffffff;
             color: #e51414;
         }
-
+        #infoButton:hover {
+            background-color: #ffffff;
+            color: #508bc4;
+        }
         #alertButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+        }
+        #infoButton:disabled {
             background-color: #cccccc;
             color: #666666;
         }
@@ -38,31 +58,55 @@
         <p>Este es el menu de administración</p>
         <br>
         <button type="button" class="btn btn-primary" id="alertButton">Alertar Saldo Bajo</button>
+        <button type="button" class="btn btn-primary" id="infoButton">Informar clientes</button>
     </div>
 
     <script>
         $(document).ready(function(){
-    $('#alertButton').click(function(){
-        $(this).prop('disabled', true); 
-        var count = 0; 
-        $.ajax({
-            type: 'POST',
-            url: '/send/AlertEmail/Data',
-            success: function(response){
-                count++; 
-                alert(response);
-                $('#alertButton').prop('disabled', false); 
-            },
-            error: function(error){
-                alert('Error: ' + error.responseText);
-                $('#alertButton').prop('disabled', false); 
-            },
-            complete: function() {
-                alert('Number of alert emails sent: ' + count);
-            }
+        $('#alertButton').click(function(){
+            $(this).prop('disabled', true); 
+            var count = 0; 
+                $.ajax({
+                    type: 'POST',
+                    url: '/send/AlertEmail/Data',
+                    success: function(response){
+                        count++; 
+                        alert(response);
+                        $('#alertButton').prop('disabled', false); 
+                    },
+                    error: function(error){
+                        alert('Error: ' + error.responseText);
+                        $('#alertButton').prop('disabled', false); 
+                    },
+                    complete: function() {
+                        alert('Number of alert emails sent: ' + count);
+                    }
+                });
+            });
         });
-    });
-});
+
+        $(document).ready(function(){
+        $('#infoButton').click(function(){
+            $(this).prop('disabled', true); 
+            var count = 0; 
+                $.ajax({
+                    type: 'POST',
+                    url: '/send/AllEmail/Data',
+                    success: function(response){
+                        count++; 
+                        alert(response);
+                        $('#infoButton').prop('disabled', false); 
+                    },
+                    error: function(error){
+                        alert('Error: ' + error.responseText);
+                        $('#infoButton').prop('disabled', false); 
+                    },
+                    complete: function() {
+                        alert('Number of alert emails sent: ' + count);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
