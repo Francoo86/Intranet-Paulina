@@ -50,6 +50,9 @@ class Publicity
     #[ORM\ManyToOne(inversedBy: 'publicities')]
     private ?Audience $Audience = null;
 
+    #[ORM\ManyToOne(inversedBy: 'publicities')]
+    private ?Show $Show = null;
+
     public function __construct()
     {
         $this->Report = new ArrayCollection();
@@ -201,6 +204,18 @@ class Publicity
     public function setAudience(?Audience $Audience): static
     {
         $this->Audience = $Audience;
+
+        return $this;
+    }
+
+    public function getShow(): ?Show
+    {
+        return $this->Show;
+    }
+
+    public function setShow(?Show $Show): static
+    {
+        $this->Show = $Show;
 
         return $this;
     }

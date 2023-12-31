@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Show{% endblock %}
+
+{% block body %}
+    <h1>Create new Show</h1>
+
+    {{ include('show/_form.html.twig') }}
+
+    <a href="{{ path('app_show_index') }}">back to list</a>
+{% endblock %}

@@ -31,12 +31,16 @@ class Guideline
     #[ORM\ManyToOne(inversedBy: 'Guideline')]
     private ?Manager $manager = null;
 
-    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
-    private Collection $publicities;
+    //#[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
+    //private Collection $publicities;
+
+    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Show::class)]
+    private Collection $shows;
 
     public function __construct()
     {
-        $this->publicities = new ArrayCollection();
+        //$this->publicities = new ArrayCollection();
+        $this->shows = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,6 +111,7 @@ class Guideline
     /**
      * @return Collection<int, Publicity>
      */
+    /*
     public function getPublicities(): Collection
     {
         return $this->publicities;
@@ -132,10 +137,40 @@ class Guideline
         }
 
         return $this;
-    }
+    }*/
 
     public function __toString()
     {
         return $this->show_name;
+    }
+
+    /**
+     * @return Collection<int, Show>
+     */
+    public function getShows(): Collection
+    {
+        return $this->shows;
+    }
+
+    public function addShow(Show $show): static
+    {
+        if (!$this->shows->contains($show)) {
+            $this->shows->add($show);
+            $show->setGuideline($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShow(Show $show): static
+    {
+        if ($this->shows->removeElement($show)) {
+            // set the owning side to null (unless already changed)
+            if ($show->getGuideline() === $this) {
+                $show->setGuideline(null);
+            }
+        }
+
+        return $this;
     }
 }
