@@ -31,6 +31,14 @@ class Guideline
     #[ORM\ManyToOne(inversedBy: 'Guideline')]
     private ?Manager $manager = null;
 
+    #[ORM\OneToMany(mappedBy: 'guideline', targetEntity: Show::class)]
+    private Collection $Show;
+
+    public function __construct()
+    {
+        $this->Show = new ArrayCollection();
+    }
+
     //#[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
     //private Collection $publicities;
 
@@ -137,5 +145,35 @@ class Guideline
     public function __toString()
     {
         return $this->show_name;
+    }
+
+    /**
+     * @return Collection<int, Show>
+     */
+    public function getShow(): Collection
+    {
+        return $this->Show;
+    }
+
+    public function addShow(Show $show): static
+    {
+        if (!$this->Show->contains($show)) {
+            $this->Show->add($show);
+            $show->setGuideline($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShow(Show $show): static
+    {
+        if ($this->Show->removeElement($show)) {
+            // set the owning side to null (unless already changed)
+            if ($show->getGuideline() === $this) {
+                $show->setGuideline(null);
+            }
+        }
+
+        return $this;
     }
 }
