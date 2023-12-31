@@ -79,9 +79,9 @@
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th class="max-width">ID</th>
+                            <th class="sortable">ID</th>
                             <th class="max-width">Nombre de programa</th>
-                            <th class="sortable">Numero de emisión</th>
+                            <th class="max-width">Numero de emisión</th>
                             <th class="max-width">Fecha de creación</th>
                             <th class="max-width">Locutor</th>
                             <th class="max-width">Manager</th>
@@ -155,12 +155,27 @@
                                 <div class="modal-body">
                                   <div class="py-1">
                                       {{form_start(edit_form.form)}}
-                                        {{ form_widget(edit_form.form) }}
 
-                                      <div class="row">
-                                        <div class="col d-flex justify-content-end">
+                                        {% for key, child in edit_form.form.children %}
+                                            {% if key != "saveEdit"%}
+                                              <div class="row">
+                                                  <div class="col">
+                                                      <div class="form-group">
+                                                          {% if key != "_token" %}
+                                                            {{form_label(child)}}
+                                                          {% endif %}
+                                                          {{ form_widget(child) }}
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <div class="row">
+                                          <div class="col d-flex justify-content-end">
+                                              {{ form_widget(edit_form.form.saveEdit) }}
+                                          </div>
                                         </div>
-                                      </div>
                                       {{ form_end(edit_form.form)}}
                                   </div>
                                 </div>
