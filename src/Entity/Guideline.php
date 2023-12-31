@@ -31,13 +31,13 @@ class Guideline
     #[ORM\ManyToOne(inversedBy: 'Guideline')]
     private ?Manager $manager = null;
 
-    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
-    private Collection $publicities;
+    //#[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
+    //private Collection $publicities;
 
-    public function __construct()
+    /*public function __construct()
     {
         $this->publicities = new ArrayCollection();
-    }
+    }*/
 
     public function getId(): ?int
     {
@@ -80,7 +80,7 @@ class Guideline
         return $this;
     }
 
-    public function getBroadcaster(): ?Broadcaster
+    /*public function getBroadcaster(): ?Broadcaster
     {
         return $this->broadcaster;
     }
@@ -90,7 +90,7 @@ class Guideline
         $this->broadcaster = $broadcaster;
 
         return $this;
-    }
+    }*/
 
     public function getManager(): ?Manager
     {
@@ -104,9 +104,9 @@ class Guideline
         return $this;
     }
 
-    /**
+    /* 
      * @return Collection<int, Publicity>
-     */
+     *
     public function getPublicities(): Collection
     {
         return $this->publicities;
@@ -132,7 +132,7 @@ class Guideline
         }
 
         return $this;
-    }
+    }*/
 
     public function __toString()
     {
