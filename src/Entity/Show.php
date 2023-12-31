@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ShowRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,17 +25,6 @@ class Show
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
-
-    #[ORM\OneToMany(mappedBy: 'show', targetEntity: Publicity::class)]
-    private Collection $Publicity;
-
-    #[ORM\ManyToOne(inversedBy: 'Show')]
-    private ?Guideline $guideline = null;
-
-    public function __construct()
-    {
-        $this->Publicity = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -88,48 +75,6 @@ class Show
     public function setDate(\DateTimeInterface $date): static
     {
         $this->date = $date;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Publicity>
-     */
-    public function getPublicity(): Collection
-    {
-        return $this->Publicity;
-    }
-
-    public function addPublicity(Publicity $publicity): static
-    {
-        if (!$this->Publicity->contains($publicity)) {
-            $this->Publicity->add($publicity);
-            $publicity->setShow($this);
-        }
-
-        return $this;
-    }
-
-    public function removePublicity(Publicity $publicity): static
-    {
-        if ($this->Publicity->removeElement($publicity)) {
-            // set the owning side to null (unless already changed)
-            if ($publicity->getShow() === $this) {
-                $publicity->setShow(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getGuideline(): ?Guideline
-    {
-        return $this->guideline;
-    }
-
-    public function setGuideline(?Guideline $guideline): static
-    {
-        $this->guideline = $guideline;
 
         return $this;
     }
