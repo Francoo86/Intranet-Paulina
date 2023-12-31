@@ -10,18 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: BroadcasterRepository::class)]
 class Broadcaster extends Person
 {
-    /*#[ORM\OneToMany(mappedBy: 'broadcaster', targetEntity: Guideline::class)]
+    #[ORM\OneToMany(mappedBy: 'broadcaster', targetEntity: Guideline::class)]
     private Collection $Guideline;
 
     public function __construct()
     {
         $this->Guideline = new ArrayCollection();
-    }*/
+    }
 
     /**
      * @return Collection<int, Guideline>
      */
-    /*public function getGuideline(): Collection
+    public function getGuideline(): Collection
     {
         return $this->Guideline;
     }
@@ -46,7 +46,7 @@ class Broadcaster extends Person
         }
 
         return $this;
-    }*/
+    }
 
     public function __toString(): string
     {

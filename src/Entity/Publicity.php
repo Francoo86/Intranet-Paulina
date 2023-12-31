@@ -44,8 +44,8 @@ class Publicity
     #[ORM\OneToOne(mappedBy: 'Publicity', cascade: ['persist', 'remove'])]
     private ?Stock $stock = null;
 
-    //#[ORM\ManyToOne(inversedBy: 'publicities')]
-    //private ?Guideline $Guideline = null;
+    #[ORM\ManyToOne(inversedBy: 'publicities')]
+    private ?Guideline $Guideline = null;
 
     #[ORM\ManyToOne(inversedBy: 'publicities')]
     private ?Audience $Audience = null;
@@ -180,7 +180,7 @@ class Publicity
     {
         return $this->getSentence();
     }
-    /*
+
     public function getGuideline(): ?Guideline
     {
         return $this->Guideline;
@@ -192,7 +192,7 @@ class Publicity
 
         return $this;
     }
-    */
+
     public function getAudience(): ?Audience
     {
         return $this->Audience;

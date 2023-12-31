@@ -19,7 +19,7 @@ class PublicityType extends AbstractType
             //->add('Stock')
             ->add('customer')
             ->add('stock')
-            ->add('Guideline') //->Show
+            ->add('Guideline')
             ->add('Audience')
         ;
     }
