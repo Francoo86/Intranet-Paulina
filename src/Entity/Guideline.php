@@ -88,7 +88,7 @@ class Guideline
         return $this;
     }
 
-    public function getBroadcaster(): ?Broadcaster
+    /*public function getBroadcaster(): ?Broadcaster
     {
         return $this->broadcaster;
     }
@@ -98,7 +98,7 @@ class Guideline
         $this->broadcaster = $broadcaster;
 
         return $this;
-    }
+    }*/
 
     public function getManager(): ?Manager
     {
