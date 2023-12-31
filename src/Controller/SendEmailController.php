@@ -28,7 +28,7 @@ class SendEmailController extends AbstractController
             $email = (new Email())
                 ->from('sendersig@gmail.com')
                 ->to($request_email)
-                ->subject('SIG-GMAIL')
+                ->subject('Test mail')
                 //->text('Sending emails is fun!')
                 ->html(sprintf('<p>%s</p>', $request_msg));
 
@@ -42,7 +42,7 @@ class SendEmailController extends AbstractController
         }
     }
 
-    #[Route('/send/AllEmail/test', name: 'app_send_email_test', methods: ['POST'])]
+    #[Route('/send/AllEmail/test', name: 'app_send_email_test')]
     public function sendAllEmailTest(MailerInterface $mailer, CustomerRepository $customerRepository): Response
     {
         try {
@@ -58,7 +58,7 @@ class SendEmailController extends AbstractController
             $email = (new Email())
                 ->from('sendersig@gmail.com')
                 ->to(...$recipients)
-                ->subject('SIG-GMAIL')
+                ->subject('Spam')
                 ->text('Sending emails is fun!')
                 ->html('<p>Correo de prueba SIG</p>');
 
@@ -83,7 +83,7 @@ class SendEmailController extends AbstractController
     
                 $email = (new Email())
                     ->from('sendersig@gmail.com')
-                    ->subject('SIG-GMAIL')
+                    ->subject('Saludo masivo')
                     ->addTo($emailAddress)
                     ->text($message);
     
@@ -136,7 +136,7 @@ class SendEmailController extends AbstractController
     
             $email = (new Email())
                 ->from('sendersig@gmail.com')
-                ->subject('SIG-GMAIL')
+                ->subject('Informacion Publicidad-RadioPaulina')
                 ->addTo($emailAddress)
                 ->text($message);
     
@@ -146,6 +146,43 @@ class SendEmailController extends AbstractController
         return new Response('Correos enviados con éxito !!!');
     }
     
+    #[Route('/send/AlertEmail/Data', name: 'app_send_alert_email_data', methods: ['GET', 'POST'])]
+    public function sendAlertEmailData(MailerInterface $mailer, CustomerRepository $customerRepository): Response
+    {
+        $customers = $customerRepository->findAll();
+        $alertAmount = 1000;
+    
+        foreach ($customers as $customer) {
+            foreach ($customer->getPublicity() as $publicity) {
+                $stock = $publicity->getStock();
 
+                if ($stock && $stock->getBalance() && $stock->getBalance()->getAmount() < $alertAmount ) {
+
+                    $name = $customer->getName() ?? 'to be defined';
+                    $organisation = $customer->getOrganisation() ?? 'to be defined';
+                    $emailAddress = $customer->getEmail() ?? 'to be defined';
+    
+                    $message = "Greetings $name, from: $organisation.\n";
+                    $message .= "I am informing you that your advertisement:\n";
+                    $message .= "ID: " . $publicity->getId() . "\n";
+                    $message .= "Background: " . $publicity->getBackground() . "\n";
+                    $message .= "Sentence: " . $publicity->getSentence() . "\n";
+                    $message .= "Description: " . $publicity->getDescription() . "\n";
+                    $message .= "It is about to expire. Please contact example@mail.com to keep in touch with our radio listeners.";
+    
+                    $email = (new Email())
+                        ->from('sendersig@gmail.com')
+                        ->subject('Alerta Publicidad-RadioPaulina')
+                        ->addTo($emailAddress)
+                        ->text($message);
+    
+                    $mailer->send($email);
+                }
+            }
+        }
+    
+        return new Response('Alert emails sent successfully');
+    }
+    
     
 }

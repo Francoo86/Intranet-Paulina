@@ -2,6 +2,33 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+        #alertButton {
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition-duration: 0.4s;
+        }
+
+        #alertButton:hover {
+            background-color: #ffffff;
+            color: #ff0000;
+        }
+
+        #alertButton:disabled {
+            background-color: #cccccc;
+            color: #666666;
+        }
+    </style>
 </head>
 <body>
     
@@ -9,7 +36,28 @@
     <div class="main-content">
         <h1>Bienvenido {{ user.getEmail() }} </h1>
         <p>Este es el menu de administración</p>
+        <br>
+        <button type="button" class="btn btn-primary" id="alertButton">Alertar Saldo Bajo</button>
     </div>
 
+    <script>
+        $(document).ready(function(){
+            $('#alertButton').click(function(){
+                $(this).prop('disabled', true); 
+                $.ajax({
+                    type: 'POST',
+                    url: '/send/AlertEmail/Data',
+                    success: function(response){
+                        alert(response);
+                        $('#alertButton').prop('disabled', false); 
+                    },
+                    error: function(error){
+                        alert('Error: ' + error.responseText);
+                        $('#alertButton').prop('disabled', false); 
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
