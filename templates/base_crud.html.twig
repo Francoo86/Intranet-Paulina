@@ -48,11 +48,12 @@
                     <div class="col">
                         <div class="e-tabs mb-3 px-3">
                             <ul class="nav nav-tabs">
+                                {% set active = app.request.attributes.get('_route') %}
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{{path('app_guideline_index')}}">Pautas</a>
+                                    <a class="nav-link {{active == 'app_guideline_index' ? 'active'}}" href="{{path('app_guideline_index')}}">Pautas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{path('app_show_index')}}">Programas</a>
+                                    <a class="nav-link {{active == 'app_show_index' ? 'active'}}" href="{{path('app_show_index')}}">Programas</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{path('app_publicity_index')}}">Publicidad</a>
