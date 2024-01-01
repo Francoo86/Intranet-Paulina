@@ -22,7 +22,7 @@ class GuidelineController extends AbstractController
     #[Route('/', name: 'app_guideline_index', methods: ['GET', 'POST'])]
     public function index(GuidelineRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allGuidelines = $guidelineRepository->findAll();
+        $allGuidelines = $guidelineRepository->findAllOrderedById();
         $allForms = [];
 
         foreach ($allGuidelines as $guideline) {

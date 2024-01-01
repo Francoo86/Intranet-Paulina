@@ -36,6 +36,10 @@ class GuidelineRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllOrderedById(){
+        return $this->findBy([], ['id' => 'ASC']);
+    }
+
 
 //    public function findOneBySomeField($value): ?Guideline
 //    {
