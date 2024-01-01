@@ -1,35 +1,32 @@
 {% block body %}
-    {% for guideline in guidelines %}
+    {% for show in shows %}
         <tr>
             <td class="text-nowrap align-middle">
-                <span>{{ guideline.id }}</span>
+                <span>{{ show.id }}</span>
             </td>
             <td class="text-justify align-middle">
-                <span>{{ guideline.showName }}</span>
+                <span>{{ show.name }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <span>{{ guideline.emissionNumber }}</span>
+                <span>{{ show.start ? show.start|date('H:i:s') : 'No ha empezado'}}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <span>{{ guideline.creationDate ? guideline.creationDate|date('d-m-Y') : '' }}</span>
+                <span>{{ show.finish ? show.finish|date('H:i:s') : 'No ha finalizado'}}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <span>{{ guideline.broadcaster ? guideline.broadcaster : 'Ninguno' }}</span>
-            </td>
-            <td class="text-justify align-middle">
-                <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
+                <span>{{ show.guideline ? show.guideline : "Sin pauta" }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary {{guideline.shows|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
+                <button type="button" class="btn btn-primary {{show.publicities|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{show.id}}">
                     Ver
                 </button>
                 <!-- Modal -->
-                {% if guideline.shows|length > 0 %}
-                    <div class="modal fade" id="showsAsociados-{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{guideline.id}}" aria-hidden="true">
+                {% if show.publicities|length > 0 %}
+                    <div class="modal fade" id="showsAsociados-{{show.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{show.id}}" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="showsAsociadosLabel{{guideline.id}}">Shows asociados a la pauta</h5>
+                                    <h5 class="modal-title" id="showsAsociadosLabel{{show.id}}">Shows asociados a la pauta</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -48,13 +45,14 @@
                                         </thead>
                                         <!-- copypasting the font-weight-normal shit-->
                                         <tbody>
-                                            {% for show in guideline.shows %}
+                                            {% for publicity in show.publicities %}
+                                                <!--
                                                 <tr>
                                                     <th class="font-weight-normal" scope="row">{{show.id}}</th>
                                                     <th class="font-weight-normal">{{show.name}}</th>
                                                     <th class="font-weight-normal">{{show.start|date('H:i:s')}}</th>
                                                     <th class="font-weight-normal">{{show.finish|date('H:i:s')}}</th>
-                                                </tr>
+                                                </tr>-->
                                             {% endfor %}
                                         </tbody>
                                     </table>
@@ -70,21 +68,21 @@
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
                     <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
-                        data-target="#user-form-modal_{{ guideline.id }}">
+                        data-target="#user-form-modal_{{ show.id }}">
                         Editar
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{guideline.id}} data-target="#deleteConfirmationModal_{{guideline.id}}">
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{show.id}} data-target="#deleteConfirmationModal_{{show.id}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
             </td>
         </tr>
-        
+
         {% include 'delete_form.html.twig' with {
-            'removeId': guideline.id,
-            'deleteTitle': 'Eliminación de pauta',
-            'confirmMessage': '¿Está seguro de eliminar la pauta: %s?'|format(guideline.showName),
-            'deletePath': 'app_guideline_delete'
+            'removeId': show.id,
+            'deleteTitle': 'Eliminación de programa',
+            'confirmMessage': '¿Está seguro de eliminar el programa: %s?'|format(show.name),
+            'deletePath': 'app_show_delete'
         }%}
     {% endfor %}
 

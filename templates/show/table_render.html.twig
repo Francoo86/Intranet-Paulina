@@ -1,0 +1,47 @@
+{% block body %}
+    <div class="row flex-lg-nowrap">
+        <div class="col mb-3">
+            <div class="e-panel card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h6 class="mr-2">
+                            <span>Pautas</span>
+                        </h6>
+                    </div>
+                    <div class="e-table">
+                        <div class="table-responsive table-lg mt-2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="sortable">ID</th>
+                                        <th class="max-width">Nombre de programa</th>
+                                        <th class="max-width">Hora de inicio</th>
+                                        <th class="max-width">Hora de finalizacion</th>
+                                        <th class="max-width">Pauta</th>
+                                        <th class="max-width">Publicidades</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="output_table">
+                                    {% include 'show/all_shows.html.twig' %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include 'search.html.twig' with {
+            "newElement": "Nueva pauta.",
+            'elementCount': shows|length,
+            "searchText": "Buscar programas por nombre",
+            "searchId": "busca_programas",
+            "searchPath": path('app_search_guideline'),
+        } %}
+
+        {% include 'modal_base_form.html.twig' with {
+            'passedForm' : creationForm,
+            'titleForm': 'Creación de programa',
+        }%}
+    </div>
+{% endblock %}

@@ -7,6 +7,7 @@ use App\Form\ShowType;
 use App\Repository\ShowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,12 +15,54 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/show')]
 class ShowController extends AbstractController
 {
-    #[Route('/', name: 'app_show_index', methods: ['GET'])]
-    public function index(ShowRepository $showRepository): Response
+ 
+    protected const POST_METHOD = "POST";
+    protected const NEW_ELEMENT = "new_show";
+    protected const MAIN_PAGE = 'app_show_index';
+
+    #[Route('/', name: 'app_show_index', methods: ['GET', 'POST'])]
+    public function index(ShowRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        //dd($showRepository->findAll());
+        $allGuidelines = $guidelineRepository->findAll();
+        $allForms = [];
+
+        foreach ($allGuidelines as $guideline) {
+            $formName = sprintf("guideline_%s", $guideline->getId());
+            $form = $factory->createNamed($formName, ShowType::class, $guideline);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($guideline);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute(self::MAIN_PAGE);
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        $newGuideline = new Show();
+        $creationForm = $factory->createNamed(self::NEW_ELEMENT, ShowType::class, $newGuideline);
+        $creationForm->handleRequest($req);
+
+        if($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)){
+            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+                $entityManager->persist($newGuideline);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
+            }
+        }
+
         return $this->render('show/index.html.twig', [
-            'shows' => $showRepository->findAll(),
+            'shows' => $allGuidelines,
+            'allForms' => $allForms,
+            'creationForm' => $creationForm
         ]);
     }
 

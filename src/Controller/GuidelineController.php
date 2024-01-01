@@ -11,9 +11,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/guideline')]
 class GuidelineController extends AbstractController
@@ -68,54 +73,16 @@ class GuidelineController extends AbstractController
         ]);
     }
 
-    /*
-    #[Route('/new', name: 'app_guideline_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $guideline = new Guideline();
-
-        $form = $this->createForm(GuidelineType::class, $guideline);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($guideline);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('guideline/new.html.twig', [
-            'guideline' => $guideline,
-            'form' => $form,
-        ]);
-    }*/
-
     #[Route('/{id}', name: 'app_guideline_show', methods: ['GET'])]
-    public function show(Guideline $guideline): Response
+    public function show(Guideline $guideline, SerializerInterface $serial): Response
     {
-        return $this->render('guideline/show.html.twig', [
-            'guideline' => $guideline,
-        ]);
+        $jsonObject = $serial->serialize($guideline, 'json', [    
+            'circular_reference_handler' => function ($object) {
+            return $object->getId();
+        }]);
+
+        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
     }
-
-    /*
-    #[Route('/{id}/edit', name: 'app_guideline_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Guideline $guideline, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(GuidelineType::class, $guideline);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('guideline/edit.html.twig', [
-            'guideline' => $guideline,
-            'form' => $form,
-        ]);
-    }*/
 
     #[Route('/{id}/delete', name: 'app_guideline_delete', methods: ['POST'])]
     public function delete(Request $request, Guideline $guideline, EntityManagerInterface $entityManager): Response
