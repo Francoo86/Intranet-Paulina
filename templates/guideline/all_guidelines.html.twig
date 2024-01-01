@@ -24,57 +24,48 @@
                     Ver
                 </button>
                 <!-- Modal -->
-                {% for show in guideline.shows %}
-                <div class="modal fade" id="showsAsociados-{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{guideline.id}}" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="showsAsociadosLabel{{guideline.id}}">Shows asociados a la pauta</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Inicio</th>
-                                        <th scope="col">Final</th>
-                                        <th scope="col">Editar</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <th scope="row">1</th>
-                                        <td>Samso</td>
-                                        <td>Natto</td>
-                                        <td>@samso</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">2</th>
-                                        <td>Tinor</td>
-                                        <td>Horton</td>
-                                        <td>@tinor_har</td>
-                                      </tr>
-                                      <tr>
-                                        <th scope="row">3</th>
-                                        <td>Mythor</td>
-                                        <td>Bully</td>
-                                        <td>@myth_tobo</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                <p>{{show.name}}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                {% if guideline.shows|length > 0 %}
+                    <div class="modal fade" id="showsAsociados-{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{guideline.id}}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="showsAsociadosLabel{{guideline.id}}">Shows asociados a la pauta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nombre del show</th>
+                                            <th scope="col">Hora Inicio</th>
+                                            <th scope="col">Hora Final</th>
+                                            <!-- DEBERIA MANDAR A OTRA PAGINA-->
+                                            <!--<th scope="col">Editar</th>-->
+                                        </tr>
+                                        </thead>
+                                        <!-- copypasting the font-weight-normal shit-->
+                                        <tbody>
+                                            {% for show in guideline.shows %}
+                                                <tr>
+                                                    <th class="font-weight-normal" scope="row">{{show.id}}</th>
+                                                    <th class="font-weight-normal">{{show.name}}</th>
+                                                    <th class="font-weight-normal">{{show.start|date('H:i:s')}}</th>
+                                                    <th class="font-weight-normal">{{show.finish|date('H:i:s')}}</th>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
+                {% endif %}
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
