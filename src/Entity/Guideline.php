@@ -34,7 +34,7 @@ class Guideline
     //#[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Publicity::class)]
     //private Collection $publicities;
 
-    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Show::class)]
+    #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Show::class, fetch:"EAGER")]
     private Collection $shows;
 
     public function __construct()

@@ -28,7 +28,7 @@ class Show
     #[ORM\OneToMany(mappedBy: 'Show', targetEntity: Publicity::class)]
     private Collection $publicities;
 
-    #[ORM\ManyToOne(inversedBy: 'shows')]
+    #[ORM\ManyToOne(inversedBy: 'shows', fetch:"EAGER")]
     private ?Guideline $Guideline = null;
 
     public function __construct()

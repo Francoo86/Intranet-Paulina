@@ -20,7 +20,33 @@
                 <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary btn-sm">Ver</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showsAsociados">
+                   Ver
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="showsAsociados" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="showsAsociadosLabel">Shows asociados a la pauta</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          {% for show in guideline.shows %}
+                            <p>{{show.id}}</p>
+                          {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
