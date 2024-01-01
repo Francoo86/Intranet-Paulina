@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Guideline;
 use App\Form\GuidelineType;
+use App\Helper;
 use App\Repository\GuidelineRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -30,7 +31,7 @@ class GuidelineController extends AbstractController
     #[Route('/', name: 'app_guideline_index', methods: ['GET', 'POST'])]
     public function index(GuidelineRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allGuidelines = $guidelineRepository->findAllOrderedById();
+        $allGuidelines = Helper::FindAllOrderedById($guidelineRepository);//$guidelineRepository->findAllOrderedById();
         $allForms = [];
 
         foreach ($allGuidelines as $guideline) {

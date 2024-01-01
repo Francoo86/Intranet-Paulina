@@ -11,6 +11,14 @@ class Helper {
     public static function AddSimilarForms(ServiceEntityRepository $repo, Request $req, EntityManagerInterface $manager){
 
     }
+
+    public static function FindAllOrderedById(ServiceEntityRepository $repo){
+        return $repo->createQueryBuilder('e')
+        ->andWhere('e.DeletedAt IS NULL')
+        ->orderBy('e.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+    }
 }
 
 ?>

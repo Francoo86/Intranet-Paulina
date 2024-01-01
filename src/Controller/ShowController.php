@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Show;
 use App\Form\ShowType;
+use App\Helper;
 use App\Repository\ShowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class ShowController extends AbstractController
     #[Route('/', name: 'app_show_index', methods: ['GET', 'POST'])]
     public function index(ShowRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allGuidelines = $guidelineRepository->findAll();
+        $allGuidelines = Helper::FindAllOrderedById($guidelineRepository);//$guidelineRepository->findAll();
         $allForms = [];
 
         foreach ($allGuidelines as $guideline) {
