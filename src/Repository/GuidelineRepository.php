@@ -27,10 +27,10 @@ class GuidelineRepository extends ServiceEntityRepository
     public function findByShowName($value): array
     {
         return $this->createQueryBuilder('g')
-            ->where('g.show_name LIKE :val')
+            ->where('LOWER(g.show_name) LIKE :val')
             //->setParameter('val', $value)
             ->andWhere("g.DeletedAt IS NULL")
-            ->setParameter('val', '%'.$value.'%')
+            ->setParameter('val', '%'.strtolower($value).'%')
             ->orderBy('g.id', 'ASC')
             ->setMaxResults(30)
             ->getQuery()

@@ -17,7 +17,7 @@ class ShowController extends AbstractController
     #[Route('/', name: 'app_show_index', methods: ['GET'])]
     public function index(ShowRepository $showRepository): Response
     {
-        dd($showRepository->findAll());
+        //dd($showRepository->findAll());
         return $this->render('show/index.html.twig', [
             'shows' => $showRepository->findAll(),
         ]);
