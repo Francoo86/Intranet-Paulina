@@ -48,4 +48,39 @@ class SearchGuidelineController extends AbstractController
             'allForms' => $allForms,
         ]));
     }
+
+    #[Route('/guideline/page/{id}', name: 'page_guideline', methods: ['GET'])]
+    public function paginate(GuidelineRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        //AJAX moment.
+        $target = $req->get('target');
+        $currentGuidelines = $repo->findByShowName($target);
+
+        $allForms = [];
+
+        foreach ($currentGuidelines as $guideline) {
+            $formName = sprintf("guideline_%s", $guideline->getId());
+            $form = $factory->createNamed($formName, GuidelineType::class, $guideline);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($guideline);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('app_guideline_index');
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        return new JsonResponse($this->renderView("guideline/all_guidelines.html.twig", [
+            'guidelines' => $currentGuidelines,
+            'allForms' => $allForms,
+        ]));
+    }
 }
