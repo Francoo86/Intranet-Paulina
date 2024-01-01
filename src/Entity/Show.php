@@ -31,6 +31,9 @@ class Show
     #[ORM\ManyToOne(inversedBy: 'shows', fetch:"EAGER")]
     private ?Guideline $Guideline = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function __construct()
     {
         $this->publicities = new ArrayCollection();
@@ -122,5 +125,17 @@ class Show
     public function __toString(): string
     {
         return $this->getName();
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
+
+        return $this;
     }
 }
