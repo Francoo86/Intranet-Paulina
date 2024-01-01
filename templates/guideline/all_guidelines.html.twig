@@ -2,10 +2,10 @@
     {% for guideline in guidelines %}
         <tr>
             <td class="text-nowrap align-middle">
-                <span>{{guideline.id}}</span>
+                <span>{{ guideline.id }}</span>
             </td>
             <td class="text-justify align-middle">
-                <span>{{guideline.showName }}</span>
+                <span>{{ guideline.showName }}</span>
             </td>
             <td class="text-nowrap align-middle">
                 <span>{{ guideline.emissionNumber }}</span>
@@ -20,48 +20,69 @@
                 <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showsAsociados">
-                   Ver
-                  </button>
-                  
-                  <!-- Modal -->
-                  <div class="modal fade" id="showsAsociados" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel" aria-hidden="true">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
+                    Ver
+                </button>
+                <!-- Modal -->
+                {% for show in guideline.shows %}
+                <div class="modal fade" id="showsAsociados-{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{guideline.id}}" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="showsAsociadosLabel">Shows asociados a la pauta</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="showsAsociadosLabel{{guideline.id}}">Shows asociados a la pauta</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Inicio</th>
+                                        <th scope="col">Final</th>
+                                        <th scope="col">Editar</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">1</th>
+                                        <td>Samso</td>
+                                        <td>Natto</td>
+                                        <td>@samso</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">2</th>
+                                        <td>Tinor</td>
+                                        <td>Horton</td>
+                                        <td>@tinor_har</td>
+                                      </tr>
+                                      <tr>
+                                        <th scope="row">3</th>
+                                        <td>Mythor</td>
+                                        <td>Bully</td>
+                                        <td>@myth_tobo</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                <p>{{show.name}}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                          {% for show in guideline.shows %}
-                            <p>{{show.id}}</p>
-                          {% endfor %}
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                          <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-
+                </div>
+                {% endfor %}
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
-                    <button
-                        class="btn btn-sm btn-outline-secondary badge"
-                        type="button"
-                        data-toggle="modal"
-                        data-target="#user-form-modal_{{guideline.id}}"
-                    >
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
+                        data-target="#user-form-modal_{{ guideline.id }}">
                         Editar
                     </button>
-                    <button
-                        class="btn btn-sm btn-outline-secondary badge"
-                        type="button"
-                    >
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
