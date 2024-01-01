@@ -37,6 +37,9 @@ class Guideline
     #[ORM\OneToMany(mappedBy: 'Guideline', targetEntity: Show::class, fetch:"EAGER")]
     private Collection $shows;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function __construct()
     {
         //$this->publicities = new ArrayCollection();
@@ -170,6 +173,18 @@ class Guideline
                 $show->setGuideline(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
 
         return $this;
     }
