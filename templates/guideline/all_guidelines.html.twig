@@ -80,7 +80,6 @@
             </td>
         </tr>
 
-    
         <div class="modal fade" id="deleteConfirmationModal_{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel_{{guideline.id}}" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -108,7 +107,7 @@
     <!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->
     {% for edit_form in allForms %}
         {% set id = edit_form.form.vars.value.id %}
-        {% include 'guideline/modal_base_form.html.twig' with {
+        {% include 'modal_base_form.html.twig' with {
             'passedForm' : edit_form.form,
             'titleForm': 'Edición de pauta',
             'actualId': id,
