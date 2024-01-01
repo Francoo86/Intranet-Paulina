@@ -2,12 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Broadcaster;
 use App\Entity\Guideline;
 use App\Entity\Manager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,14 +34,21 @@ class GuidelineType extends AbstractType
                 'label' => 'Fecha de emisión',
                 'widget' => 'single_text',
                 ])
-            ->add('broadcaster', ChoiceType::class, [
+            ->add('broadcaster', EntityType::class, [
+                'class' => Broadcaster::class,
                 'attr' => ['class' => 'form-control'],
-                'label' => 'Locutor del programa'
+                'label' => 'Locutor del programa',
+                'empty_data' => null,
+                'required' => false,
+                'placeholder' => 'Seleccionar locutor',
                 ])
             ->add('manager', EntityType::class, [
                 'class' => Manager::class,
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Manager del programa',
+                'empty_data' => null,
+                'required' => false,
+                'placeholder' => 'Seleccionar manager',
                 ])
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",

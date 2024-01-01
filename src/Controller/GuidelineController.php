@@ -20,6 +20,7 @@ class GuidelineController extends AbstractController
 {
     protected const POST_METHOD = "POST";
     protected const NEW_ELEMENT = "new_guideline";
+    protected const MAIN_PAGE = 'app_guideline_index';
 
     #[Route('/', name: 'app_guideline_index', methods: ['GET', 'POST'])]
     public function index(GuidelineRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
@@ -39,7 +40,7 @@ class GuidelineController extends AbstractController
                     $entityManager->flush();
                 }
 
-                return $this->redirectToRoute('app_guideline_index');
+                return $this->redirectToRoute(self::MAIN_PAGE);
             }
 
             $allForms[] = [
@@ -56,7 +57,7 @@ class GuidelineController extends AbstractController
                 $entityManager->persist($newGuideline);
                 $entityManager->flush();
     
-                return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
             }
         }
 
@@ -126,6 +127,6 @@ class GuidelineController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_guideline_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
     }
 }
