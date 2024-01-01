@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Guideline;
 use App\Form\GuidelineType;
 use App\Repository\GuidelineRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -114,11 +116,13 @@ class GuidelineController extends AbstractController
         ]);
     }*/
 
-    #[Route('/{id}', name: 'app_guideline_delete', methods: ['DELETE'])]
+    #[Route('/{id}/delete', name: 'app_guideline_delete', methods: ['POST'])]
     public function delete(Request $request, Guideline $guideline, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$guideline->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($guideline);
+            $guideline->setDeletedAt(new DateTimeImmutable());
+            $entityManager->persist($guideline);
+            //$entityManager->remove($guideline);
             $entityManager->flush();
         }
 

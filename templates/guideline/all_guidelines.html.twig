@@ -82,12 +82,36 @@
                         data-target="#user-form-modal_{{ guideline.id }}">
                         Editar
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary badge" type="button">
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{guideline.id}} data-target="#deleteConfirmationModal_{{guideline.id}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
             </td>
         </tr>
+
+    
+        <div class="modal fade" id="deleteConfirmationModal_{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel_{{guideline.id}}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmationModalLabel_{{guideline.id}}">Eliminación de pauta</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está seguro que desea borrar la pauta: {{guideline.showName}}?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <form method="post" action="{{ path('app_guideline_delete', {'id': guideline.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ guideline.id) }}">
+                            <input type="submit" class="btn btn-danger borrado-button" id="confirmDeleteBtn" data-id="{{guideline.id}}" value="Borrar">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% endfor %}
 
     <!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->

@@ -29,6 +29,7 @@ class GuidelineRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('g')
             ->where('g.show_name LIKE :val')
             //->setParameter('val', $value)
+            ->andWhere("g.DeletedAt IS NULL")
             ->setParameter('val', '%'.$value.'%')
             ->orderBy('g.id', 'ASC')
             ->setMaxResults(30)
@@ -37,7 +38,11 @@ class GuidelineRepository extends ServiceEntityRepository
     }
 
     public function findAllOrderedById(){
-        return $this->findBy([], ['id' => 'ASC']);
+        return $this->createQueryBuilder('e')
+        ->andWhere('e.DeletedAt IS NULL')
+        ->orderBy('e.id', 'ASC')
+        ->getQuery()
+        ->getResult();
     }
 
 
