@@ -6,6 +6,7 @@ use App\Entity\Show;
 use App\Form\ShowType;
 use App\Helper;
 use App\Repository\ShowRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -117,7 +118,8 @@ class ShowController extends AbstractController
     public function delete(Request $request, Show $show, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$show->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($show);
+            $show->setDeletedAt(new DateTimeImmutable());
+            //$entityManager->remove($show);
             $entityManager->flush();
         }
 
