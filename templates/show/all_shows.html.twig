@@ -30,7 +30,7 @@
                 <!-- Modal -->
                 {% if show.publicities|length > 0 %}
                     <div class="modal fade" id="showsAsociados-{{show.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{show.id}}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-dialog modal-lg" role="document" style="max-width: 80%;">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="showsAsociadosLabel{{show.id}}">Publicidades asociadas al programa</h5>
@@ -44,6 +44,7 @@
                                         <thead>
                                         <tr>
                                             <th scope="col">ID</th>
+                                            <th scope="col">Oración de la publicidad</th>
                                             <th scope="col">Fondo musical</th>
                                             <th scope="col">Duración (en segundos)</th>
                                             <th scope="col">Descripción de la publicidad</th>
@@ -58,6 +59,7 @@
                                             {% for publicity in show.publicities %}
                                                 <tr>
                                                     <th class="font-weight-normal" scope="row">{{publicity.id}}</td>
+                                                    <td class="font-weight-normal">{{publicity.sentence}}</td>
                                                     <td class="font-weight-normal">{{publicity.background}}</td>
                                                     <td class="font-weight-normal" scope="row">{{publicity.duration}}</td>
                                                     <th class="font-weight-normal" style="white-space: normal">{{publicity.description}}</th>
