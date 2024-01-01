@@ -1,4 +1,11 @@
 {% block body %}
+    <style>
+        table td {
+            width: 200px;
+            border: 1px dotted silver;
+            word-break: break-all;  
+        }
+    </style>
     {% for show in shows %}
         <tr>
             <td class="text-nowrap align-middle">
@@ -31,14 +38,16 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
+                                
                                 <div class="modal-body">
-                                    <table class="table">
+                                    <table class="table table-striped table-hover responsive">
                                         <thead>
                                         <tr>
                                             <th scope="col">ID</th>
-                                            <th scope="col">Nombre del show</th>
-                                            <th scope="col">Hora Inicio</th>
-                                            <th scope="col">Hora Final</th>
+                                            <th scope="col">Fondo musical</th>
+                                            <th scope="col">Duración (en segundos)</th>
+                                            <th scope="col">Descripción de la publicidad</th>
+                                            <th scope="col">Audiencia</th>
                                             <!-- DEBERIA MANDAR A OTRA PAGINA-->
                                             <!--<th scope="col">Editar</th>-->
                                         </tr>
@@ -46,6 +55,13 @@
                                         <!-- copypasting the font-weight-normal shit-->
                                         <tbody>
                                             {% for publicity in show.publicities %}
+                                                <tr>
+                                                    <th class="font-weight-normal" scope="row">{{publicity.id}}</td>
+                                                    <td class="font-weight-normal">{{publicity.background}}</td>
+                                                    <td class="font-weight-normal" scope="row">{{publicity.duration}}</td>
+                                                    <th class="font-weight-normal" style="white-space: normal">{{publicity.description}}</th>
+                                                    <td class="font-weight-normal">{{publicity.audience}}</td>
+                                                </tr>
                                                 <!--
                                                 <tr>
                                                     <th class="font-weight-normal" scope="row">{{show.id}}</th>
@@ -91,7 +107,7 @@
         {% set id = edit_form.form.vars.value.id %}
         {% include 'modal_base_form.html.twig' with {
             'passedForm' : edit_form.form,
-            'titleForm': 'Edición de pauta',
+            'titleForm': 'Edición de programa',
             'actualId': id,
         }%}
     {% endfor %}
