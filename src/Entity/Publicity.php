@@ -53,6 +53,9 @@ class Publicity
     #[ORM\ManyToOne(inversedBy: 'publicities')]
     private ?Show $Show = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function __construct()
     {
         $this->Report = new ArrayCollection();
@@ -216,6 +219,18 @@ class Publicity
     public function setShow(?Show $Show): static
     {
         $this->Show = $Show;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
 
         return $this;
     }

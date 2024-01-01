@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/show')]
 class ShowController extends AbstractController
 {
- 
     protected const POST_METHOD = "POST";
     protected const NEW_ELEMENT = "new_show";
     protected const MAIN_PAGE = 'app_show_index';
