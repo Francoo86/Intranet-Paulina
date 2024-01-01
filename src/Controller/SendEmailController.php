@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Guideline;
+
 class SendEmailController extends AbstractController
 {
     #[Route('/send/email', name: 'app_send_email_exito', methods: ['POST'])]
@@ -99,7 +102,7 @@ class SendEmailController extends AbstractController
 
 
     #[Route('/send/AllEmail/Data', name: 'app_send_all_email_data', methods: ['POST'])]
-    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig): Response
+    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig, EntityManagerInterface $entityManager): Response
     {
         try {
             $customers = $customerRepository->findAll();
@@ -121,7 +124,21 @@ class SendEmailController extends AbstractController
                     $amountBalance = $balance->getAmount() ?? 'UndefinedAmountBalance';
                     $audience = $publicity->getAudience()->getDemography() ?? 'UndefinedAudience';
                     $locality = $publicity->getAudience()->getLocality() ?? 'UndefinedLocality';
-                    //Cantidad de publicidad en guideline(?)
+                    
+
+                    // Intencion => Contar cuantas veces esta oresenta la publicidad.
+                    $totalAdCount = 0;
+                    $guidelines = $entityManager->getRepository(Guideline::class)->findAll();
+                    foreach ($guidelines as $guideline) {
+                        foreach ($guideline->getShows() as $show) {
+                            foreach ($show->getPublicities() as $showPublicity) {
+                                if ($showPublicity->getCustomer() === $customer && $showPublicity->getStock()->getBalance()->isActive()) {
+                                    $totalAdCount++;
+                                }
+                            }
+                        }
+                    }
+                     
 
                     $message = $twig->render('email/info_email.html.twig', [
                         'name' => $name,
@@ -129,7 +146,8 @@ class SendEmailController extends AbstractController
                         'amountStock' => $amountStock,
                         'amountBalance' => $amountBalance,
                         'audience' => $audience,
-                        'locality' => $locality
+                        'locality' => $locality,
+                        'totalAdCount' => $totalAdCount
                     ]);
                     
 
