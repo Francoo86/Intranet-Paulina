@@ -102,7 +102,7 @@ class SendEmailController extends AbstractController
 
 
     #[Route('/send/AllEmail/Data', name: 'app_send_all_email_data', methods: ['POST'])]
-    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig, EntityManagerInterface $entityManager): Response
+    public function sendAllEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig): Response
     {
         try {
             $customers = $customerRepository->findAll();
@@ -125,20 +125,15 @@ class SendEmailController extends AbstractController
                     $audience = $publicity->getAudience()->getDemography() ?? 'UndefinedAudience';
                     $locality = $publicity->getAudience()->getLocality() ?? 'UndefinedLocality';
                     
+                    $stockTime = $publicity->getStock()->getTime();
+                    $publicityTime = $publicity->getDuration();
+                    $totalEmisions = ($stockTime / $publicityTime);
+                    $totalEmisions = number_format($totalEmisions, 0);
 
-                    // Intencion => Contar cuantas veces esta oresenta la publicidad.
-                    $totalAdCount = 0;
-                    $guidelines = $entityManager->getRepository(Guideline::class)->findAll();
-                    foreach ($guidelines as $guideline) {
-                        foreach ($guideline->getShows() as $show) {
-                            foreach ($show->getPublicities() as $showPublicity) {
-                                if ($showPublicity->getCustomer() === $customer && $showPublicity->getStock()->getBalance()->isActive()) {
-                                    $totalAdCount++;
-                                }
-                            }
-                        }
-                    }
-                     
+                    $totalAmount = $publicity->getStock()->getAmount();
+                    $balanceAmount = $publicity->getStock()->getBalance()->getAmount();
+                    $percentageAmount = 100-($balanceAmount / $totalAmount) * 100;
+                    $percentageAmount = number_format($percentageAmount, 2);
 
                     $message = $twig->render('email/info_email.html.twig', [
                         'name' => $name,
@@ -147,7 +142,8 @@ class SendEmailController extends AbstractController
                         'amountBalance' => $amountBalance,
                         'audience' => $audience,
                         'locality' => $locality,
-                        'totalAdCount' => $totalAdCount
+                        'totalEmisions' => $totalEmisions,
+                        'percentageAmount' => $percentageAmount
                     ]);
                     
 
@@ -191,12 +187,18 @@ class SendEmailController extends AbstractController
                     $emailAddress = $customer->getEmail() ?? 'UndefinedEmail';
                     $amount = $publicity->getStock()->getBalance()->getAmount() ?? 'UndefinedAmount';
 
+                    $totalAmount = $publicity->getStock()->getAmount();
+                    $balanceAmount = $publicity->getStock()->getBalance()->getAmount();
+                    $percentageAmount = 100-($balanceAmount / $totalAmount) * 100;
+                    $percentageAmount = number_format($percentageAmount, 2);
+
                     try {
                         $message = $twig->render('email/alert_email.html.twig', [
                             'name' => $name,
                             'organisation' => $organisation,
                             'publicity' => $publicity,
-                            'amount' => $amount
+                            'amount' => $amount,
+                            'percentageAmount' => $percentageAmount
                         ]);
                     } catch (\Exception $e) {
                         return new Response('Error rendering email template');
