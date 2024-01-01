@@ -20,7 +20,7 @@
                 <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
+                <button type="button" class="btn btn-primary {{guideline.shows|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
                     Ver
                 </button>
                 <!-- Modal -->

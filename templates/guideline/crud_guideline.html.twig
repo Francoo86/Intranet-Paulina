@@ -137,12 +137,13 @@
                                                   <small>/&nbsp;{{guidelines|length}}</small>
                                               </a>
                                           </li>
+                                          <!--
                                           <li class="nav-item">
                                               <a href class="nav-link">
                                                   <span>Active</span>&nbsp;
                                                   <small>/&nbsp;16</small>
                                               </a>
-                                          </li>
+                                          </li>-->
                                       </ul>
                                   </div>
                                   <hr class="my-3" />
@@ -183,7 +184,7 @@
                   data: {'target': search},
                   dataType: 'json',
                   success: function (response) {
-                      console.log(response);
+                      //console.log(response);
                       $("#output_table").html(response);
                   }
               });
