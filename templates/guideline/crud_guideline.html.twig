@@ -1,269 +1,194 @@
 {% extends 'base.html.twig' %}
-{% block body %}
+
+  {% block body %}
   <head>
-    <meta charset="utf-8" />
-    <!-- Titulo de la aplicacion -->
-    <title>AMONGUS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <style type="text/css">
-      body {
-        margin-top: 20px;
-        background: #f8f8f8;
-      }
-    </style>
+      <meta charset="utf-8" />
+      <!-- Titulo de la aplicacion -->
+      <title>Manejo de pautas</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+      <style type="text/css">
+          body {
+              margin-top: 20px;
+              background: #f8f8f8;
+          }
+      </style>
   </head>
   <body>
-    <link
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
-    <div class="container">
-      <div class="row flex-lg-nowrap">
-        <div class="col-12 col-lg-auto mb-3" style="width: 150px">
-          <div class="card p-3">
-            <div class="e-navlist e-navlist--active-bg">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link px-2 active" href="#">
-                    <i class="fa fa-fw fa-bar-chart mr-1"> </i>
-                    <span>Overview</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link px-2"
-                    href="#"
-                    target="__blank"
-                  >
-                    <i class="fa fa-fw fa-th mr-1"></i>
-                    <span>CRUD</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link px-2"
-                    href="#"
-                    target="__blank"
-                  >
-                    <i class="fa fa-fw fa-cog mr-1"> </i>
-                    <span>Settings</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="e-tabs mb-3 px-3">
-            <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Users</a>
-              </li>
-            </ul>
-          </div>
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+      <div class="container">
           <div class="row flex-lg-nowrap">
-            <div class="col mb-3">
-              <div class="e-panel card">
-                <div class="card-body">
-                  <div class="card-title">
-                    <h6 class="mr-2">
-                      <span>Pautas</span>
-                    </h6>
+              <div class="col-12 col-lg-auto mb-3" style="width: 150px">
+                  <div class="card p-3">
+                      <div class="e-navlist e-navlist--active-bg">
+                          <ul class="nav">
+                              <li class="nav-item">
+                                  <a class="nav-link px-2 active" href="#">
+                                      <i class="fa fa-fw fa-bar-chart mr-1"> </i>
+                                      <span>Overview</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link px-2" href="#" target="__blank">
+                                      <i class="fa fa-fw fa-th mr-1"></i>
+                                      <span>CRUD</span>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link px-2" href="#" target="__blank">
+                                      <i class="fa fa-fw fa-cog mr-1"> </i>
+                                      <span>Settings</span>
+                                  </a>
+                              </li>
+                          </ul>
+                      </div>
                   </div>
-                  <div class="e-table">
-                    <div class="table-responsive table-lg mt-2">
-                      <table class="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th class="sortable">ID</th>
-                            <th class="max-width">Nombre de programa</th>
-                            <th class="max-width">Numero de emisión</th>
-                            <th class="max-width">Fecha de creación</th>
-                            <th class="max-width">Locutor</th>
-                            <th class="max-width">Manager</th>
-                            <th class="max-width">Programas</th>
-                            <th>Acciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% include 'guideline/all_guidelines.html.twig' %}
-
-                            {% for edit_form in allForms %}
-                              {% set id = edit_form.form.vars.value.id %}
-                              
-                              {% include 'guideline/modal_base_form.html.twig' with {
-                                  'passedForm' : edit_form.form,
-                                  'titleForm': 'Edición de pauta',
-                                  'actualId': id,
-                              }%}
-                          {% endfor %}
-
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <ul class="pagination mt-3 mb-0">
-                        <li class="disabled page-item">
-                          <a href="#" class="page-link">‹</a>
-                        </li>
-                        <li class="active page-item">
-                          <a href="#" class="page-link">1</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">2</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">3</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">4</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">5</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">›</a>
-                        </li>
-                        <li class="page-item">
-                          <a href="#" class="page-link">»</a>
-                        </li>
+              </div>
+              <div class="col">
+                  <div class="e-tabs mb-3 px-3">
+                      <ul class="nav nav-tabs">
+                          <li class="nav-item">
+                              <a class="nav-link active" href="#">Pautas</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Show</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Publicidad</a>
+                          </li>
                       </ul>
-                    </div>
                   </div>
-                </div>
+                  <div class="row flex-lg-nowrap">
+                      <div class="col mb-3">
+                          <div class="e-panel card">
+                              <div class="card-body">
+                                  <div class="card-title">
+                                      <h6 class="mr-2">
+                                          <span>Pautas</span>
+                                      </h6>
+                                  </div>
+                                  <div class="e-table">
+                                      <div class="table-responsive table-lg mt-2">
+                                          <table class="table table-bordered">
+                                              <thead>
+                                                  <tr>
+                                                      <th class="sortable">ID</th>
+                                                      <th class="max-width">Nombre de programa</th>
+                                                      <th class="max-width">Numero de emisión</th>
+                                                      <th class="max-width">Fecha de creación</th>
+                                                      <th class="max-width">Locutor</th>
+                                                      <th class="max-width">Manager</th>
+                                                      <th class="max-width">Programas</th>
+                                                      <th>Acciones</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody id="output_table">
+                                                  {% include 'guideline/all_guidelines.html.twig' %}
+                                              </tbody>
+                                          </table>
+                                      </div>
+                                      <!--
+                                      <div class="d-flex justify-content-center">
+                                          <ul class="pagination mt-3 mb-0">
+                                              <li class="disabled page-item">
+                                                  <a href="#" class="page-link">‹</a>
+                                              </li>
+                                              <li class="active page-item">
+                                                  <a href="#" class="page-link">1</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">2</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">3</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">4</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">5</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">›</a>
+                                              </li>
+                                              <li class="page-item">
+                                                  <a href="#" class="page-link">»</a>
+                                              </li>
+                                          </ul>
+                                      </div>-->
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-12 col-lg-3 mb-3">
+                          <div class="card">
+                              <div class="card-body">
+                                  <div class="text-center px-xl-3">
+                                      <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal_new">
+                                          Nueva pauta
+                                      </button>
+                                  </div>
+                                  <hr class="my-3" />
+                                  <div class="e-navlist e-navlist--active-bold">
+                                      <ul class="nav">
+                                          <li class="nav-item active">
+                                              <a href class="nav-link">
+                                                  <span>Todas</span>&nbsp;
+                                                  <small>/&nbsp;{{guidelines|length}}</small>
+                                              </a>
+                                          </li>
+                                          <li class="nav-item">
+                                              <a href class="nav-link">
+                                                  <span>Active</span>&nbsp;
+                                                  <small>/&nbsp;16</small>
+                                              </a>
+                                          </li>
+                                      </ul>
+                                  </div>
+                                  <hr class="my-3" />
+                                  <div>
+                                      <div class="form-group">
+                                          <label>Buscar pauta por nombre:</label>
+                                          <div>
+                                              <input id="busca_pautas" class="form-control w-100" type="text" placeholder="Name" value />
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <hr class="my-3" />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- ESTE MODAL NOS IMPORTA... -->
+                  {% include 'guideline/modal_base_form.html.twig' with {
+                      'passedForm' : creationForm,
+                      'titleForm': 'Creación de pauta',
+                  }%}
               </div>
-            </div>
-            <div class="col-12 col-lg-3 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="text-center px-xl-3">
-                    <button
-                      class="btn btn-success btn-block"
-                      type="button"
-                      data-toggle="modal"
-                      data-target="#user-form-modal_new"
-                    >
-                      Nueva pauta
-                    </button>
-                  </div>
-                  <hr class="my-3" />
-                  <div class="e-navlist e-navlist--active-bold">
-                    <ul class="nav">
-                      <li class="nav-item active">
-                        <a href class="nav-link">
-                          <span>All</span>&nbsp;
-                          <small>/&nbsp;32</small>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href class="nav-link">
-                          <span>Active</span>&nbsp;
-                          <small>/&nbsp;16</small>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href class="nav-link">
-                          <span>Selected</span>&nbsp;
-                          <small>/&nbsp;0</small>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <hr class="my-3" />
-                  <div>
-                    <div class="form-group">
-                      <label>Date from - to:</label>
-                      <div>
-                        <input
-                          id="dates-range"
-                          class="form-control flatpickr-input"
-                          placeholder="01 Dec 17 - 27 Jan 18"
-                          type="text"
-                          readonly="readonly"
-                        />
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Search by Name:</label>
-                      <div>
-                        <input
-                          class="form-control w-100"
-                          type="text"
-                          placeholder="Name"
-                          value
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="my-3" />
-                  <div class>
-                    <label>Status:</label>
-                    <div class="px-2">
-                      <div class="custom-control custom-radio">
-                        <input
-                          type="radio"
-                          class="custom-control-input"
-                          name="user-status"
-                          id="users-status-disabled"
-                        />
-                        <label
-                          class="custom-control-label"
-                          for="users-status-disabled"
-                          >Disabled
-                        </label>
-                      </div>
-                    </div>
-                    <div class="px-2">
-                      <div class="custom-control custom-radio">
-                        <input
-                          type="radio"
-                          class="custom-control-input"
-                          name="user-status"
-                          id="users-status-active"
-                        />
-                        <label
-                          class="custom-control-label"
-                          for="users-status-active"
-                          >Active
-                        </label>
-                      </div>
-                    </div>
-                    <div class="px-2">
-                      <div class="custom-control custom-radio">
-                        <input
-                          type="radio"
-                          class="custom-control-input"
-                          name="user-status"
-                          id="users-status-any"
-                          checked
-                        />
-                        <label
-                          class="custom-control-label"
-                          for="users-status-any"
-                          >Any
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-          <!-- ESTE MODAL NOS IMPORTA... -->
-          {% include 'guideline/modal_base_form.html.twig' with {
-            'passedForm' : creationForm,
-            'titleForm': 'Creación de pauta',
-        }%}
-        </div>
       </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript"></script>
-  </body>
+      <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
+      <script type="text/javascript"></script>
   
-{% endblock %}
+      <script defer type="text/javascript">
+          $("#busca_pautas").change(function (e) { 
+              e.preventDefault();
+  
+              let search = $(this).val();
+  
+              $.ajax({
+                  type: 'GET',
+                  url: "{{path('app_search_guideline')}}",
+                  data: {'target': search},
+                  dataType: 'json',
+                  success: function (response) {
+                      console.log(response);
+                      $("#output_table").html(response);
+                  }
+              });
+          });
+      </script>
+  </body>
+  {% endblock %}
+  

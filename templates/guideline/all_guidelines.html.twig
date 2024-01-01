@@ -1,49 +1,55 @@
-{% extends 'base.html.twig' %}
-
 {% block body %}
     {% for guideline in guidelines %}
-        <td class="text-nowrap align-middle">
-        <span>{{guideline.id}}</span>
-        </td>
-        <td class="text-justify align-middle">
-        <span>{{guideline.showName }}</span>
-        </td>
-        <td class="text-nowrap align-middle">
-        <span>{{ guideline.emissionNumber }}</span>
-        </td>
-        <td class="text-nowrap align-middle">
-        <span>{{ guideline.creationDate ? guideline.creationDate|date('d-m-Y') : '' }}</span>
-        </td>
-        <td class="text-nowrap align-middle">
-        <span>{{ guideline.broadcaster ? guideline.broadcaster : 'Ninguno' }}</span>
-        </td>
+        <tr>
+            <td class="text-nowrap align-middle">
+                <span>{{guideline.id}}</span>
+            </td>
+            <td class="text-justify align-middle">
+                <span>{{guideline.showName }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <span>{{ guideline.emissionNumber }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <span>{{ guideline.creationDate ? guideline.creationDate|date('d-m-Y') : '' }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <span>{{ guideline.broadcaster ? guideline.broadcaster : 'Ninguno' }}</span>
+            </td>
+            <td class="text-justify align-middle">
+                <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <button type="button" class="btn btn-primary btn-sm">Ver</button>
+            </td>
+            <td class="text-center align-middle">
+                <div class="btn-group align-top">
+                    <button
+                        class="btn btn-sm btn-outline-secondary badge"
+                        type="button"
+                        data-toggle="modal"
+                        data-target="#user-form-modal_{{guideline.id}}"
+                    >
+                        Editar
+                    </button>
+                    <button
+                        class="btn btn-sm btn-outline-secondary badge"
+                        type="button"
+                    >
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    {% endfor %}
 
-        <td class="text-justify align-middle">
-        <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
-        </td>
-
-        <td class="text-nowrap align-middle">
-        <button type="button" class="btn btn-primary btn-sm">Ver</button>
-        </td>
-
-    <td class="text-center align-middle">
-        <div class="btn-group align-top">
-        <button
-            class="btn btn-sm btn-outline-secondary badge"
-            type="button"
-            data-toggle="modal"
-            data-target="#user-form-modal_{{guideline.id}}"
-        >
-            Editar
-        </button>
-        <button
-            class="btn btn-sm btn-outline-secondary badge"
-            type="button"
-        >
-            <i class="fa fa-trash"></i>
-        </button>
-        </div>
-    </td>
-    </tr>
+    <!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->
+    {% for edit_form in allForms %}
+        {% set id = edit_form.form.vars.value.id %}
+        {% include 'guideline/modal_base_form.html.twig' with {
+            'passedForm' : edit_form.form,
+            'titleForm': 'Edición de pauta',
+            'actualId': id,
+        }%}
     {% endfor %}
 {% endblock %}
