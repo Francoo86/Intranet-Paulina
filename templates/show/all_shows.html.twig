@@ -15,7 +15,7 @@
                 <span>{{ show.finish ? show.finish|date('H:i:s') : 'No ha finalizado'}}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <span>{{ show.guideline ? show.guideline : "Sin pauta" }}</span>
+                <span>{{ (show.guideline and show.guideline.deletedAt is null) ? show.guideline : "Sin pauta" }}</span>
             </td>
             <td class="text-nowrap align-middle">
                 <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{show.id}}">
