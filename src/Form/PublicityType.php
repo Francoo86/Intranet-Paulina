@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Publicity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +23,12 @@ class PublicityType extends AbstractType
             //->add('Guideline')
             ->add('Show')
             ->add('Audience')
+            ->add('saveEdit', SubmitType::class, [
+                'label' => "Guardar cambios",
+                'attr' => [
+                    'class' => 'btn btn-primary'
+                ]
+            ])
         ;
     }
 
