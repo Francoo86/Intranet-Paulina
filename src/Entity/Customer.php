@@ -39,6 +39,12 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Notification::class)]
     private Collection $Notification;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $rut = null;
+
+    #[ORM\Column(nullable: true, length: 1)]
+    private ?string $dv = null;
+
     public function __construct()
     {
         $this->Publicity = new ArrayCollection();
@@ -221,6 +227,30 @@ class Customer
                 $notification->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRut(): ?int
+    {
+        return $this->rut;
+    }
+
+    public function setRut(int $rut): static
+    {
+        $this->rut = $rut;
+
+        return $this;
+    }
+
+    public function getDv(): ?string
+    {
+        return $this->dv;
+    }
+
+    public function setDv(string $dv): static
+    {
+        $this->dv = $dv;
 
         return $this;
     }
