@@ -36,30 +36,23 @@
         font-size: 16px;
       }
 
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-      }
-
-      th,
-      td {
-        padding: 10px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-
-      th {
+      .footer-strip {
         background-color: #87cfeb96;
-        color: white;
+        padding: 8px;
+        border-radius: 0 0 8px 8px;
+        margin-top: 20px;
       }
 
-      tr:nth-child(odd) {
-        background-color: #f5f5f5;
+      h5 {
+        color: #888;
+        font-size: 12px;
       }
 
-      tr:last-child {
-        border-bottom: none;
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto 20px;
       }
 
       ol {
@@ -85,25 +78,6 @@
         text-align: center;
         display: inline-block;
       }
-
-      .footer-strip {
-        background-color: #87cfeb96;
-        padding: 8px;
-        border-radius: 0 0 8px 8px;
-        margin-top: 20px;
-      }
-
-      h5 {
-        color: #888;
-        font-size: 12px;
-      }
-
-      img {
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto 20px;
-      }
     </style>
   </head>
 
@@ -113,54 +87,39 @@
         <h3>Hola {{ name }} de {{ organisation }}.</h3>
       </div>
 
-      <table>
-        <tr>
-          <th>Información publicitaria</th>
-          <th></th>
-        </tr>
-
-        <tr>
-          <td>Frase</td>
-          <td>{{ publicity.sentence }}</td>
-        </tr>
-
-        <tr>
-          <td>Track</td>
-          <td>{{ publicity.background }}</td>
-        </tr>
-
-        <tr>
-          <td>Descripción</td>
-          <td>{{ publicity.description }}</td>
-        </tr>
-      </table>
+      <p>
+        Esperamos que este mensaje te encuentre bien. Queríamos compartir
+        contigo algunas novedades encantadoras sobre tu experiencia en
+        RadioPaulina:
+      </p>
 
       <ol>
         <li>
-          Hemos concretado las emisiones de tu aviso en un {{ percentageAmount
-          }}%
+          Tu mensaje ha llegado a los oyentes {{ audience }} en toda la zona de
+          {{ locality }}
         </li>
-        <li>Restan ${{ amount }} en tu bolsa de saldo!!!</li>
+        <li>
+          De un total de {{ totalEmisions }} emisiones, a la fecha se ha
+          concretado el {{ percentageAmount }} % en nuestra programación.
+        </li>
+        <li>
+          De un total ${{ amountStock }} adquiridos, tu bolsa de publicidad
+          actualmente cuenta con ${{ amountBalance }}.
+        </li>
       </ol>
 
       <p>
-        Tu aviso está a punto de expirar. Por favor, ponte en contacto con
-        nuestro equipo de ventas en
-        <a href="mailto:ventas@radiopaulina.com">ventas@radiopaulina.com</a>
-        para renovar tu contrato y así mantener el contacto con nuestros radio
-        oyentes.
-      </p>
-
-      <p>
-        Si tienes alguna pregunta o necesitas más detalles, nuestro equipo
-        estará encantado de ayudarte. ¡Gracias por confiar en nosotros!
+        ¡Todo está marchando a la perfección! Esta es solo una pequeña
+        actualización para que estés al tanto de cómo va todo. Si tienes alguna
+        pregunta, sugerencia o simplemente quieres charlar, nuestro equipo está
+        aquí para ayudarte.
       </p>
 
       <div class="footer-strip">
         <h3>Saludos cordiales, tu equipo de RadioPaulina</h3>
       </div>
 
-      <!--img src="../../public/images/logo.png" alt="logo" /-->
+      <img src="../../public/images/logo.png" alt="logo" />
 
       <h5>
         Este es un mensaje automático. Por favor, ten en cuenta que no es

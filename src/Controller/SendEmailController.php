@@ -134,17 +134,21 @@ class SendEmailController extends AbstractController
                     $balanceAmount = $publicity->getStock()->getBalance()->getAmount();
                     $percentageAmount = 100-($balanceAmount / $totalAmount) * 100;
                     $percentageAmount = number_format($percentageAmount, 2);
-
-                    $message = $twig->render('email/info_email.html.twig', [
-                        'name' => $name,
-                        'organisation' => $organisation,
-                        'amountStock' => $amountStock,
-                        'amountBalance' => $amountBalance,
-                        'audience' => $audience,
-                        'locality' => $locality,
-                        'totalEmisions' => $totalEmisions,
-                        'percentageAmount' => $percentageAmount
-                    ]);
+                    
+                    try{
+                        $message = $twig->render('email/info_email.html.twig', [
+                            'name' => $name,
+                            'organisation' => $organisation,
+                            'amountStock' => $amountStock,
+                            'amountBalance' => $amountBalance,
+                            'audience' => $audience,
+                            'locality' => $locality,
+                            'totalEmisions' => $totalEmisions,
+                            'percentageAmount' => $percentageAmount
+                        ]);
+                    } catch (\Exception $e) {
+                        return new Response('Error in template email: ' . $e->getMessage());
+                    }
                     
 
                     $email = (new Email())
@@ -201,7 +205,7 @@ class SendEmailController extends AbstractController
                             'percentageAmount' => $percentageAmount
                         ]);
                     } catch (\Exception $e) {
-                        return new Response('Error rendering email template');
+                        return new Response('Error in template email: ' . $e->getMessage());
                     }
 
                     $email = (new Email())
