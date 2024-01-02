@@ -70,6 +70,10 @@ class PublicityType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('g')
+                        ->where('g.DeletedAt is NULL');
+                }
             ])
             ->add('Audience', EntityType::class, [
                 'class' => Audience::class,

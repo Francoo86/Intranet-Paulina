@@ -6,6 +6,7 @@ use App\Entity\Publicity;
 use App\Form\PublicityType;
 use App\Helper;
 use App\Repository\PublicityRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -122,7 +123,8 @@ class PublicityController extends AbstractController
     public function delete(Request $request, Publicity $publicity, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$publicity->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($publicity);
+            $publicity->setDeletedAt(new DateTimeImmutable());
+            //$entityManager->remove($publicity);
             $entityManager->flush();
         }
 

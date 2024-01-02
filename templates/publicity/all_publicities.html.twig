@@ -7,10 +7,13 @@
             <td class="text-justify align-middle">
                 <span>{{publicity.sentence}}</span>
             </td>
+            <td class="text-justify align-middle">
+                <span>{{publicity.duration}}</span>
+            </td>
             <td class="text-nowrap align-middle">
                 <span>{{publicity.background ? publicity.background : "SIN FONDO"}}</span>
             </td>
-            <td class="text-nowrap align-middle">
+            <td class="align-middle">
                 {% if publicity.description |length > 50 %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicidadesAsociados-Desc{{publicity.id}}">
                         Ver
@@ -26,7 +29,7 @@
                                 </div>
                                 
                                 <div class="modal-body">
-                                    <p>{{publicity.description}}</p>
+                                    <p class="text-justify">{{publicity.description}}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -35,7 +38,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <span>{{publicity.description}}</span>
+                    <span class="text-justify">{{publicity.description}}</span>
                 {% endif %}
 
             </td>
@@ -71,7 +74,7 @@
             'removeId': publicity.id,
             'deleteTitle': 'Eliminación de programa',
             'confirmMessage': '¿Está seguro de eliminar la publicidad asociada a: %s?'|format(publicity.Show),
-            'deletePath': 'app_show_delete'
+            'deletePath': 'app_publicity_delete'
         }%}
     {% endfor %}
 
