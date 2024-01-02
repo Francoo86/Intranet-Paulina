@@ -39,10 +39,10 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Notification::class)]
     private Collection $Notification;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
     private ?int $rut = null;
 
-    #[ORM\Column(nullable: true, length: 1)]
+    #[ORM\Column(length: 1)]
     private ?string $dv = null;
 
     #[ORM\Column(nullable: true)]
@@ -63,7 +63,7 @@ class Customer
 
     public function getName(): ?string
     {
-        return $this->name;
+        return ($this->getDeletedAt() === null ? $this->name : "CLIENTE ELIMINADO");
     }
 
     public function setName(string $name): static

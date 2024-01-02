@@ -5,7 +5,7 @@
                 <div class="card-body">
                     <div class="card-title">
                         <h6 class="mr-2">
-                            <span>Pautas</span>
+                            <span>Clientes</span>
                         </h6>
                     </div>
                     <div class="e-table">
@@ -14,16 +14,17 @@
                                 <thead>
                                     <tr>
                                         <th class="sortable">ID</th>
-                                        <th class="max-width">Nombre de locutor</th>
-                                        <th class="max-width">Apellido de locutor</th>
+                                        <th class="max-width">RUT de cliente</th>
+                                        <th class="max-width">Nombre de cliente</th>
                                         <th class="max-width">Correo</th>
                                         <th class="max-width">Telefono</th>
                                         <th class="max-width">Pautas que ejerce</th>
+                                        <th class="max-width">Pagos efectuados</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="output_table">
-                                    {% include 'broadcaster/all_broadcaster.html.twig' %}
+                                    {% include 'customer/all_customer.html.twig' %}
                                 </tbody>
                             </table>
                         </div>
@@ -33,9 +34,9 @@
         </div>
         
         {% include 'search.html.twig' with {
-            "newElement": "Nuevo locutor",
-            'elementCount': broadcasters|length,
-            "searchText": "Buscar pauta por nombre",
+            "newElement": "Nuevo cliente",
+            'elementCount': customers|length,
+            "searchText": "Buscar cliente por RUT",
             "searchId": "busca_pautas",
             "searchPath": path('app_search_guideline'),
         } %}

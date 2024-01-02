@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BroadcasterController extends AbstractController
 {
     protected const POST_METHOD = "POST";
-    protected const NEW_ELEMENT = "new_guideline";
+    protected const NEW_ELEMENT = "new_broadcaster";
     protected const MAIN_PAGE = 'app_broadcaster_index';
 
     #[Route('/', name: 'app_broadcaster_index', methods: ['GET', 'POST'])]
