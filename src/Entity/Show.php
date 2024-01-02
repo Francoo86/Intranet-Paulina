@@ -88,6 +88,19 @@ class Show
         return $this->publicities;
     }
 
+    //Same method for this one as we have no time.
+    public function getNonDeletedPublicities() : Collection {
+        $nonDeleted = new ArrayCollection();
+        
+        foreach($this->publicities as $pub){
+            if($pub->getDeletedAt() === null){
+                $nonDeleted->add($pub);
+            }
+        }
+
+        return $nonDeleted;
+    }
+
     public function addPublicity(Publicity $publicity): static
     {
         if (!$this->publicities->contains($publicity)) {

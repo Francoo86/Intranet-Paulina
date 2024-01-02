@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Guideline;
 use App\Entity\Show;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -46,7 +48,11 @@ class ShowType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Pauta asociada al programa'
+                'label' => 'Pauta asociada al programa',
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('g')
+                        ->where('g.DeletedAt is NULL');
+                },
             ])
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",
