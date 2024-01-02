@@ -1,0 +1,29 @@
+<style>
+.custom-button {
+  background-color: #007bff; /* Button color */
+  color: white; /* Text color */
+  text-align: center; /* Center the text */
+  border: none; /* Remove border */
+  text-decoration: none; /* Remove underline */
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer; /* Change mouse cursor on hover */
+  width: 210px; /* Same width for all buttons */
+  height: 30px; /* Less height */
+}
+</style>
+
+<div>
+  <button type="button" class="custom-button" id="alertButton" onclick="window.location.href='{{ path('app_audience_stats') }}'">
+    Publicidad
+  </button>
+</div>
+
+<div>
+  <button type="button" class="custom-button" id="alertButton" onclick="window.location.href='{{ path('app_publicity_stats') }}'">
+    Audiencia
+  </button>
+</div>
+
+

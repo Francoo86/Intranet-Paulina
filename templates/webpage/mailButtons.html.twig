@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<style>
+  .custom-button {
+    border: none;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+  }
+  .custom-button:hover {
+    background-color: #ffffff;
+  }
+  .custom-button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+  }
+
+  #alertButton {
+    background-color: #e51414;
+    color: #ffffff;
+  }
+
+  #infoButton {
+    background-color: #508bc4;
+    color: #ffffff;
+  }
+</style>
+
+<div class="button-container">
+  <div>
+    <button type="button" class="custom-button" id="alertButton">
+      Alertar Saldo Bajo
+    </button>
+  </div>
+  <div>
+    <button type="button" class="custom-button" id="infoButton">
+      Informar clientes
+    </button>
+  </div>
+</div>
+  <script>
+    $(document).ready(function () {
+      // Función común para ambos botones
+      function handleButtonClick(buttonId, url) {
+        $(buttonId).prop("disabled", true);
+        var count = 0;
+        $.ajax({
+          type: "POST",
+          url: url,
+          success: function (response) {
+            count++;
+            alert(response);
+          },
+          error: function (error) {
+            alert("Error: " + error.responseText);
+          },
+          complete: function () {
+            alert("Number of emails sent: " + count);
+            $(buttonId).prop("disabled", false);
+          },
+        });
+      }
+
+      // Configuración de los clics para ambos botones
+      $("#alertButton").click(function () {
+        handleButtonClick("#alertButton", "/send/AlertEmail/Data");
+      });
+
+      $("#infoButton").click(function () {
+        handleButtonClick("#infoButton", "/send/AllEmail/Data");
+      });
+    });
+  </script>
