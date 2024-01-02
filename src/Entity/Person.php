@@ -24,6 +24,9 @@ class Person
     #[ORM\Column]
     private ?int $phone = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,6 +76,18 @@ class Person
     public function setPhone(int $phone): static
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
 
         return $this;
     }
