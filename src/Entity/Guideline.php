@@ -155,6 +155,20 @@ class Guideline
         return $this->shows;
     }
 
+    public function getNonDeletedShows(): Collection
+    {
+        $nonDeleted = new ArrayCollection();
+
+        foreach ($this->shows as $show) {
+            if ($show->getDeletedAt() === null) {
+                $nonDeleted->add($show);
+            }
+        }
+    
+        return $nonDeleted;
+        //return $this->shows;
+    }
+
     public function addShow(Show $show): static
     {
         if (!$this->shows->contains($show)) {

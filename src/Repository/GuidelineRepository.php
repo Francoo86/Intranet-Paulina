@@ -41,6 +41,7 @@ class GuidelineRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('e')
         ->andWhere('e.DeletedAt IS NULL')
         ->orderBy('e.id', 'ASC')
+        ->join('e.show_name', 's')
         ->getQuery()
         ->getResult();
     }

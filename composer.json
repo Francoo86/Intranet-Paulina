@@ -13,6 +13,7 @@
     "doctrine/orm": "^2.16",
     "knplabs/knp-paginator-bundle": "^6.3",
     "sasco/libredte": "^21.10",
+    "stof/doctrine-extensions-bundle": "*",
     "symfony/asset": "6.3.*",
     "symfony/console": "6.3.*",
     "symfony/dotenv": "6.3.*",

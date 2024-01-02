@@ -20,11 +20,11 @@
                 <span>{{ guideline.manager ? guideline.manager : 'Ninguno' }}</span>
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary {{guideline.shows|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
+                <button type="button" class="btn btn-primary {{guideline.nonDeletedShows|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{guideline.id}}">
                     Ver
                 </button>
                 <!-- Modal -->
-                {% if guideline.shows|length > 0 %}
+                {% if guideline.nonDeletedShows|length > 0 %}
                     <div class="modal fade" id="showsAsociados-{{guideline.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{guideline.id}}" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -48,7 +48,7 @@
                                         </thead>
                                         <!-- copypasting the font-weight-normal shit-->
                                         <tbody>
-                                            {% for show in guideline.shows %}
+                                            {% for show in guideline.nonDeletedShows %}
                                                 <tr>
                                                     <th class="font-weight-normal" scope="row">{{show.id}}</th>
                                                     <th class="font-weight-normal">{{show.name}}</th>
