@@ -48,7 +48,6 @@
                                             <!--<th scope="col">Editar</th>-->
                                         </tr>
                                         </thead>
-                                        <!-- copypasting the font-weight-normal shit-->
                                         <tbody>
                                             {% for publicity in publicities %}
                                                 <tr>
@@ -60,13 +59,6 @@
                                                     <th class="font-weight-normal" style="white-space: normal">{{publicity.customer ? publicity.customer : "SIN CLIENTE"}}
                                                     <td class="font-weight-normal">{{publicity.audience}}</td>
                                                 </tr>
-                                                <!--
-                                                <tr>
-                                                    <th class="font-weight-normal" scope="row">{{show.id}}</th>
-                                                    <th class="font-weight-normal">{{show.name}}</th>
-                                                    <th class="font-weight-normal">{{show.start|date('H:i:s')}}</th>
-                                                    <th class="font-weight-normal">{{show.finish|date('H:i:s')}}</th>
-                                                </tr>-->
                                             {% endfor %}
                                         </tbody>
                                     </table>
