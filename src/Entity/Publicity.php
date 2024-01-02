@@ -41,9 +41,6 @@ class Publicity
     #[ORM\ManyToOne(inversedBy: 'Publicity')]
     private ?Customer $customer = null;
 
-    #[ORM\OneToOne(mappedBy: 'Publicity', cascade: ['persist', 'remove'])]
-    private ?Stock $stock = null;
-
     #[ORM\ManyToOne(inversedBy: 'publicities')]
     private ?Guideline $Guideline = null;
 

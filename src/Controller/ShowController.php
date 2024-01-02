@@ -67,6 +67,7 @@ class ShowController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/new', name: 'app_show_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -85,7 +86,7 @@ class ShowController extends AbstractController
             'show' => $show,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}', name: 'app_show_show', methods: ['GET'])]
     public function show(Show $show): Response
@@ -95,6 +96,7 @@ class ShowController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/{id}/edit', name: 'app_show_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Show $show, EntityManagerInterface $entityManager): Response
     {
@@ -111,7 +113,7 @@ class ShowController extends AbstractController
             'show' => $show,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}', name: 'app_show_delete', methods: ['POST'])]
     public function delete(Request $request, Show $show, EntityManagerInterface $entityManager): Response
