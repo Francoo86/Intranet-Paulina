@@ -142,10 +142,6 @@ class SearchGuidelineController extends AbstractController
     #[Route('/customer', name: 'app_search_customer', methods: ['GET'])]
     public function searchCustomer(CustomerRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
-        dd($repo->findByCustomerRut("3"));
-        if (!$req->isXmlHttpRequest()) {
-            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /customer/."]);
-        }
         // AJAX moment.
         $target = $req->get('target');
         $currentCustomers = $repo->findByCustomerRut($target); // Assuming you have a method like findByCustomerName in your repository
@@ -172,7 +168,7 @@ class SearchGuidelineController extends AbstractController
             ];
         }
 
-        return new JsonResponse($this->renderView("customer/all_customers.html.twig", [
+        return new JsonResponse($this->renderView("customer/all_customer.html.twig", [
             'customers' => $currentCustomers,
             'allForms' => $allForms,
         ]));
