@@ -16,13 +16,13 @@ class Balance
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'boolean')]
     private ?bool $active = null;
 
     #[ORM\OneToOne(inversedBy: 'balance', cascade: ['persist', 'remove'])]
-    private ?Stock $Stock = null;
+    private ?Stock $Stock = null; 
 
-    #[ORM\OneToOne(mappedBy: 'Balance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'balance', cascade: ['persist', 'remove'])]
     private ?Notification $notification = null;
 
     public function getId(): ?int
@@ -59,9 +59,9 @@ class Balance
         return $this->Stock;
     }
 
-    public function setStock(?Stock $Stock): static
+    public function setStock(?Stock $stock): static
     {
-        $this->Stock = $Stock;
+        $this->Stock = $stock;
 
         return $this;
     }

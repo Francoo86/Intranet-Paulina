@@ -79,7 +79,7 @@ class AudienceController extends AbstractController
         return $this->redirectToRoute('app_audience_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/stats', name: 'app_audience_stats', methods: ['GET'])]
+    #[Route('/stats', name: 'app_audstats', methods: ['GET'])]
     public function Stats(AudienceRepository $audienceRepository): Response
     {
         $demographicsCount = $audienceRepository->getDemographicsCount();

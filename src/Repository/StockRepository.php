@@ -45,4 +45,24 @@ class StockRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getTotalAmount()
+    {
+        $qb = $this->createQueryBuilder('s');
+        $qb->select('SUM(s.amount) as total_amount');
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findTotalActiveStockAmount(): int
+    {
+        $qb = $this->createQueryBuilder('s');
+    
+        return $qb->select('SUM(s.amount)')
+            ->innerJoin('s.balance', 'b')
+            ->where('b.active = :active')
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
 }

@@ -13,19 +13,11 @@
         </div>
     </div>
         <div class="dropdown">
-        <a href="{{ path('app_audience_index') }}">Audiencia</a>
+        <a href="{{ path('app_audience_index') }}">Estadistica</a>
         <div class="dropdown-content">
-            <a href="{{ path('app_audience_stats') }}">Estadistica</a>
+            <a href="{{ path('app_publicity_stats') }}">Publicidad</a>
+            <a href="{{ path('app_audience_stats') }}">Audiencia</a>
         </div>
-
-    </div>
-        <div class="dropdown">
-        <a href="#">Notificar</a>
-        <div class="dropdown-content">
-            <a href="{{ path('app_send_all_email_data') }}">Informaciones</a>
-            <a href="{{ path('app_send_email_exito') }}">Saldo bajo</a>
-        </div>
-    </div>
     
     <div class="logout">
         <a href="{{ path('app_logout') }}">

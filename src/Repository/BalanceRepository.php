@@ -45,4 +45,47 @@ class BalanceRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function getTotalAmount()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->select('SUM(b.amount) as total_amount');
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getActiveCount()
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->select('COUNT(b.id) as active_count')
+           ->where('b.active = :active')
+           ->setParameter('active', true);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getActiveCountLessThan(int $alertAmount)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->select('COUNT(b.id) as active_count')
+           ->where('b.active = :active')
+           ->andWhere('b.amount < :alertAmount')
+           ->setParameters([
+               'active' => true,
+               'alertAmount' => $alertAmount
+           ]);
+
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findTotalActiveBalanceAmount(): int
+    {
+        $qb = $this->createQueryBuilder('b');
+    
+        return $qb->select('SUM(b.amount)')
+            ->where('b.active = :activeValue')
+            ->setParameter('activeValue', true)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
 }

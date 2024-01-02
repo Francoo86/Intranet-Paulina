@@ -1,0 +1,50 @@
+{% extends 'base_charts.html.twig' %}
+{% block body %}
+
+<body>
+    <h1>Demográficas y de Ubicación</h1>
+
+    <div class="chart-container">
+        <div class="chart" id="piechart"></div>
+        <div class="chart" id="locationchart"></div>
+    </div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Demografía', 'Count'],
+                {% for item in demographicsCount %}
+                    ['{{ item.demography }}', {{ item.count }}],
+                {% endfor %}
+            ]);
+
+            var options = {'title':'Distribución de Audiencia por Demografía'};
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options);
+        }
+
+        google.charts.setOnLoadCallback(drawLocationChart);
+
+        function drawLocationChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Localidad', 'Count'],
+                {% for item in locationCount %}
+                    ['{{ item.locality }}', {{ item.count }}],
+                {% endfor %}
+            ]);
+
+            var options = {'title':'Distribución de Audiencia por Localidad'};
+            var chart = new google.visualization.PieChart(document.getElementById('locationchart'));
+            chart.draw(data, options);
+        }
+    </script>
+</body>
+
+{% endblock %}
+
+
