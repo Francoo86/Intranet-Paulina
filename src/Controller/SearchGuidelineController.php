@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\CustomerType;
 use App\Form\GuidelineType;
 use App\Form\PublicityType;
 use App\Form\ShowType;
+use App\Repository\CustomerRepository;
 use App\Repository\GuidelineRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\ShowRepository;
@@ -136,4 +138,43 @@ class SearchGuidelineController extends AbstractController
             'allForms' => $allForms,
         ]));
     }
+
+    #[Route('/customer', name: 'app_search_customer', methods: ['GET'])]
+    public function searchCustomer(CustomerRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        dd($repo->findByCustomerRut("3"));
+        if (!$req->isXmlHttpRequest()) {
+            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /customer/."]);
+        }
+        // AJAX moment.
+        $target = $req->get('target');
+        $currentCustomers = $repo->findByCustomerRut($target); // Assuming you have a method like findByCustomerName in your repository
+
+        $allForms = [];
+
+        foreach ($currentCustomers as $customer) {
+            $formName = sprintf("customers_%s", $customer->getId());
+            $form = $factory->createNamed($formName, CustomerType::class, $customer);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($customer);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('app_customer_index'); // Assuming you have a route named 'app_customer_index'
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        return new JsonResponse($this->renderView("customer/all_customers.html.twig", [
+            'customers' => $currentCustomers,
+            'allForms' => $allForms,
+        ]));
+}
 }

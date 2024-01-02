@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
+use App\Query\Cast;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,21 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
+    public function findByCustomerRut($value): array
+    {
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', Cast::class);
+    
+        return $this->createQueryBuilder('s')
+            ->where('CAST(s.rut as TEXT) LIKE :val')
+            //->setParameter('val', $value)
+            ->andWhere("s.DeletedAt IS NULL")
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Customer[] Returns an array of Customer objects
 //     */
