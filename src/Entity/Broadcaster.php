@@ -26,6 +26,18 @@ class Broadcaster extends Person
         return $this->Guideline;
     }
 
+    public function getNonDeletedGuidelines() : Collection {
+        $nonDeleted = new ArrayCollection();
+
+        foreach($this->getGuideline() as $guideline){
+            if($guideline->getDeletedAt() === null){
+                $nonDeleted->add($guideline);
+            }
+        }
+
+        return $nonDeleted;
+    }
+
     public function addGuideline(Guideline $guideline): static
     {
         if (!$this->Guideline->contains($guideline)) {

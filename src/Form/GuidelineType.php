@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Broadcaster;
 use App\Entity\Guideline;
 use App\Entity\Manager;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\AbstractType;
@@ -41,6 +43,10 @@ class GuidelineType extends AbstractType
                 'empty_data' => null,
                 'required' => false,
                 'placeholder' => 'Seleccionar locutor',
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('g')
+                        ->where('g.DeletedAt is NULL');
+                },
                 ])
             ->add('manager', EntityType::class, [
                 'class' => Manager::class,
