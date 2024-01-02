@@ -53,6 +53,10 @@ class Guideline
 
     public function getShowName(): ?string
     {
+        if($this->getDeletedAt() !== null){
+            return "PAUTA ELIMINADA";
+        }
+
         return $this->show_name;
     }
 
@@ -144,7 +148,7 @@ class Guideline
 
     public function __toString()
     {
-        return $this->show_name;
+        return $this->getShowName();
     }
 
     /**

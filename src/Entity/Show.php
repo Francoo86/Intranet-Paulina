@@ -46,6 +46,9 @@ class Show
 
     public function getName(): ?string
     {
+        if($this->getDeletedAt() !== null){
+            return "PROGRAMA ELIMINADO";
+        }
         return $this->name;
     }
 

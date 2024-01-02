@@ -46,47 +46,21 @@
             </div>
         </div>
         <script defer type="text/javascript">
-            $("#{{customerSearch}}").change(function (e) { 
-                e.preventDefault();
-
-                let customer = $(this).val();
+            function fetchData() {
+                let customer = $("#{{customerSearch}}").val();
                 let guideline = $("#{{guidelineSearch}}").val();
 
+                let customerCheck = $("#only_customers");
                 let guidelineCheck = $("#only_guidelines");
 
-                if((guidelineCheck).is(':checked')){
-                    customer = "";
-                }
-
-                console.log(guideline);
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{searchPath}}",
-                    data: {
-                        'customer': customer,
-                        'guideline': guideline,
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        //console.log(response);
-                        $("#output_table").html(response);
-                    }
-                });
-            });
-
-            $("#{{guidelineSearch}}").change(function (e) { 
-                e.preventDefault();
-
-                let guideline = $(this).val();
-                let customer = $("#{{customerSearch}}").val();
-
-                let customerCheck = $("#only_customers");
-
-                if((customerCheck).is(':checked')){
+                if (customerCheck.is(':checked')) {
                     guideline = "";
                 }
 
+                if (guidelineCheck.is(':checked')) {
+                    customer = "";
+                }
+
                 $.ajax({
                     type: 'GET',
                     url: "{{searchPath}}",
@@ -100,6 +74,16 @@
                         $("#output_table").html(response);
                     }
                 });
+            }
+
+            $("#{{customerSearch}}").change(function (e) {
+                e.preventDefault();
+                fetchData();
+            });
+
+            $("#{{guidelineSearch}}").change(function (e) {
+                e.preventDefault();
+                fetchData();
             });
 
             $('.search-checkbox').on('change', function() {
