@@ -65,59 +65,7 @@ class PublicityController extends AbstractController
             'allForms' => $allForms,
             'creationForm' => $creationForm
         ]);
-        /*
-        return $this->render('publicity/index.html.twig', [
-            'publicities' => $publicityRepository->findAll(),
-        ]);*/
     }
-
-    /*
-    #[Route('/new', name: 'app_publicity_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $publicity = new Publicity();
-        $form = $this->createForm(PublicityType::class, $publicity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($publicity);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_publicity_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('publicity/new.html.twig', [
-            'publicity' => $publicity,
-            'form' => $form,
-        ]);
-    }*/
-
-    /*
-    #[Route('/{id}', name: 'app_publicity_show', methods: ['GET'])]
-    public function show(Publicity $publicity): Response
-    {
-        return $this->render('publicity/show.html.twig', [
-            'publicity' => $publicity,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_publicity_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Publicity $publicity, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(PublicityType::class, $publicity);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_publicity_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('publicity/edit.html.twig', [
-            'publicity' => $publicity,
-            'form' => $form,
-        ]);
-    }*/
 
     #[Route('/{id}', name: 'app_publicity_delete', methods: ['POST'])]
     public function delete(Request $request, Publicity $publicity, EntityManagerInterface $entityManager): Response
