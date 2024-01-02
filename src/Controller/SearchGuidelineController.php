@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\GuidelineType;
+use App\Form\PublicityType;
 use App\Form\ShowType;
 use App\Repository\GuidelineRepository;
 use App\Repository\PublicityRepository;
@@ -96,33 +97,35 @@ class SearchGuidelineController extends AbstractController
         ]));
     }
 
+    //This function is more different than the above ones because it will search two.
     #[Route('/publicity', name: 'app_search_publicity', methods: ['GET'])]
     public function searchPublicity(PublicityRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
-        dd($repo->findByCustomerAndGuideline('', 'emi'));
         if(!$req->isXmlHttpRequest()){
             return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /publicity/."]);
         }
         //AJAX moment.
         //Use 2 fields this time because yes.
-        $target = $req->get('target');
-        $currentShows = $repo->findByShowName($target);//$repo->findByShowName($target);
+        $customer = $req->get('customer');
+        $guideline = $req->get('guideline');
+
+        $currentPublicities = $repo->findByCustomerAndGuideline($customer, $guideline);
 
         $allForms = [];
 
-        foreach ($currentShows as $show) {
-            $formName = sprintf("shows_%s", $show->getId());
-            $form = $factory->createNamed($formName, ShowType::class, $show);
+        foreach ($currentPublicities as $pub) {
+            $formName = sprintf("publicity_%s", $pub->getId());
+            $form = $factory->createNamed($formName, PublicityType::class, $pub);
             $form->handleRequest($req);
 
             if ($req->getMethod() === "POST" && $req->request->has($formName)) {
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($show);
+                    $entityManager->persist($pub);
                     $entityManager->flush();
                 }
 
-                return $this->redirectToRoute('app_show_index');
+                return $this->redirectToRoute('app_publicity_index');
             }
 
             $allForms[] = [
@@ -130,8 +133,8 @@ class SearchGuidelineController extends AbstractController
             ];
         }
 
-        return new JsonResponse($this->renderView("show/all_shows.html.twig", [
-            'shows' => $currentShows,
+        return new JsonResponse($this->renderView("publicity/all_publicities.html.twig", [
+            'publicities' => $currentPublicities,
             'allForms' => $allForms,
         ]));
     }

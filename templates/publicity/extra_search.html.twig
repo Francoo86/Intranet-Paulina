@@ -1,0 +1,110 @@
+{% block body %}
+    {% set customerSearch = 'customer_search' %}
+    {% set guidelineSearch = 'guideline_search'%}
+    <div class="col-12 col-lg-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center px-xl-3">
+                    <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal_new">
+                        {{newElement|default('New element')}}
+                    </button>
+                </div>
+                <hr class="my-3" />
+                <div class="e-navlist e-navlist--active-bold">
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a href class="nav-link">
+                                <span>Todos</span>&nbsp;
+                                <small>/&nbsp;{{elementCount}}</small>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <hr class="my-3" />
+                <div>
+                    <div class="form-group">
+                        <label>Buscar por pauta</label>
+                        <input id="{{guidelineSearch}}" class="form-control w-100" type="text" placeholder="Name" value />
+                    </div>
+                    <div class="form-group">
+                        <label>Buscar por cliente</label>
+                        <input id="{{customerSearch}}" class="form-control w-100" type="text" placeholder="Name" value />
+                    </div>
+                    <div class="form-group">
+                        <p>Recuerde que puede buscar una publicidad que pueda tener los dos al mismo tiempo.</p>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input search-checkbox" type="checkbox" id="inlineCheckbox1" value="option1" id="only_guidelines">
+                        <label class="form-check-label" for="inlineCheckbox1">Solo pautas</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input search-checkbox" type="checkbox" id="inlineCheckbox2" value="option2" id="only_customers">
+                        <label class="form-check-label" for="inlineCheckbox2">Solo clientes</label>
+                    </div>
+                </div>
+                <hr class="my-3" />
+            </div>
+        </div>
+        <script defer type="text/javascript">
+            $("#{{customerSearch}}").change(function (e) { 
+                e.preventDefault();
+
+                let customer = $(this).val();
+                let guideline = $("#{{guidelineSearch}}").val();
+
+                let guidelineCheck = $("#only_guidelines");
+
+                if((guidelineCheck).is(':checked')){
+                    customer = "";
+                }
+
+                console.log(guideline);
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{searchPath}}",
+                    data: {
+                        'customer': customer,
+                        'guideline': guideline,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log(response);
+                        $("#output_table").html(response);
+                    }
+                });
+            });
+
+            $("#{{guidelineSearch}}").change(function (e) { 
+                e.preventDefault();
+
+                let guideline = $(this).val();
+                let customer = $("#{{customerSearch}}").val();
+
+                let customerCheck = $("#only_customers");
+
+                if((customerCheck).is(':checked')){
+                    guideline = "";
+                }
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{searchPath}}",
+                    data: {
+                        'customer': customer,
+                        'guideline': guideline,
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log(response);
+                        $("#output_table").html(response);
+                    }
+                });
+            });
+
+            $('.search-checkbox').on('change', function() {
+                $('.search-checkbox').not(this).prop('checked', false);  
+            });
+        </script>
+    </div>
+{% endblock %}

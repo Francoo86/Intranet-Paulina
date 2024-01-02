@@ -35,12 +35,12 @@
                 </div>
             </div>
         </div>
-        {% include 'search.html.twig' with {
+        {% include 'publicity/extra_search.html.twig' with {
             "newElement": "Nueva publicidad",
             'elementCount': publicities|length,
             "searchText": "Buscar publicidad por pauta",
             "searchId": "busca_publicidad",
-            "searchPath": path('app_search_show'),
+            "searchPath": path('app_search_publicity'),
         } %}
 
         {% include 'modal_base_form.html.twig' with {

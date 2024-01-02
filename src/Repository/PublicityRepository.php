@@ -25,7 +25,6 @@ class PublicityRepository extends ServiceEntityRepository
     public function findByCustomerAndGuideline(string $clientName, string $guideline): array
     {
         return $this->createQueryBuilder('s')
-            ->andWhere("s.DeletedAt IS NULL")
             ->join('s.customer', 'c')
             ->where('LOWER(c.name) LIKE :customer')
             //->setParameter('val', $value)
@@ -33,6 +32,7 @@ class PublicityRepository extends ServiceEntityRepository
             ->join('s.Guideline', 'g')
             ->andWhere('LOWER(g.show_name) LIKE :guideline')
             ->setParameter('guideline', '%'.strtolower($guideline).'%')
+            ->andWhere("s.DeletedAt IS NULL")
             ->orderBy('s.id', 'ASC')
             ->setMaxResults(30)
             ->getQuery()
