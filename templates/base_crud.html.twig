@@ -19,8 +19,9 @@
             </style>
         </head>
 
+        {% set active = app.request.attributes.get('_route') %}
         <body>
-            <div class="container">
+            <div class="container {{active == 'app_publicity_index' ? 'ml-5'}}">
                 <div class="row flex-lg-nowrap">
                     <!--
                     <div class="col-12 col-lg-auto mb-3" style="width: 150px">
@@ -52,7 +53,7 @@
                     <div class="col">
                         <div class="e-tabs mb-3 px-3">
                             <ul class="nav nav-tabs">
-                                {% set active = app.request.attributes.get('_route') %}
+
                                 <li class="nav-item">
                                     <a class="nav-link {{active == 'app_guideline_index' ? 'active'}}" href="{{path('app_guideline_index')}}">Pautas</a>
                                 </li>
