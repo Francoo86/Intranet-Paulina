@@ -2,9 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Audience;
+use App\Entity\Customer;
 use App\Entity\Publicity;
+use App\Entity\Show;
+use App\Entity\Stock;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,16 +21,60 @@ class PublicityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('sentence')
-            ->add('background')
-            ->add('duration')
-            ->add('description')
+            ->add('sentence', TextareaType::class, [
+                'label' => 'Frase de la publicidad/propaganda',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('background', TextType::class, [
+                'label' => 'Fondo músical',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('duration', NumberType::class, [
+                'label' => 'Duración de la publicidad (en segundos).',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Descripción de la publicidad',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
             //->add('Stock')
-            ->add('customer')
-            ->add('stock')
+            ->add('customer', EntityType::class, [
+                'class' => Customer::class,
+                'label' => "Cliente",
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('stock', EntityType::class, [
+                'class' => Stock::class,
+                'label' => "Stock disponible",
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
             //->add('Guideline')
-            ->add('Show')
-            ->add('Audience')
+            ->add('Show', EntityType::class, [
+                'class' => Show::class,
+                'label' => "Programa",
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
+            ->add('Audience', EntityType::class, [
+                'class' => Audience::class,
+                'label' => "Público objetivo",
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+            ])
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",
                 'attr' => [

@@ -35,16 +35,16 @@
             </div>
         </div>
         {% include 'search.html.twig' with {
-            "newElement": "Nuevo programa.",
+            "newElement": "Nueva publicidad",
             'elementCount': publicities|length,
-            "searchText": "Buscar programas por nombre",
-            "searchId": "busca_programas",
+            "searchText": "Buscar publicidad por pauta",
+            "searchId": "busca_publicidad",
             "searchPath": path('app_search_show'),
         } %}
 
         {% include 'modal_base_form.html.twig' with {
             'passedForm' : creationForm,
-            'titleForm': 'Creación de programa',
+            'titleForm': 'Creación de publicidad',
         }%}
     </div>
 {% endblock %}
