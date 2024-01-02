@@ -28,8 +28,9 @@ class Publicity
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    /*
     #[ORM\OneToMany(mappedBy: 'publicity', targetEntity: Report::class)]
-    private Collection $Report;
+    private Collection $Report;*/
 
     /*
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
@@ -55,7 +56,7 @@ class Publicity
 
     public function __construct()
     {
-        $this->Report = new ArrayCollection();
+        //$this->Report = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,13 +112,14 @@ class Publicity
         return $this;
     }
 
-    /**
+    /*
      * @return Collection<int, Report>
      */
+    /*
     public function getReport(): Collection
     {
         return $this->Report;
-    }
+    }*/
 
     /*
     public function addReport(Report $report): static

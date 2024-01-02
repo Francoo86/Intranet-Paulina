@@ -1,41 +1,13 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_crud.html.twig' %}
+    {% block head %}
+        <head>
+            <title>Manejo de programas</title>
+        </head>
+    {% endblock %}
 
-{% block title %}Publicity index{% endblock %}
+    {% block crud %}
 
-{% block body %}
-    <h1>Publicity index</h1>
+        {% include 'publicity/table_render.html.twig' %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Sentence</th>
-                <th>Background</th>
-                <th>Duration</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for publicity in publicities %}
-            <tr>
-                <td>{{ publicity.id }}</td>
-                <td>{{ publicity.sentence }}</td>
-                <td>{{ publicity.background }}</td>
-                <td>{{ publicity.duration }}</td>
-                <td>{{ publicity.description }}</td>
-                <td>
-                    <a href="{{ path('app_publicity_show', {'id': publicity.id}) }}">show</a>
-                    <a href="{{ path('app_publicity_edit', {'id': publicity.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_publicity_new') }}">Create new</a>
-{% endblock %}
+    {% endblock %}
+    

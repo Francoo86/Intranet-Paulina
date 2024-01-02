@@ -22,20 +22,21 @@ class ShowController extends AbstractController
     protected const MAIN_PAGE = 'app_show_index';
 
     #[Route('/', name: 'app_show_index', methods: ['GET', 'POST'])]
-    public function index(ShowRepository $guidelineRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
+    //TODO: HIPER-REFACTOR.
+    public function index(ShowRepository $showRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allGuidelines = Helper::FindAllOrderedById($guidelineRepository);//$guidelineRepository->findAll();
+        $allShows = Helper::FindAllOrderedById($showRepository);//$showRepository->findAll();
         $allForms = [];
 
-        foreach ($allGuidelines as $guideline) {
-            $formName = sprintf("guideline_%s", $guideline->getId());
-            $form = $factory->createNamed($formName, ShowType::class, $guideline);
+        foreach ($allShows as $show) {
+            $formName = sprintf("show_%s", $show->getId());
+            $form = $factory->createNamed($formName, ShowType::class, $show);
             $form->handleRequest($req);
 
             if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($guideline);
+                    $entityManager->persist($show);
                     $entityManager->flush();
                 }
 
@@ -47,13 +48,13 @@ class ShowController extends AbstractController
             ];
         }
 
-        $newGuideline = new Show();
-        $creationForm = $factory->createNamed(self::NEW_ELEMENT, ShowType::class, $newGuideline);
+        $newshow = new Show();
+        $creationForm = $factory->createNamed(self::NEW_ELEMENT, ShowType::class, $newshow);
         $creationForm->handleRequest($req);
 
         if($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)){
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-                $entityManager->persist($newGuideline);
+                $entityManager->persist($newshow);
                 $entityManager->flush();
     
                 return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
@@ -61,7 +62,7 @@ class ShowController extends AbstractController
         }
 
         return $this->render('show/index.html.twig', [
-            'shows' => $allGuidelines,
+            'shows' => $allShows,
             'allForms' => $allForms,
             'creationForm' => $creationForm
         ]);

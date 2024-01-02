@@ -60,6 +60,9 @@ class SearchGuidelineController extends AbstractController
     #[Route('/show', name: 'app_search_show', methods: ['GET'])]
     public function searchShow(ShowRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
+        if(!$req->isXmlHttpRequest()){
+            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /show/."]);
+        }
         //AJAX moment.
         $target = $req->get('target');
         $currentShows = $repo->findByShowName($target);//$repo->findByShowName($target);
@@ -92,29 +95,31 @@ class SearchGuidelineController extends AbstractController
         ]));
     }
 
-    /*
-    #[Route('/guideline/page/{id}', name: 'page_guideline', methods: ['GET'])]
-    public function paginate(GuidelineRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    #[Route('/publicity', name: 'app_search_publicity', methods: ['GET'])]
+    public function searchPublicity(ShowRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
+        if(!$req->isXmlHttpRequest()){
+            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /show/."]);
+        }
         //AJAX moment.
         $target = $req->get('target');
-        $currentGuidelines = $repo->findByShowName($target);
+        $currentShows = $repo->findByShowName($target);//$repo->findByShowName($target);
 
         $allForms = [];
 
-        foreach ($currentGuidelines as $guideline) {
-            $formName = sprintf("guideline_%s", $guideline->getId());
-            $form = $factory->createNamed($formName, GuidelineType::class, $guideline);
+        foreach ($currentShows as $show) {
+            $formName = sprintf("shows_%s", $show->getId());
+            $form = $factory->createNamed($formName, ShowType::class, $show);
             $form->handleRequest($req);
 
             if ($req->getMethod() === "POST" && $req->request->has($formName)) {
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($guideline);
+                    $entityManager->persist($show);
                     $entityManager->flush();
                 }
 
-                return $this->redirectToRoute('app_guideline_index');
+                return $this->redirectToRoute('app_show_index');
             }
 
             $allForms[] = [
@@ -122,9 +127,9 @@ class SearchGuidelineController extends AbstractController
             ];
         }
 
-        return new JsonResponse($this->renderView("guideline/all_guidelines.html.twig", [
-            'guidelines' => $currentGuidelines,
+        return new JsonResponse($this->renderView("show/all_shows.html.twig", [
+            'shows' => $currentShows,
             'allForms' => $allForms,
         ]));
-    }*/
+    }
 }

@@ -1,8 +1,12 @@
 {% extends 'base_crud.html.twig' %}
-    {% block crud %}
+    {% block head %}
         <head>
             <title>Manejo de programas</title>
         </head>
+    {% endblock %}
+
+    {% block crud %}
+
         {% include 'show/table_render.html.twig' %}
 
     {% endblock %}
