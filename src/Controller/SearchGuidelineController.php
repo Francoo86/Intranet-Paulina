@@ -101,9 +101,6 @@ class SearchGuidelineController extends AbstractController
     #[Route('/publicity', name: 'app_search_publicity', methods: ['GET'])]
     public function searchPublicity(PublicityRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
-        if(!$req->isXmlHttpRequest()){
-            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /publicity/."]);
-        }
         //AJAX moment.
         //Use 2 fields this time because yes.
         $customer = $req->get('customer');
@@ -114,6 +111,7 @@ class SearchGuidelineController extends AbstractController
         $allForms = [];
 
         foreach ($currentPublicities as $pub) {
+            //dd($pub);
             $formName = sprintf("publicity_%s", $pub->getId());
             $form = $factory->createNamed($formName, PublicityType::class, $pub);
             $form->handleRequest($req);

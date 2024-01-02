@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Broadcaster;
 use App\Form\BroadcasterType;
+use App\Helper;
 use App\Repository\BroadcasterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,9 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/broadcaster')]
 class BroadcasterController extends AbstractController
 {
-    #[Route('/', name: 'app_broadcaster_index', methods: ['GET'])]
+    #[Route('/', name: 'app_broadcaster_index', methods: ['GET', 'POST'])]
     public function index(BroadcasterRepository $broadcasterRepository): Response
     {
+        $allBroacasters = Helper::FindAllOrderedById($broadcasterRepository);
+    
         return $this->render('broadcaster/index.html.twig', [
             'broadcasters' => $broadcasterRepository->findAll(),
         ]);

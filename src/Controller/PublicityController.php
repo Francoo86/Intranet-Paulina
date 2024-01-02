@@ -7,10 +7,8 @@ use App\Form\PublicityType;
 use App\Helper;
 use App\Repository\PublicityRepository;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,6 +71,7 @@ class PublicityController extends AbstractController
         ]);*/
     }
 
+    /*
     #[Route('/new', name: 'app_publicity_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -91,8 +90,9 @@ class PublicityController extends AbstractController
             'publicity' => $publicity,
             'form' => $form,
         ]);
-    }
+    }*/
 
+    /*
     #[Route('/{id}', name: 'app_publicity_show', methods: ['GET'])]
     public function show(Publicity $publicity): Response
     {
@@ -117,7 +117,7 @@ class PublicityController extends AbstractController
             'publicity' => $publicity,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}', name: 'app_publicity_delete', methods: ['POST'])]
     public function delete(Request $request, Publicity $publicity, EntityManagerInterface $entityManager): Response
