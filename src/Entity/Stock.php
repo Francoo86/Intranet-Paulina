@@ -19,7 +19,7 @@ class Stock
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\OneToOne(inversedBy: 'stock', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'Stock', cascade: ['persist', 'remove'])]
     private ?Publicity $Publicity = null;
 
     #[ORM\OneToOne(mappedBy: 'Stock', cascade: ['persist', 'remove'])]

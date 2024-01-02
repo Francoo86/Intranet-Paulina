@@ -19,10 +19,10 @@ class Balance
     #[ORM\Column(type: 'boolean')]
     private ?bool $active = null;
 
-    #[ORM\OneToOne(inversedBy: 'balance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'Balance', cascade: ['persist', 'remove'])]
     private ?Stock $Stock = null; 
 
-    #[ORM\OneToOne(mappedBy: 'balance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'Balance', cascade: ['persist', 'remove'])]
     private ?Notification $notification = null;
 
     public function getId(): ?int
