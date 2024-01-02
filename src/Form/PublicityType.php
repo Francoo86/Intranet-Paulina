@@ -4,9 +4,12 @@ namespace App\Form;
 
 use App\Entity\Audience;
 use App\Entity\Customer;
+use App\Entity\Guideline;
 use App\Entity\Publicity;
 use App\Entity\Show;
 use App\Entity\Stock;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -74,6 +77,18 @@ class PublicityType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
+            ])
+            ->add('Guideline', EntityType::class, [
+                'class' => Guideline::class,
+                'label' => "Pauta",
+                'placeholder' => 'Seleccione pauta',
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('g')
+                        ->where('g.DeletedAt is NULL');
+                },
             ])
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",

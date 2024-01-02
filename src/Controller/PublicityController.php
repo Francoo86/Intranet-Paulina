@@ -22,7 +22,7 @@ class PublicityController extends AbstractController
     protected const NEW_ELEMENT = "new_show";
     protected const MAIN_PAGE = 'app_publicity_index';
 
-    #[Route('/', name: 'app_publicity_index', methods: ['GET'])]
+    #[Route('/', name: 'app_publicity_index', methods: ['GET', 'POST'])]
     public function index(PublicityRepository $publicityRepository, FormFactoryInterface $factory, Request $req, EntityManagerInterface $entityManager): Response
     {
         $allPublicities = Helper::FindAllOrderedById($publicityRepository);//$publicityRepository->findAllOrderedById();

@@ -10,7 +10,7 @@
             <td class="text-nowrap align-middle">
                 <span>{{publicity.background ? publicity.background : "SIN FONDO"}}</span>
             </td>
-            <td class="text-justify align-middle">
+            <td class="text-nowrap align-middle">
                 {% if publicity.description |length > 50 %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicidadesAsociados-Desc{{publicity.id}}">
                         Ver
@@ -40,7 +40,7 @@
 
             </td>
             <td class="text-nowrap align-middle">
-                <span>{{publicity.Stock}}</span>
+                <span>{{publicity.Stock ? publicity.Stock : 'Sin stock.'}}</span>
             </td>
             <td class="text-nowrap align-middle">
                 <span>{{publicity.customer}}</span>
