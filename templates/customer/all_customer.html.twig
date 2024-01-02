@@ -1,0 +1,100 @@
+{% block body %}
+    {% for broadcaster in broadcasters %}
+        {% set guidelines = broadcaster.nonDeletedGuidelines %}
+        <tr>
+            <td class="text-nowrap align-middle">
+                <span>{{ broadcaster.id }}</span>
+            </td>
+            <td class="text-justify align-middle">
+                <span>{{ broadcaster.firstName }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <span>{{ broadcaster.lastName }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <span>{{broadcaster.email}}</span>
+            </td>
+            <td class="text-justify align-middle">
+                <span>{{ broadcaster.phone }}</span>
+            </td>
+            <td class="text-nowrap align-middle">
+                <button type="button" class="btn btn-primary {{guidelines|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{broadcaster.id}}">
+                    Ver
+                </button>
+                <!-- Modal -->
+                {% if guidelines|length > 0 %}
+                    <div class="modal fade" id="showsAsociados-{{broadcaster.id}}" tabindex="-1" role="dialog" aria-labelledby="showsAsociadosLabel{{broadcaster.id}}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="showsAsociadosLabel{{broadcaster.id}}">Programas asociados a la pauta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Nombre de pauta</th>
+                                            <th scope="col">Numero de emisión</th>
+                                            <th scope="col">Fecha de creación</th>
+                                            <th scope="col">Manager de la pauta</th>
+                                            <!-- DEBERIA MANDAR A OTRA PAGINA-->
+                                            <!--<th scope="col">Editar</th>-->
+                                        </tr>
+                                        </thead>
+                                        <!-- copypasting the font-weight-normal shit-->
+                                        <tbody>
+                                            {% for guideline in guidelines %}
+                                                <tr>
+                                                    <th class="font-weight-normal" scope="row">{{guideline.id}}</th>
+                                                    <th class="font-weight-normal">{{guideline.showName}}</th>
+                                                    <th class="font-weight-normal">{{guideline.emissionNumber}}</th>
+                                                    <th class="font-weight-normal">{{ guideline.creationDate ? guideline.creationDate|date('d-m-Y') : '' }}</th>
+                                                    <th class="font-weight-normal">{{ guideline.manager ? guideline.manager : 'Ninguno' }}</th>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </td>
+            <td class="text-center align-middle">
+                <div class="btn-group align-top">
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
+                        data-target="#user-form-modal_{{ broadcaster.id }}">
+                        Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{broadcaster.id}} data-target="#deleteConfirmationModal_{{broadcaster.id}}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+        
+        {% include 'delete_form.html.twig' with {
+            'removeId': broadcaster.id,
+            'deleteTitle': 'Eliminación de locutor',
+            'confirmMessage': '¿Está seguro de eliminar el locutor: %s?'|format(broadcaster),
+            'deletePath': 'app_broadcaster_delete'
+        }%}
+    {% endfor %}
+
+    <!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->
+    {% for edit_form in allForms %}
+        {% set id = edit_form.form.vars.value.id %}
+        {% include 'modal_base_form.html.twig' with {
+            'passedForm' : edit_form.form,
+            'titleForm': 'Edición de pauta',
+            'actualId': id,
+        }%}
+    {% endfor %}
+{% endblock %}

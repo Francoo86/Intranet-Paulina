@@ -45,6 +45,9 @@ class Customer
     #[ORM\Column(nullable: true, length: 1)]
     private ?string $dv = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function __construct()
     {
         $this->Publicity = new ArrayCollection();
@@ -251,6 +254,18 @@ class Customer
     public function setDv(string $dv): static
     {
         $this->dv = $dv;
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
 
         return $this;
     }

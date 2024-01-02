@@ -24,7 +24,7 @@ class BroadcasterController extends AbstractController
     #[Route('/', name: 'app_broadcaster_index', methods: ['GET', 'POST'])]
     public function index(BroadcasterRepository $broadcasterRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allBroadcasters = Helper::FindAllOrderedById($broadcasterRepository);//$broadcasterRepository->findAllOrderedById();
+        $allBroadcasters = Helper::FindAllOrderedById($broadcasterRepository);
         $allForms = [];
 
         foreach ($allBroadcasters as $broadcaster) {
