@@ -1,11 +1,4 @@
 {% block body %}
-    <style>
-        table td {
-            width: 200px;
-            border: 1px dotted silver;
-            word-break: break-all;  
-        }
-    </style>
     {% for show in shows %}
         {% set publicities = show.nonDeletedPublicities %}
         <tr>

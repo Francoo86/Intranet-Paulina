@@ -21,6 +21,18 @@ class ShowRepository extends ServiceEntityRepository
         parent::__construct($registry, Show::class);
     }
 
+    public function findByShowName($value): array
+    {
+        return $this->createQueryBuilder('s')
+            ->where('LOWER(s.name) LIKE :val')
+            //->setParameter('val', $value)
+            ->andWhere("s.DeletedAt IS NULL")
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Show[] Returns an array of Show objects
 //     */

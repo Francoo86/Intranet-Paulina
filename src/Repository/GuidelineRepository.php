@@ -24,7 +24,7 @@ class GuidelineRepository extends ServiceEntityRepository
     /**
      * @return Guideline[] Returns an array of Guideline objects
      */
-    public function findByShowName($value): array
+    public function findByGuidelineName($value): array
     {
         return $this->createQueryBuilder('g')
             ->where('LOWER(g.show_name) LIKE :val')

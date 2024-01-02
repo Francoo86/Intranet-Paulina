@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Form\GuidelineType;
+use App\Form\ShowType;
 use App\Repository\GuidelineRepository;
+use App\Repository\ShowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -25,7 +27,7 @@ class SearchGuidelineController extends AbstractController
         //AJAX moment.
         $target = $req->get('target');
 
-        $currentGuidelines = $repo->findByShowName($target);
+        $currentGuidelines = $repo->findByGuidelineName($target);
 
         $allForms = [];
 
@@ -56,27 +58,27 @@ class SearchGuidelineController extends AbstractController
     }
 
     #[Route('/show', name: 'app_search_show', methods: ['GET'])]
-    public function searchShow(GuidelineRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    public function searchShow(ShowRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
         //AJAX moment.
         $target = $req->get('target');
-        $currentGuidelines = $repo->findByShowName($target);
+        $currentShows = $repo->findByShowName($target);//$repo->findByShowName($target);
 
         $allForms = [];
 
-        foreach ($currentGuidelines as $guideline) {
-            $formName = sprintf("guideline_%s", $guideline->getId());
-            $form = $factory->createNamed($formName, GuidelineType::class, $guideline);
+        foreach ($currentShows as $show) {
+            $formName = sprintf("shows_%s", $show->getId());
+            $form = $factory->createNamed($formName, ShowType::class, $show);
             $form->handleRequest($req);
 
             if ($req->getMethod() === "POST" && $req->request->has($formName)) {
 
                 if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($guideline);
+                    $entityManager->persist($show);
                     $entityManager->flush();
                 }
 
-                return $this->redirectToRoute('app_guideline_index');
+                return $this->redirectToRoute('app_show_index');
             }
 
             $allForms[] = [
@@ -84,8 +86,8 @@ class SearchGuidelineController extends AbstractController
             ];
         }
 
-        return new JsonResponse($this->renderView("guideline/all_guidelines.html.twig", [
-            'guidelines' => $currentGuidelines,
+        return new JsonResponse($this->renderView("show/all_shows.html.twig", [
+            'shows' => $currentShows,
             'allForms' => $allForms,
         ]));
     }
