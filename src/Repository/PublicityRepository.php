@@ -21,6 +21,24 @@ class PublicityRepository extends ServiceEntityRepository
         parent::__construct($registry, Publicity::class);
     }
 
+    //La función más bacan de este sistema.
+    public function findByCustomerAndGuideline(string $clientName, string $guideline): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere("s.DeletedAt IS NULL")
+            ->join('s.customer', 'c')
+            ->where('LOWER(c.name) LIKE :customer')
+            //->setParameter('val', $value)
+            ->setParameter('customer', '%'.strtolower($clientName).'%')
+            ->join('s.Guideline', 'g')
+            ->andWhere('LOWER(g.show_name) LIKE :guideline')
+            ->setParameter('guideline', '%'.strtolower($guideline).'%')
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Publicity[] Returns an array of Publicity objects
 //     */

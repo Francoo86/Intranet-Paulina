@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\GuidelineType;
 use App\Form\ShowType;
 use App\Repository\GuidelineRepository;
+use App\Repository\PublicityRepository;
 use App\Repository\ShowRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -96,12 +97,14 @@ class SearchGuidelineController extends AbstractController
     }
 
     #[Route('/publicity', name: 'app_search_publicity', methods: ['GET'])]
-    public function searchPublicity(ShowRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    public function searchPublicity(PublicityRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
+        dd($repo->findByCustomerAndGuideline('', 'emi'));
         if(!$req->isXmlHttpRequest()){
-            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /show/."]);
+            return new JsonResponse(["message" => "Lo que usted busca se encuentra en la ruta /publicity/."]);
         }
         //AJAX moment.
+        //Use 2 fields this time because yes.
         $target = $req->get('target');
         $currentShows = $repo->findByShowName($target);//$repo->findByShowName($target);
 
