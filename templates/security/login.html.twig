@@ -30,13 +30,8 @@
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     <div class="form-group">
-        <button class="btn btn-lg btn-primary form-btn form-btn-primary" type="submit">
-            Sign in
-        </button>
-
-        <a href="{{ path('app_register') }}" class="btn btn-lg btn-info form-btn">
-            Register
-        </a>
+        <button class="btn btn-lg btn-primary form-btn form-btn-primary" type="submit">Sign in</button>
+        <a href="{{ path('app_register') }}" class="btn btn-lg btn-info form-btn">Register</a>
     </div>
 </form>
 {% endblock %}
