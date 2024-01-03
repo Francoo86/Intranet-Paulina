@@ -37,7 +37,11 @@ class StockController extends AbstractController
             if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
     
                 if ($form->isSubmitted() && $form->isValid()) {
+                    $pub = $stock->getPublicity();
+                    $pub->setStock($stock);
+    
                     $entityManager->persist($stock);
+                    $entityManager->persist($pub);
                     $entityManager->flush();
                 }
     
@@ -81,7 +85,13 @@ class StockController extends AbstractController
     
         if ($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)) {
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+                $pub = $newStock->getPublicity();
+                $pub->setStock($newStock);
+
                 $entityManager->persist($newStock);
+            
+                $entityManager->persist($pub);
+        
                 $entityManager->flush();
     
                 return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);

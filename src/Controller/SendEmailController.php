@@ -116,6 +116,10 @@ class SendEmailController extends AbstractController
             $emailAddress = $customer->getEmail() ?? 'UndefinedEmail';
             
             foreach ($customer->getPublicity() as $publicity) {
+                if($publicity === null){
+                    continue;
+                }
+
                 if($publicity->getStock()->getBalance()->isActive()){
 
                     $stock = $publicity->getStock()  ?? 'UndefinedStock';
@@ -150,6 +154,7 @@ class SendEmailController extends AbstractController
                         return new Response('Error in template email: ' . $e->getMessage());
                     }
                     
+                    dd($emailAddress);
 
                     $email = (new Email())
                         ->from('sendersig@gmail.com')
