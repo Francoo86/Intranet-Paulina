@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Form\BroadcasterType;
 use App\Form\CustomerType;
 use App\Form\GuidelineType;
 use App\Form\PublicityType;
 use App\Form\ShowType;
+use App\Repository\BroadcasterRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\GuidelineRepository;
 use App\Repository\PublicityRepository;
@@ -172,5 +174,40 @@ class SearchGuidelineController extends AbstractController
             'customers' => $currentCustomers,
             'allForms' => $allForms,
         ]));
-}
+    }
+
+    #[Route('/broadcaster', name: 'app_search_broadcaster', methods: ['GET'])]
+    public function searchBroadcaster(BroadcasterRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        // AJAX moment.
+        $target = $req->get('target');
+        $currentBroadcasters = $repo->findByBroadcasterRut($target); // Assuming you have a method like findByBroadcasterName in your repository
+    
+        $allForms = [];
+    
+        foreach ($currentBroadcasters as $broadcaster) {
+            $formName = sprintf("broadcasters_%s", $broadcaster->getId());
+            $form = $factory->createNamed($formName, BroadcasterType::class, $broadcaster);
+            $form->handleRequest($req);
+    
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+    
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($broadcaster);
+                    $entityManager->flush();
+                }
+    
+                return $this->redirectToRoute('app_broadcaster_index'); // Assuming you have a route named 'app_broadcaster_index'
+            }
+    
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+    
+        return new JsonResponse($this->renderView("broadcaster/all_broadcaster.html.twig", [
+            'broadcasters' => $currentBroadcasters,
+            'allForms' => $allForms,
+        ]));
+    }
 }

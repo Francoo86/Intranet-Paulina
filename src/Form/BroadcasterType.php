@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Broadcaster;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,6 +17,16 @@ class BroadcasterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('rut', NumberType::class, [
+                'label' => 'RUT de la persona (sin puntos ni digito verificador).',
+                'attr' => ['class' => 'form-control'],
+                'html5' => true,
+            ])
+            ->add('dv', NumberType::class, [
+                'label' => 'Digito verificador.',
+                'attr' => ['class' => 'form-control'],
+                'html5' => true,
+            ])
             ->add('first_name', TextType::class, [
                 'label' => 'Nombre',
                 'attr' => ['class' => 'form-control'],
