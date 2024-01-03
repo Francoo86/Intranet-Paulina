@@ -20,8 +20,9 @@
         </head>
 
         {% set active = app.request.attributes.get('_route') %}
+        {% set shouldUseMarginLeft = active == 'app_publicity_index' or active == 'app_customer_index' %}
         <body>
-            <div class="container {{active == 'app_publicity_index' ? 'ml-5'}}">
+            <div class="container {{shouldUseMarginLeft ? 'ml-5'}}">
                 <div class="row flex-lg-nowrap">
                     <div class="col">
                         <div class="e-tabs mb-3 px-3">

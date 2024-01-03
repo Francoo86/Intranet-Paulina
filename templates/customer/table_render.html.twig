@@ -16,6 +16,7 @@
                                         <th class="sortable">ID</th>
                                         <th class="max-width">RUT de cliente</th>
                                         <th class="max-width">Nombre de cliente</th>
+                                        <th class="max-width">Organizacion</th>
                                         <th class="max-width">Correo</th>
                                         <th class="max-width">Telefono</th>
                                         <th class="max-width">Publicidades solicitadas</th>
@@ -33,20 +34,19 @@
             </div>
         </div>
         
-        {% include 'search.html.twig' with {
+        {% include 'customer/customer_search.html.twig' with {
             "newElement": "Nuevo cliente",
             'elementCount': customers|length,
             "searchText": "Buscar cliente por RUT",
             "searchId": "busca_pautas",
             "searchPath": path('app_search_customer'),
         } %}
-
+    
         {% include 'modal_base_form.html.twig' with {
             'passedForm' : creationForm,
             'titleForm': 'Creación de pauta',
         }%}
 
-        {% include 'webpage/mailButtons.html.twig' %}
 
     </div>
 {% endblock %}

@@ -1,0 +1,92 @@
+{% block body %}
+    <div class="col-12 col-lg-3 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-center px-xl-3">
+                    <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal_new">
+                        {{newElement|default('New element')}}
+                    </button>
+                </div>
+                <hr class="my-3" />
+                <div class="e-navlist e-navlist--active-bold">
+                    <ul class="nav">
+                        <li class="nav-item active">
+                            <a href class="nav-link">
+                                <span>Todos</span>&nbsp;
+                                <small>/&nbsp;{{elementCount}}</small>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <script defer>
+                        $(document).ready(function () {
+                        // Función común para ambos botones
+                        function handleButtonClick(buttonId, url) {
+                            $(buttonId).prop("disabled", true);
+                            var count = 0;
+                            $.ajax({
+                            type: "POST",
+                            url: url,
+                            success: function (response) {
+                                count++;
+                                alert(response);
+                            },
+                            error: function (error) {
+                                alert("Error: " + error.responseText);
+                            },
+                            complete: function () {
+                                alert("Number of emails sent: " + count);
+                                $(buttonId).prop("disabled", false);
+                            },
+                            });
+                        }
+
+                        // Configuración de los clics para ambos botones
+                        $("#alertButton").click(function () {
+                            handleButtonClick("#alertButton", "/send/AlertEmail/Data");
+                        });
+
+                        $("#infoButton").click(function () {
+                            handleButtonClick("#infoButton", "/send/AllEmail/Data");
+                        });
+                        });
+                    </script>
+                </div>
+                <hr class="my-3" />
+                <div class="form-group">
+                    <label>{{searchText|default("Search")}}</label>
+                    <div>
+                        <input id="{{searchId}}" class="form-control w-100" type="text" placeholder="" value />
+                    </div>
+                </div>
+                <hr class="my-3" />
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger" id="alertButton">
+                        Alertar Saldo Bajo
+                    </button>
+                    <button type="button" class="btn btn-primary" id="infoButton">
+                        Informar clientes
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script defer type="text/javascript">
+            $("#{{searchId}}").change(function (e) { 
+                e.preventDefault();
+
+                let search = $(this).val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{searchPath}}",
+                    data: {'target': search},
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log(response);
+                        $("#output_table").html(response);
+                    }
+                });
+            });
+        </script>
+    </div>
+{% endblock %}
