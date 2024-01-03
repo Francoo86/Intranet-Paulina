@@ -103,7 +103,7 @@
 
         {% include 'delete_form.html.twig' with {
             'removeId': stock.id,
-            'deleteTitle': 'Eliminación de programa',
+            'deleteTitle': 'Eliminación de stock',
             'confirmMessage': '¿Está seguro de eliminar el stock con el monto de %s?'|format(stock.amount),
             'deletePath': 'app_stock_delete'
         }%}

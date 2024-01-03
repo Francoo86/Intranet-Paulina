@@ -31,10 +31,9 @@
             </div>
         </div>
         {% include 'search.html.twig' with {
-            "newElement": "Nuevo programa.",
+            "newElement": "Nuevo stock",
             'elementCount': stocks|length,
             "searchText": "Buscar programas por nombre",
-            "searchId": "busca_programas",
             "searchPath": path('app_search_show'),
         } %}
 
