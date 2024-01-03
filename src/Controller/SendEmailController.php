@@ -153,8 +153,6 @@ class SendEmailController extends AbstractController
                     } catch (\Exception $e) {
                         return new Response('Error in template email: ' . $e->getMessage());
                     }
-                    
-                    dd($emailAddress);
 
                     $email = (new Email())
                         ->from('sendersig@gmail.com')

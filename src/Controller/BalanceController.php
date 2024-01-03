@@ -76,6 +76,6 @@ class BalanceController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_balance_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_stock_index', [], Response::HTTP_SEE_OTHER);
     }
 }
