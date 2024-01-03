@@ -11,6 +11,8 @@ Se puede instalar clonando el repositorio en Git, con el siguiente comando:
 
 Se utilizó Symfony `versión 6.3.11`. Puedes encontrar más informacion sobre cómo instalar Symfony en su [página oficial](https://symfony.com/releases/6.3).
 
+Importante: es en el archivo `.env` donde se debe definir correctamente el URL de conexión a la base de datos y la configuración relacionada con el mailer (enviador de correos electrónicos) en una aplicación Symfony.
+
 ### Composer
 
 Composer es una herramienta para la gestión de dependencias en PHP. Para instalar Composer puedes seguir las instrucciones en su [página web](https://getcomposer.org/). Para obtener detalles sobre las versiones específicas utilizadas en este proyecto, revisa el archivo `composer.json`.
