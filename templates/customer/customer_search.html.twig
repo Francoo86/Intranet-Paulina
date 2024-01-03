@@ -12,8 +12,8 @@
                     <ul class="nav">
                         <li class="nav-item active">
                             <a href class="nav-link">
-                                <span>Todos</span>&nbsp;
-                                <small>/&nbsp;{{elementCount}}</small>
+                                <span>Todos</span> 
+                                <small>/ {{elementCount}}</small>
                             </a>
                         </li>
                     </ul>
@@ -61,10 +61,17 @@
                 </div>
                 <hr class="my-3" />
                 <div class="form-group">
-                    <button type="button" class="btn btn-danger" id="alertButton">
+                    <style>
+                        .btn-custom {
+                            width: 100%;
+                            height: 40px;
+                            margin-bottom: 10px;
+                        }
+                    </style>
+                    <button type="button" class="btn btn-danger btn-custom" id="alertButton">
                         Alertar Saldo Bajo
                     </button>
-                    <button type="button" class="btn btn-primary" id="infoButton">
+                    <button type="button" class="btn btn-primary btn-custom" id="infoButton">
                         Informar clientes
                     </button>
                 </div>
