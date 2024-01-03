@@ -78,7 +78,13 @@
                             'titleForm': 'Arreglo de bolsa',
                             'actualId' : balanceId,
                         }%}
-                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#balanceDelete_{{balanceId}}"><i class="fa fa-trash"></i></button>
+                        {% include 'stock/balance_delete_form.html.twig' with {
+                            'removeId': balanceId,
+                            'deleteTitle': 'Eliminación de bolsas',
+                            'confirmMessage': '¿Está seguro de eliminar la bolsa del stock con el ID %s?'|format(stock.id),
+                            'deletePath': 'app_balance_delete'
+                        }%}
                     {% endif %}
                 </td>
                 

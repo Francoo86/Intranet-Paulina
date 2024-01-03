@@ -19,24 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class StockController extends AbstractController
 {
     protected const POST_METHOD = "POST";
-    protected const NEW_ELEMENT = "new_stock"; // Change "new_broadcaster" to "new_stock"
-    protected const MAIN_PAGE = 'app_stock_index'; // Change "app_broadcaster_index" to "app_stock_index"
-
-    private function createForms(string $formName, string $className, array &$storage, FormFactoryInterface $factory, Request $req){
-
-    }
+    protected const NEW_ELEMENT = "new_stock"; 
+    protected const MAIN_PAGE = 'app_stock_index'; 
     
-    #[Route('/', name: 'app_stock_index', methods: ['GET', 'POST'])] // Change "app_broadcaster_index" to "app_stock_index"
+    #[Route('/', name: 'app_stock_index', methods: ['GET', 'POST'])]
     public function index(StockRepository $stockRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
 
-        $allStocks = $stockRepository->findByAscendant(); // Change "$broadcasterRepository" to "$stockRepository"
+        $allStocks = $stockRepository->findByAscendant();
         $allForms = [];
-
     
-        foreach ($allStocks as $stock) { // Change "$broadcaster" to "$stock"
-            $formName = sprintf("stock_%s", $stock->getId()); // Change "broadcaster_%s" to "stock_%s"
-            $form = $factory->createNamed($formName, StockType::class, $stock); // Change "BroadcasterType::class" to "StockType::class"
+        foreach ($allStocks as $stock) {
+            $formName = sprintf("stock_%s", $stock->getId());
+            $form = $factory->createNamed($formName, StockType::class, $stock);
             $form->handleRequest($req);
     
             if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
@@ -80,8 +75,8 @@ class StockController extends AbstractController
             ];
         };
     
-        $newStock = new Stock(); // Change "newBroadcaster" to "newStock"
-        $creationForm = $factory->createNamed(self::NEW_ELEMENT, StockType::class, $newStock); // Change "BroadcasterType::class" to "StockType::class"
+        $newStock = new Stock(); 
+        $creationForm = $factory->createNamed(self::NEW_ELEMENT, StockType::class, $newStock); 
         $creationForm->handleRequest($req);
     
         if ($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)) {
