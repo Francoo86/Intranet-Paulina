@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Stock;
 use App\Form\StockType;
+use App\Helper;
 use App\Repository\StockRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,13 +16,55 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/stock')]
 class StockController extends AbstractController
 {
-    #[Route('/', name: 'app_stock_index', methods: ['GET'])]
-    public function index(StockRepository $stockRepository): Response
+    protected const POST_METHOD = "POST";
+    protected const NEW_ELEMENT = "new_stock"; // Change "new_broadcaster" to "new_stock"
+    protected const MAIN_PAGE = 'app_stock_index'; // Change "app_broadcaster_index" to "app_stock_index"
+    
+    #[Route('/', name: 'app_stock_index', methods: ['GET', 'POST'])] // Change "app_broadcaster_index" to "app_stock_index"
+    public function index(StockRepository $stockRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        return $this->render('stock/index.html.twig', [
-            'stocks' => $stockRepository->findAll(),
+        $allStocks = Helper::FindAllAscendant($stockRepository); // Change "$broadcasterRepository" to "$stockRepository"
+        $allForms = [];
+    
+        foreach ($allStocks as $stock) { // Change "$broadcaster" to "$stock"
+            $formName = sprintf("stock_%s", $stock->getId()); // Change "broadcaster_%s" to "stock_%s"
+            $form = $factory->createNamed($formName, StockType::class, $stock); // Change "BroadcasterType::class" to "StockType::class"
+            $form->handleRequest($req);
+    
+            if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
+    
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($stock);
+                    $entityManager->flush();
+                }
+    
+                return $this->redirectToRoute(self::MAIN_PAGE);
+            }
+    
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+    
+        $newStock = new Stock(); // Change "newBroadcaster" to "newStock"
+        $creationForm = $factory->createNamed(self::NEW_ELEMENT, StockType::class, $newStock); // Change "BroadcasterType::class" to "StockType::class"
+        $creationForm->handleRequest($req);
+    
+        if ($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)) {
+            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
+                $entityManager->persist($newStock);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
+            }
+        }
+    
+        return $this->render('stock/index.html.twig', [ // Change "'broadcaster/broadcaster_index.html.twig'" to "'stock/stock_index.html.twig'"
+            'stocks' => $allStocks, // Change "'broadcasters'" to "'stocks'"
+            'allForms' => $allForms,
+            'creationForm' => $creationForm
         ]);
-    }
+    }    
 
     #[Route('/new', name: 'app_stock_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

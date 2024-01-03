@@ -56,6 +56,12 @@ class Stock
 
     public function getPublicity(): ?Publicity
     {
+        $currentPublicity = $this->Publicity;
+
+        if($currentPublicity !== null && $currentPublicity->getDeletedAt() !== null){
+            return null;
+        }
+    
         return $this->Publicity;
     }
 
