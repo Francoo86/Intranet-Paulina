@@ -19,7 +19,7 @@ class Balance
     #[ORM\Column(type: 'boolean')]
     private ?bool $active = null;
 
-    #[ORM\OneToOne(inversedBy: 'Balance', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'balance', cascade: ['persist', 'remove'])]
     private ?Stock $Stock = null; 
 
     #[ORM\OneToOne(mappedBy: 'Balance', cascade: ['persist', 'remove'])]

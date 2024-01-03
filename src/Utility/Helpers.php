@@ -24,7 +24,7 @@ class Helper {
         ->getResult();
     }
 
-    public static function FindAllAscendant(ServiceEntityRepository $repo){
+    public static function FindAllAscendant(ServiceEntityRepository $repo) : array {
         return $repo->createQueryBuilder('e')
         ->orderBy('e.id', 'ASC')
         ->getQuery()

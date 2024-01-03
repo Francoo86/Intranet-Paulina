@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Balance;
 use App\Entity\Stock;
+use App\Form\BalanceType;
 use App\Form\StockType;
 use App\Helper;
 use App\Repository\StockRepository;
@@ -19,12 +21,18 @@ class StockController extends AbstractController
     protected const POST_METHOD = "POST";
     protected const NEW_ELEMENT = "new_stock"; // Change "new_broadcaster" to "new_stock"
     protected const MAIN_PAGE = 'app_stock_index'; // Change "app_broadcaster_index" to "app_stock_index"
+
+    private function createForms(string $formName, string $className, array &$storage, FormFactoryInterface $factory, Request $req){
+
+    }
     
     #[Route('/', name: 'app_stock_index', methods: ['GET', 'POST'])] // Change "app_broadcaster_index" to "app_stock_index"
     public function index(StockRepository $stockRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allStocks = Helper::FindAllAscendant($stockRepository); // Change "$broadcasterRepository" to "$stockRepository"
+
+        $allStocks = $stockRepository->findByAscendant(); // Change "$broadcasterRepository" to "$stockRepository"
         $allForms = [];
+
     
         foreach ($allStocks as $stock) { // Change "$broadcaster" to "$stock"
             $formName = sprintf("stock_%s", $stock->getId()); // Change "broadcaster_%s" to "stock_%s"
@@ -40,11 +48,37 @@ class StockController extends AbstractController
     
                 return $this->redirectToRoute(self::MAIN_PAGE);
             }
+
+            $actualBalance = $stock->getBalance();
+            //$haveExisted = true;
+            $formBalanceName =  sprintf('balance_%s_child', $stock->getId());
+
+            if($actualBalance === null) {
+                $actualBalance = new Balance();
+                $formBalanceName = $formBalanceName . "_new";
+            }
+            
+            $formBalance = $factory->createNamed($formBalanceName, BalanceType::class, $actualBalance, 
+                array('stock' => $stock)
+            );
+            
+            $formBalance->handleRequest($req);
+
+            if ($req->getMethod() === self::POST_METHOD && $req->request->has($formBalanceName)) {
+
+                if ($formBalance->isSubmitted() && $formBalance->isValid()) {
+                    $entityManager->persist($actualBalance);
+                    $entityManager->flush();
+                }
     
+                return $this->redirectToRoute(self::MAIN_PAGE);
+            };
+
             $allForms[] = [
                 'form' => $form->createView(),
+                'balanceForm' => $formBalance->createView()
             ];
-        }
+        };
     
         $newStock = new Stock(); // Change "newBroadcaster" to "newStock"
         $creationForm = $factory->createNamed(self::NEW_ELEMENT, StockType::class, $newStock); // Change "BroadcasterType::class" to "StockType::class"
@@ -59,10 +93,10 @@ class StockController extends AbstractController
             }
         }
     
-        return $this->render('stock/index.html.twig', [ // Change "'broadcaster/broadcaster_index.html.twig'" to "'stock/stock_index.html.twig'"
-            'stocks' => $allStocks, // Change "'broadcasters'" to "'stocks'"
+        return $this->render('stock/index.html.twig', [
+            'stocks' => $allStocks,
             'allForms' => $allForms,
-            'creationForm' => $creationForm
+            'creationForm' => $creationForm,
         ]);
     }    
 

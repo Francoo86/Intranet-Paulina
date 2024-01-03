@@ -1,5 +1,5 @@
 {% block body %}
-    {% for stock in stocks %}
+    {% for stock_index, stock in stocks %}
         {% set publicity = stock.Publicity %}
         <tr>
             <td class="text-nowrap align-middle">
@@ -62,6 +62,25 @@
                     </div>
                 {% endif %}
                 <!-- Modal -->
+                {% set balanceForm = allForms[stock_index].balanceForm %}
+                <td class="text-nowrap align-middle">
+                    {% if stock.Balance is null %}
+                        <button type="button" data-toggle="modal" class="btn btn-primary" data-target="#balance-form-modal_new"><i class="fa fa-plus"></i> </button>
+                        {% include 'stock/balance_form.html.twig' with {
+                            'passedForm' : balanceForm,
+                            'titleForm': 'Agregar bolsa',
+                        }%}
+                    {% else %}
+                        {% set balanceId = stock.Balance.id %}
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#balance-form-modal_{{balanceId}}"><i class="fa fa-pencil"></i></button>
+                        {% include 'stock/balance_form.html.twig' with {
+                            'passedForm' : balanceForm,
+                            'titleForm': 'Arreglo de bolsa',
+                            'actualId' : balanceId,
+                        }%}
+                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    {% endif %}
+                </td>
                 
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
@@ -89,7 +108,7 @@
         {% set id = edit_form.form.vars.value.id %}
         {% include 'modal_base_form.html.twig' with {
             'passedForm' : edit_form.form,
-            'titleForm': 'Edición de programa',
+            'titleForm': 'Edición de stock',
             'actualId': id,
         }%}
     {% endfor %}

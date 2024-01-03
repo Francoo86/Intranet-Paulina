@@ -21,6 +21,15 @@ class StockRepository extends ServiceEntityRepository
         parent::__construct($registry, Stock::class);
     }
 
+    public function findByAscendant(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Stock[] Returns an array of Stock objects
 //     */
