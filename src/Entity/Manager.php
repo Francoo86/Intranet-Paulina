@@ -86,4 +86,9 @@ class Manager extends Person
 
         return $this;
     }
+
+    public function stealUserEmail(User $user)
+    {
+        $this->setEmail($user->getEmail());
+    }
 }
