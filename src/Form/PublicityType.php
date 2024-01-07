@@ -85,6 +85,10 @@ class PublicityType extends AbstractType
                 'choice_label' => function(Audience $audience) {
                     return sprintf('%s-%s : %s', $audience->getDemography(), $audience->getLocality(), $audience->getType());
                 },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                              ->where('a.DeletedAt IS NULL');
+                },
             ])
             ->add('Guideline', EntityType::class, [
                 'class' => Guideline::class,
