@@ -16,6 +16,11 @@
                     margin-top: 20px;
                     background: #f8f8f8;
                 }
+                .user-email {
+                    color: #007bff;
+                    font-weight: bold;
+                    padding: 12px;
+                }
             </style>
         </head>
 
@@ -51,6 +56,9 @@
                                     <a class="nav-link {{active == 'app_audience_index' ? 'active'}}" href="{{path('app_audience_index')}}">Audiencia</a>
                                 </li>
                                 <li class="nav-item ml-auto">
+                                    {% if app.user %}
+                                        <span class="user-email">{{ app.user.email }}</span>
+                                    {% endif %}
                                     <a href="{{ path('app_logout') }}">
                                         <i class="fa fa-sign-out fa-2x" aria-hidden="true"></i>
                                     </a>
