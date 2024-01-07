@@ -305,8 +305,7 @@ class SendEmailController extends AbstractController
         $email = (new Email())
             ->from('sendersig@gmail.com')
             ->subject("Resumen de pauta N°$guidelineNumber")
-            ->addTo('gxnzxlx.9@gmail.com')
-            //->addTo($emailAddress)
+            ->addTo($emailAddress)
             ->html($message);
     
         try {
