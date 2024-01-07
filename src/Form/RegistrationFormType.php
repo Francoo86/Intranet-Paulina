@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Entity\Manager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -43,6 +45,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('manager', ManagerType::class, [
+                'label' => 'Manager',
+            ]);
         ;
     }
 
