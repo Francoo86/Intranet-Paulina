@@ -240,14 +240,16 @@ class SendEmailController extends AbstractController
     }
 
     #[Route('/send/GuidelineEmail/Data', name: 'app_send_guideline_email', methods: ['GET', 'POST'])]
-    public function sendGuidelineEmail(MailerInterface $mailer, GuidelineRepository $guidelineRepository, ShowRepository $showRepository, PublicityRepository $publicityRepository, Environment $twig): Response
+    public function sendGuidelineEmail(Request $request, MailerInterface $mailer, GuidelineRepository $guidelineRepository, ShowRepository $showRepository, PublicityRepository $publicityRepository, Environment $twig): Response
     {
         $user = $this->security->getUser();
         if (!$user) {
             throw $this->createNotFoundException('No user is logged in.');
         }
         $emailAddress = $user->getUserIdentifier(); //email
-        $guidelineNumber = 1;   //num pauta
+        //$guidelineNumber = 1;
+        $data = json_decode($request->getContent(), true);
+        $guidelineNumber = (int) $data['buttonNumber'];
     
         $guideline = $guidelineRepository->findOneBy(['emission_number' => $guidelineNumber]);
         if (!$guideline) {
@@ -303,8 +305,8 @@ class SendEmailController extends AbstractController
         $email = (new Email())
             ->from('sendersig@gmail.com')
             ->subject("Resumen de pauta N°$guidelineNumber")
-            //->addTo('gxnzxlx.9@gmail.com')
-            ->addTo($emailAddress)
+            ->addTo('gxnzxlx.9@gmail.com')
+            //->addTo($emailAddress)
             ->html($message);
     
         try {
