@@ -264,8 +264,8 @@ class SendEmailController extends AbstractController
         foreach ($shows as $show) {
             $showData = [
                 'name' => $show->getName(),
-                'startTime' => $show->getStart(),
-                'endTime' => $show->getFinish(),
+                'startTime' => $show->getStart()->format('H:i:s'),
+                'endTime' => $show->getFinish()->format('H:i:s'),
                 'publicities' => [],
             ];
     
@@ -283,6 +283,9 @@ class SendEmailController extends AbstractController
     
             $showsData[] = $showData;
         }
+
+        $applicationDate = new \DateTime();
+        $applicationDate = $applicationDate->format('d-m-Y H:i:s');
     
         try {
             $message = $twig->render('email/report.html.twig', [
@@ -291,6 +294,8 @@ class SendEmailController extends AbstractController
                 'broadcasterFirstName' => $broadcasterFirstName,
                 'broadcasterLastName' => $broadcasterLastName,
                 'showsData' => $showsData,
+                'emailAddress' => $emailAddress,
+                'applicationDate' => $applicationDate,
             ]);
         } catch (\Exception $e) {
             return new Response('Error in template email: ' . $e->getMessage());
@@ -298,7 +303,8 @@ class SendEmailController extends AbstractController
         $email = (new Email())
             ->from('sendersig@gmail.com')
             ->subject("Resumen de pauta N°$guidelineNumber")
-            ->addTo('gxnzxlx.9@gmail.com')
+            //->addTo('gxnzxlx.9@gmail.com')
+            ->addTo($emailAddress)
             ->html($message);
     
         try {
