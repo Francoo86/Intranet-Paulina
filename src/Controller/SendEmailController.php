@@ -8,17 +8,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
-
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Guideline;
+use App\Entity\Manager;
+use Symfony\Component\Security\Core\Security;
+use App\Repository\GuidelineRepository;
+use App\Repository\ShowRepository;
+use App\Repository\PublicityRepository;
 
 class SendEmailController extends AbstractController
 {
+
+    private $security;
+    public function __construct(Security $security) 
+    {
+        $this->security = $security;
+    }
+
     #[Route('/send/email', name: 'app_send_email_exito', methods: ['POST'])]
     public function sendEmail(MailerInterface $mailer, Request $req): JsonResponse
     {
@@ -228,5 +238,77 @@ class SendEmailController extends AbstractController
 
         return new Response('Alert emails sent successfully');
     }
+
+    #[Route('/send/GuidelineEmail/Data', name: 'app_send_guideline_email', methods: ['GET', 'POST'])]
+    public function sendGuidelineEmail(MailerInterface $mailer, GuidelineRepository $guidelineRepository, ShowRepository $showRepository, PublicityRepository $publicityRepository, Environment $twig): Response
+    {
+        $user = $this->security->getUser();
+        if (!$user) {
+            throw $this->createNotFoundException('No user is logged in.');
+        }
+        $emailAddress = $user->getUserIdentifier(); //email
+        $guidelineNumber = 1;   //num pauta
     
+        $guideline = $guidelineRepository->findOneBy(['emission_number' => $guidelineNumber]);
+        if (!$guideline) {
+            throw $this->createNotFoundException('No guideline found for number '.$guidelineNumber);
+        }
+    
+        $creationDate = $guideline->getCreationDate()->format('Y-m-d');
+        $broadcasterFirstName = $guideline->getBroadcaster()->getFirstName();
+        $broadcasterLastName = $guideline->getBroadcaster()->getLastName();
+    
+        $shows = $guideline->getShows();
+    
+        $showsData = [];
+        foreach ($shows as $show) {
+            $showData = [
+                'name' => $show->getName(),
+                'startTime' => $show->getStart(),
+                'endTime' => $show->getFinish(),
+                'publicities' => [],
+            ];
+    
+            $publicities = $show->getPublicities();
+            foreach ($publicities as $publicity) {
+                $showData['publicities'][] = [
+                    'sentence' => $publicity->getSentence(),
+                    'duration' => $publicity->getDuration(),
+                    'demography' => $publicity->getAudience()->getDemography(),
+                    'locality' => $publicity->getAudience()->getLocality(),
+                    'stockAmount' => $publicity->getStock()->getAmount(),
+                    'balanceAmount' => $publicity->getStock()->getBalance()->getAmount(),
+                ];
+            }
+    
+            $showsData[] = $showData;
+        }
+    
+        try {
+            $message = $twig->render('email/report.html.twig', [
+                'guidelineNumber' => $guidelineNumber,
+                'creationDate' => $creationDate,
+                'broadcasterFirstName' => $broadcasterFirstName,
+                'broadcasterLastName' => $broadcasterLastName,
+                'showsData' => $showsData,
+            ]);
+        } catch (\Exception $e) {
+            return new Response('Error in template email: ' . $e->getMessage());
+        }
+        $email = (new Email())
+            ->from('sendersig@gmail.com')
+            ->subject("Resumen de pauta N°$guidelineNumber")
+            ->addTo('gxnzxlx.9@gmail.com')
+            ->html($message);
+    
+        try {
+            $mailer->send($email);
+        } catch (\Exception $e) {
+            return new Response('Error sending email');
+        }
+    
+        return new Response('Guideline email sent successfully');
+    }
+
+
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Tu Plantilla</title>
+    <!-- Agrega el enlace a Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Agrega estilos personalizados si es necesario */
+    </style>
+  </head>
+  <body>
+    <div class="container mt-3">
+      <!-- Datos fijos a la izquierda -->
+      <div>
+        <p>Número de Pauta: <span id="numeroPauta">123</span></p>
+        <p>Fecha: <span id="fecha">07/01/2024</span></p>
+        <p>Nombre Locutor: <span id="nombreLocutor">Nombre Apellido</span></p>
+      </div>
+
+      <!-- Tabla principal con tres columnas Show | Publicidad | Datos -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Show</th>
+            <th scope="col">Publicidad</th>
+            <th scope="col">Datos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <!-- Contenido de la columna Show -->
+            <td>
+              <p>Nombre del Show</p>
+              <p>Tiempo inicio Show</p>
+              <p>Tiempo fin Show</p>
+            </td>
+
+            <!-- Contenido de la columna Publicidad -->
+            <td>
+              <p>Nombre de la Publicidad</p>
+            </td>
+
+            <!-- Contenido de la columna Datos -->
+            <td>
+              <p>Sentence: Datos Sentence</p>
+              <p>Duración: Datos Duración</p>
+              <p>Demografía: Datos Demografía</p>
+              <p>Localidad: Datos Localidad</p>
+              <p>Stock Amount: Datos Stock Amount</p>
+              <p>Balance Amount: Datos Balance Amount</p>
+            </td>
+          </tr>
+          <!-- Agrega más filas según sea necesario -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Agrega el enlace a Bootstrap JS y Popper.js (necesario para ciertos componentes de Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
