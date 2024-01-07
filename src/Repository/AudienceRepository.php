@@ -26,6 +26,11 @@ class AudienceRepository extends ServiceEntityRepository
     public function getDemographicsCount(): array
     {
         $qb = $this->createQueryBuilder('a');
+        $qb->leftJoin('a.publicities', 'p')
+           ->leftJoin('p.Stock', 's')
+           ->leftJoin('s.balance', 'b')
+           ->where('b.active = :active')
+           ->setParameter('active', true);
 
         return $qb->select('a.demography, COUNT(a.id) as count')
             ->groupBy('a.demography')
@@ -35,27 +40,32 @@ class AudienceRepository extends ServiceEntityRepository
 
     public function getLocationCount(): array
     {
-    $qb = $this->createQueryBuilder('a');
+        $qb = $this->createQueryBuilder('a');
+        $qb->leftJoin('a.publicities', 'p')
+           ->leftJoin('p.Stock', 's')
+           ->leftJoin('s.balance', 'b')
+           ->where('b.active = :active')
+           ->setParameter('active', true);
 
-    return $qb->select('a.locality, COUNT(a.id) as count')
-        ->groupBy('a.locality')
-        ->getQuery()
-        ->getArrayResult();
+        return $qb->select('a.locality, COUNT(a.id) as count')
+            ->groupBy('a.locality')
+            ->getQuery()
+            ->getArrayResult();
     }
 
     public function findByAudienceDemography($value): array
     {
-    $config = $this->getEntityManager()->getConfiguration();
-    $config->addCustomNumericFunction('CAST', Cast::class);
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', Cast::class);
 
-    return $this->createQueryBuilder('a')
-        ->where('CAST(a.demography as TEXT) LIKE :val')
-        //->andWhere("a.DeletedAt IS NULL")
-        ->setParameter('val', '%'.strtolower($value).'%')
-        ->orderBy('a.id', 'ASC')
-        ->setMaxResults(30)
-        ->getQuery()
-        ->getResult();
+        return $this->createQueryBuilder('a')
+            ->where('CAST(a.demography as TEXT) LIKE :val')
+            //->andWhere("a.DeletedAt IS NULL")
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
     }
 
     public function findByAudienceLocation($value): array
