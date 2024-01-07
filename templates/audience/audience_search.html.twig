@@ -1,0 +1,60 @@
+{% block body %}
+<div class="col-12 col-lg-3 mb-3">
+  <div class="card">
+    <div class="card-body">
+      <div class="text-center px-xl-3">
+        <button
+          class="btn btn-success btn-block"
+          type="button"
+          data-toggle="modal"
+          data-target="#user-form-modal_new"
+        >
+          {{newElement|default('New element')}}
+        </button>
+      </div>
+      <hr class="my-3" />
+      <div class="e-navlist e-navlist--active-bold">
+        <ul class="nav">
+          <li class="nav-item active">
+            <a href class="nav-link">
+              <span>Todos</span> 
+              <small>/ {{ elementCount }}</small>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <hr class="my-3" />
+      <div class="form-group">
+        <label>{{searchText|default("Search")}}</label>
+        <div>
+          <input
+            id="{{ searchId }}"
+            class="form-control w-100"
+            type="text"
+            placeholder=""
+            value
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <script defer type="text/javascript">
+    $("#{{searchId}}").change(function (e) {
+      e.preventDefault();
+
+      let search = $(this).val();
+
+      $.ajax({
+        type: "GET",
+        url: "{{searchPath}}",
+        data: { target: search },
+        dataType: "json",
+        success: function (response) {
+          //console.log(response);
+          $("#output_table").html(response);
+        },
+      });
+    });
+  </script>
+</div>
+{% endblock %}

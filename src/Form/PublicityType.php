@@ -82,6 +82,9 @@ class PublicityType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
+                'choice_label' => function(Audience $audience) {
+                    return sprintf('%s-%s : %s', $audience->getDemography(), $audience->getLocality(), $audience->getType());
+                },
             ])
             ->add('Guideline', EntityType::class, [
                 'class' => Guideline::class,

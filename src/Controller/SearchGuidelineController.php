@@ -7,11 +7,13 @@ use App\Form\CustomerType;
 use App\Form\GuidelineType;
 use App\Form\PublicityType;
 use App\Form\ShowType;
+use App\Form\AudienceType;
 use App\Repository\BroadcasterRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\GuidelineRepository;
 use App\Repository\PublicityRepository;
 use App\Repository\ShowRepository;
+use App\Repository\AudienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -210,4 +212,107 @@ class SearchGuidelineController extends AbstractController
             'allForms' => $allForms,
         ]));
     }
+
+    /*#[Route('/audience', name: 'app_search_audience', methods: ['GET'])]
+    public function searchAudience(AudienceRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        $target = $req->get('target');
+        $currentAudiences = $repo->findByAudienceDemography($target); 
+
+        $allForms = [];
+
+        foreach ($currentAudiences as $audience) {
+            $formName = sprintf("audiences_%s", $audience->getId());
+            $form = $factory->createNamed($formName, AudienceType::class, $audience);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($audience);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('app_audience_index'); 
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        return new JsonResponse($this->renderView("audience/all_audience.html.twig", [
+            'audiences' => $currentAudiences,
+            'allForms' => $allForms,
+        ]));
+    }
+
+    #[Route('/audience', name: 'app_search_audience_by_location', methods: ['GET'])]
+    public function searchAudienceByLocation(AudienceRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        $target = $req->get('target');
+        $currentAudiences = $repo->findByAudienceLocation($target); 
+
+        $allForms = [];
+
+        foreach ($currentAudiences as $audience) {
+            $formName = sprintf("audiences_%s", $audience->getId());
+            $form = $factory->createNamed($formName, AudienceType::class, $audience);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($audience);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('app_audience_index'); 
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        return new JsonResponse($this->renderView("audience/all_audience.html.twig", [
+            'audiences' => $currentAudiences,
+            'allForms' => $allForms,
+        ]));
+    }*/
+
+    #[Route('/audience', name: 'app_search_audience_by_anything', methods: ['GET'])]
+    public function searchAudienceByAnything(AudienceRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
+    {
+        $target = $req->get('target');
+        $currentAudiences = $repo->findByMultipleFields($target); 
+
+        $allForms = [];
+
+        foreach ($currentAudiences as $audience) {
+            $formName = sprintf("audiences_%s", $audience->getId());
+            $form = $factory->createNamed($formName, AudienceType::class, $audience);
+            $form->handleRequest($req);
+
+            if ($req->getMethod() === "POST" && $req->request->has($formName)) {
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager->persist($audience);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('app_audience_index'); 
+            }
+
+            $allForms[] = [
+                'form' => $form->createView(),
+            ];
+        }
+
+        return new JsonResponse($this->renderView("audience/all_audience.html.twig", [
+            'audiences' => $currentAudiences,
+            'allForms' => $allForms,
+        ]));
+    }
+
 }

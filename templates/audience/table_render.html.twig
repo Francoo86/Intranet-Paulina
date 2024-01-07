@@ -1,0 +1,40 @@
+{% block body %}
+<div class="row flex-lg-nowrap">
+  <div class="col mb-3">
+    <div class="e-panel card">
+      <div class="card-body">
+        <div class="card-title">
+          <h6 class="mr-2">
+            <span>Audiencias</span>
+          </h6>
+        </div>
+        <div class="e-table">
+          <div class="table-responsive table-lg mt-2">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="sortable">ID</th>
+                  <th class="max-width">Demografía</th>
+                  <th class="max-width">Localidad</th>
+                  <th class="max-width">Categoria</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="output_table">
+                {% include 'audience/all_audience.html.twig' %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'audience/audience_search.html.twig' with { "newElement": "Nueva
+  audiencia", 'elementCount': audiences|length, "searchText": "Buscar audiencia
+  ", "searchId": "busca_audiencias", "searchPath":
+  path('app_search_audience_by_anything'), } %} {% include
+  'modal_base_form.html.twig' with { 'passedForm' : creationForm, 'titleForm':
+  'Creación de audiencia', }%}
+</div>
+{% endblock %}

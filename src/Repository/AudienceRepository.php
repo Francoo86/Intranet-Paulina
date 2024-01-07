@@ -6,6 +6,8 @@ use App\Entity\Audience;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use App\Query\Cast;
+
 /**
  * @extends ServiceEntityRepository<Audience>
  *
@@ -39,6 +41,53 @@ class AudienceRepository extends ServiceEntityRepository
         ->groupBy('a.locality')
         ->getQuery()
         ->getArrayResult();
+    }
+
+    public function findByAudienceDemography($value): array
+    {
+    $config = $this->getEntityManager()->getConfiguration();
+    $config->addCustomNumericFunction('CAST', Cast::class);
+
+    return $this->createQueryBuilder('a')
+        ->where('CAST(a.demography as TEXT) LIKE :val')
+        //->andWhere("a.DeletedAt IS NULL")
+        ->setParameter('val', '%'.strtolower($value).'%')
+        ->orderBy('a.id', 'ASC')
+        ->setMaxResults(30)
+        ->getQuery()
+        ->getResult();
+    }
+
+    public function findByAudienceLocation($value): array
+    {
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', Cast::class);
+
+        return $this->createQueryBuilder('a')
+            ->where('CAST(a.locality as TEXT) LIKE :val')
+            ->andWhere("a.DeletedAt IS NULL")
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByMultipleFields($value): array
+    {
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('CAST', Cast::class);
+    
+        return $this->createQueryBuilder('a')
+            ->where('CAST(a.demography as TEXT) LIKE :val')
+            ->orWhere('CAST(a.locality as TEXT) LIKE :val')
+            ->orWhere('CAST(a.type as TEXT) LIKE :val')
+            ->andWhere("a.DeletedAt IS null")
+            ->setParameter('val', '%'.strtolower($value).'%')
+            ->orderBy('a.id', 'ASC')
+            ->setMaxResults(30)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

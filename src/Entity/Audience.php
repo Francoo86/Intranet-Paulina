@@ -27,6 +27,9 @@ class Audience
     #[ORM\OneToMany(mappedBy: 'Audience', targetEntity: Publicity::class)]
     private Collection $publicities;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $DeletedAt = null;
+
     public function __construct()
     {
         $this->publicities = new ArrayCollection();
@@ -104,6 +107,18 @@ class Audience
                 $publicity->setAudience(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDeletedAt(): ?\DateTimeImmutable
+    {
+        return $this->DeletedAt;
+    }
+
+    public function setDeletedAt(?\DateTimeImmutable $DeletedAt): static
+    {
+        $this->DeletedAt = $DeletedAt;
 
         return $this;
     }
