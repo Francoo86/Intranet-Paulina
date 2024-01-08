@@ -48,6 +48,7 @@ class GuidelineType extends AbstractType
                         ->where('g.DeletedAt is NULL');
                 },
                 ])
+            /*
             ->add('manager', EntityType::class, [
                 'class' => Manager::class,
                 'attr' => ['class' => 'form-control'],
@@ -55,7 +56,7 @@ class GuidelineType extends AbstractType
                 'empty_data' => null,
                 'required' => false,
                 'placeholder' => 'Seleccionar manager',
-                ])
+                ])*/
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",
                 'attr' => [
