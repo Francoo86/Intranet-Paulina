@@ -5,6 +5,8 @@ namespace App;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Helper {
     public const POST_METHOD = "POST";
@@ -16,6 +18,12 @@ class Helper {
             $s = ($s + $rut % 10 * (9 - $m++ % 6)) % 11;
         }
         return chr($s ? $s + 47 : 75);
+    }
+
+    public static function IsValidForm(Request $req, FormInterface $form, string $formName) : bool
+    {
+        return ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) &&
+        ($form->isSubmitted() && $form->isValid());
     }
 
     //Returns wrapper, what could i ask more.
