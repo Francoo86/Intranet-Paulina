@@ -43,7 +43,6 @@
                                             <th scope="col">Nombre de pauta</th>
                                             <th scope="col">Numero de emisión</th>
                                             <th scope="col">Fecha de creación</th>
-                                            <th scope="col">Manager de la pauta</th>
                                             <!-- DEBERIA MANDAR A OTRA PAGINA-->
                                             <!--<th scope="col">Editar</th>-->
                                         </tr>
@@ -56,7 +55,6 @@
                                                     <th class="font-weight-normal">{{guideline.showName}}</th>
                                                     <th class="font-weight-normal">{{guideline.emissionNumber}}</th>
                                                     <th class="font-weight-normal">{{ guideline.creationDate ? guideline.creationDate|date('d-m-Y') : '' }}</th>
-                                                    <th class="font-weight-normal">{{ guideline.manager ? guideline.manager : 'Ninguno' }}</th>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
