@@ -56,15 +56,6 @@ class PublicityType extends AbstractType
                     'class' => 'form-control'
                 ],
             ])
-            /*
-            ->add('stock', EntityType::class, [
-                'class' => Stock::class,
-                'label' => "Stock disponible",
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-            ])*/
-            //->add('Guideline')
             ->add('Show', EntityType::class, [
                 'class' => Show::class,
                 'label' => "Programa",

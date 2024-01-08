@@ -99,7 +99,6 @@ class BroadcasterController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$broadcaster->getId(), $request->request->get('_token'))) {
             $broadcaster->setDeletedAt(new DateTimeImmutable());
-            //$entityManager->remove($broadcaster);
             $entityManager->flush();
         }
 
