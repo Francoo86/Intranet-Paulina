@@ -59,8 +59,9 @@ class AudienceRepository extends ServiceEntityRepository
         $config->addCustomNumericFunction('CAST', Cast::class);
 
         return $this->createQueryBuilder('a')
-            ->where('CAST(a.demography as TEXT) LIKE :val')
-            //->andWhere("a.DeletedAt IS NULL")
+            //->where('CAST(a.demography as TEXT) LIKE :val')
+            ->where('LOWER(a.demography) LIKE :val')
+            ->andWhere("a.DeletedAt IS NULL")
             ->setParameter('val', '%'.strtolower($value).'%')
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(30)

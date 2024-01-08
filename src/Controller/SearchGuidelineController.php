@@ -285,7 +285,7 @@ class SearchGuidelineController extends AbstractController
     public function searchAudienceByAnything(AudienceRepository $repo, Request $req, FormFactoryInterface $factory, EntityManagerInterface $entityManager): Response
     {
         $target = $req->get('target');
-        $currentAudiences = $repo->findByMultipleFields($target); 
+        $currentAudiences = $repo->findByAudienceDemography($target);//$repo->findByMultipleFields($target); 
 
         $allForms = [];
 
