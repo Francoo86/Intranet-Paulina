@@ -19,19 +19,19 @@
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal form-title">Log In</h1>
+    <h1 class="h3 mb-3 font-weight-normal form-title">Logearse</h1>
     
     <label for="inputEmail" class="form-label">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-input" autocomplete="email" required autofocus>
 
-    <label for="inputPassword" class="form-label">Password</label>
+    <label for="inputPassword" class="form-label">Contraseña</label>
     <input type="password" name="password" id="inputPassword" class="form-control form-input" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
     <div class="form-group">
-        <button class="btn btn-lg btn-primary form-btn form-btn-primary" type="submit">Sign in</button>
-        <a href="{{ path('app_register') }}" class="btn btn-lg btn-info form-btn">Register</a>
+        <button class="btn btn-lg btn-primary form-btn form-btn-primary" type="submit">Acceder</button>
+        <a href="{{ path('app_register') }}" class="btn btn-lg btn-info form-btn">Registrarse</a>
     </div>
 </form>
 {% endblock %}
