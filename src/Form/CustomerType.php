@@ -42,12 +42,13 @@ class CustomerType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
+            /*
             ->add('rut', NumberType::class, [
                 'label' => 'RUT del cliente',
                 'attr' => [
                     'class' => 'form-control'
                 ]
-            ])
+            ])*/
             ->add('dv', ChoiceType::class, [
                 'label' => 'Digito verificador',
                 'placeholder' =>  'Seleccionar...',
