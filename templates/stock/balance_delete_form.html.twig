@@ -4,15 +4,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="balanceDeleteLabel_{{removeId}}">{{deleteTitle}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body">
                     <p>{{confirmMessage}}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <form method="post" action="{{ path(deletePath, {'id': removeId}) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ removeId) }}">
                         <input type="submit" class="btn btn-danger borrado-button" id="confirmDeleteBtn" data-id="{{removeId}}" value="Borrar">

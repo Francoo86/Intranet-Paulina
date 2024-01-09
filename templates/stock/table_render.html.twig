@@ -1,45 +1,45 @@
 {% block body %}
-    <div class="row flex-lg-nowrap">
-        <div class="col mb-3">
-            <div class="e-panel card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h6 class="mr-2">
-                            <span>Stock de publicidades</span>
-                        </h6>
-                    </div>
-                    <div class="e-table">
-                        <div class="table-responsive table-lg mt-2">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="sortable">ID</th>
-                                        <th class="max-width">Tiempo (en segundos)</th>
-                                        <th class="max-width">Monto</th>
-                                        <th class="max-width">Publicidad</th>
-                                        <th class="max-width">Bolsa</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="output_table">
-                                    {% include 'stock/all_stocks.html.twig' %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="page-content">
+        <div class="container-fluid">
+            {% include 'search.html.twig' with {
+                "newElement": "Nuevo stock",
+                "searchText": "Buscar programas por nombre",
+                "handlerText": "Gestión de stock",
+                "searchPath": path('app_search_show'),
+            } %}
+    
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between d-flex align-items-center">
+                            <h4 class="card-title">Stock de publicidades</h4>
+                        </div><!-- end card header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Tiempo (en segundos)</th>
+                                            <th>Monto</th>
+                                            <th>Publicidad</th>
+                                            <th>Bolsa</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="output_table">
+                                        {% include 'stock/all_stocks.html.twig' %}
+                                    </tbody>
+                                </table>
+                            </div><!-- end responsive --> 
+                        </div><!-- end card body --> 
+                    </div><!-- end card --> 
+                </div><!-- end col --> 
+            </div><!-- end row -->  
         </div>
-        {% include 'search.html.twig' with {
-            "newElement": "Nuevo stock",
-            'elementCount': stocks|length,
-            "searchText": "Buscar programas por nombre",
-            "searchPath": path('app_search_show'),
-        } %}
-
-        {% include 'modal_base_form.html.twig' with {
-            'passedForm' : creationForm,
-            'titleForm': 'Creación de stock para una publicidad',
-        }%}
     </div>
+    
+    {% include 'modal_base_form.html.twig' with {
+        'passedForm' : creationForm,
+        'titleForm': 'Creación de stock para una publicidad',
+    }%}
 {% endblock %}
