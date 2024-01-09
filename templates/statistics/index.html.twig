@@ -114,7 +114,9 @@
 
         function drawAndListen(chart, dataTable, options) {
             window.addEventListener('load', function() {
-                chart.draw(dataTable, options);
+                setInterval(() => {
+                    chart.draw(dataTable, options);
+                }, 0.5);
             })
 
             window.addEventListener('resize', function () {
