@@ -2,23 +2,13 @@
     {% for show in shows %}
         {% set publicities = show.nonDeletedPublicities %}
         <tr>
-            <td class="text-nowrap align-middle">
-                <span>{{ show.id }}</span>
-            </td>
-            <td class="text-justify align-middle">
-                <span>{{ show.name }}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{ show.start ? show.start|date('H:i:s') : 'No ha empezado'}}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{ show.finish ? show.finish|date('H:i:s') : 'No ha finalizado'}}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{ (show.guideline and show.guideline.deletedAt is null) ? show.guideline : "Sin pauta" }}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{show.id}}">
+            <td>{{ show.id }}</td>
+            <td>{{ show.name }}</td>
+            <td>{{ show.start ? show.start|date('H:i:s') : 'No ha empezado'}}</td>
+            <td>{{ show.finish ? show.finish|date('H:i:s') : 'No ha finalizado'}}</td>
+            <td>{{ (show.guideline and show.guideline.deletedAt is null) ? show.guideline : "Sin pauta" }}</td>
+            <td>
+                <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-bs-toggle="modal" data-bs-target="#showsAsociados-{{show.id}}">
                     Ver
                 </button>
                 <!-- Modal -->
@@ -28,43 +18,40 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="showsAsociadosLabel{{show.id}}">Publicidades asociadas al programa</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
-                                
+        
                                 <div class="modal-body">
                                     <table class="table table-striped table-hover table-responsive">
                                         <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Oración de la publicidad</th>
-                                            <th scope="col">Fondo musical</th>
-                                            <th scope="col">Duración (en segundos)</th>
-                                            <th scope="col">Descripción de la publicidad</th>
-                                            <th scope="col">Cliente</th>
-                                            <th scope="col">Audiencia</th>
-                                            <!-- DEBERIA MANDAR A OTRA PAGINA-->
-                                            <!--<th scope="col">Editar</th>-->
-                                        </tr>
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Oración de la publicidad</th>
+                                                <th scope="col">Fondo musical</th>
+                                                <th scope="col">Duración (en segundos)</th>
+                                                <th scope="col">Descripción de la publicidad</th>
+                                                <th scope="col">Cliente</th>
+                                                <th scope="col">Audiencia</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
                                             {% for publicity in publicities %}
                                                 <tr>
-                                                    <th class="font-weight-normal" scope="row">{{publicity.id}}</td>
-                                                    <td class="font-weight-normal">{{publicity.sentence}}</td>
-                                                    <td class="font-weight-normal">{{publicity.background}}</td>
-                                                    <td class="font-weight-normal" scope="row">{{publicity.duration}}</td>
-                                                    <th class="font-weight-normal" style="white-space: normal">{{publicity.description}}</th>
-                                                    <th class="font-weight-normal" style="white-space: normal">{{publicity.customer ? publicity.customer : "SIN CLIENTE"}}
-                                                    <td class="font-weight-normal">{{publicity.audience}}</td>
+                                                    <td>{{publicity.id}}</td>
+                                                    <td>{{publicity.sentence}}</td>
+                                                    <td>{{publicity.background}}</td>
+                                                    <td>{{publicity.duration}}</td>
+                                                    <td style="white-space: normal">{{publicity.description}}</td>
+                                                    <td style="white-space: normal">{{publicity.customer ? publicity.customer : "SIN CLIENTE"}}</td>
+                                                    <td>{{publicity.audience}}</td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -73,16 +60,17 @@
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
-                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
-                        data-target="#user-form-modal_{{ show.id }}">
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal"
+                        data-bs-target="#user-form-modal_{{ show.id }}">
                         Editar
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{show.id}} data-target="#deleteConfirmationModal_{{show.id}}">
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-bs-toggle="modal" data-id="{{show.id}}" data-bs-target="#deleteConfirmationModal_{{show.id}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
             </td>
         </tr>
+            
 
         {% include 'delete_form.html.twig' with {
             'removeId': show.id,

@@ -1,47 +1,45 @@
 {% block body %}
-    <div class="row flex-lg-nowrap">
-        <div class="col mb-3">
-            <div class="e-panel card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h6 class="mr-2">
-                            <span>Programas</span>
-                        </h6>
-                    </div>
-                    <div class="e-table">
-                        <div class="table-responsive table-lg mt-2">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="sortable">ID</th>
-                                        <th class="max-width">Nombre de programa</th>
-                                        <th class="max-width">Hora de inicio</th>
-                                        <th class="max-width">Hora de finalizacion</th>
-                                        <th class="max-width">Pauta</th>
-                                        <th class="max-width">Publicidades</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="output_table">
-                                    {% include 'show/all_shows.html.twig' %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% include 'search.html.twig' with {
-            "newElement": "Nuevo programa.",
-            'elementCount': shows|length,
-            "searchText": "Buscar programas por nombre",
-            "searchId": "busca_programas",
-            "searchPath": path('app_search_show'),
-        } %}
+    <div class="page-content">
+        <div class="container-fluid">
+            {% include 'search.html.twig' with {
+                "newElement": "Nuevo programa",
+                'elementCount': shows|length,
+                "searchText": "Buscar programas por nombre",
+                "searchId": "busca_programas",
+                "searchPath": path('app_search_show'),
+                "handlerText": "Manejo de programas"
+            } %}
+    
 
-        {% include 'modal_base_form.html.twig' with {
-            'passedForm' : creationForm,
-            'titleForm': 'Creación de programa',
-        }%}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between d-flex align-items-center">
+                            <h4 class="card-title">Todas los programas</h4>
+                        </div><!-- end card header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre de programa</th>
+                                            <th>Hora de inicio</th>
+                                            <th>Hora de finalizacion</th>
+                                            <th>Pauta</th>
+                                            <th>Publicidades</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>                                
+                                    <tbody id="output_table">
+                                        {% include 'show/all_shows.html.twig' %}
+                                    </tbody>
+                                </table>
+                            </div><!-- end responsive --> 
+                        </div><!-- end card body --> 
+                    </div><!-- end card --> 
+                </div><!-- end col --> 
+            </div><!-- end row -->  
+        </div>
     </div>
 {% endblock %}
