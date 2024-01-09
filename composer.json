@@ -12,6 +12,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.2",
     "doctrine/orm": "^2.16",
     "knplabs/knp-paginator-bundle": "^6.3",
+    "konekt/pdf-invoice": "^1.14",
     "sasco/libredte": "^21.10",
     "shapecode/hidden-entity-type-bundle": "^5.2",
     "stof/doctrine-extensions-bundle": "*",
