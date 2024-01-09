@@ -21,6 +21,14 @@ class AlertPriceRepository extends ServiceEntityRepository
         parent::__construct($registry, AlertPrice::class);
     }
 
+    public function findTheOnlyRow()
+    {
+        return $this->createQueryBuilder('e')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return AlertPrice[] Returns an array of AlertPrice objects
 //     */
