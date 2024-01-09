@@ -7,6 +7,7 @@ use App\Form\CustomerType;
 use App\Helper;
 use App\Repository\CustomerRepository;
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -67,6 +68,11 @@ class CustomerController extends AbstractController
             'allForms' => $allForms,
             'creationForm' => $creationForm
         ]);
+    }
+
+    #[Route('/{id}/publicities', name: 'app_customer_publicities', methods: ['POST'])]
+    public function AllPublicities(Customer $ct, Request $req, CustomerRepository $repo){
+
     }
 
     #[Route('/{id}', name: 'app_customer_delete', methods: ['POST'])]

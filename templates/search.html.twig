@@ -1,54 +1,46 @@
 {% block body %}
-    <div class="col-12 col-lg-3 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="text-center px-xl-3">
-                    <button class="btn btn-success btn-block" type="button" data-bs-toggle="modal" data-bs-target="#user-form-modal_new">
-                        {{newElement|default('New element')}}
-                    </button>
-                </div>
-                <hr class="my-3" />
-                <div class="e-navlist e-navlist--active-bold">
-                    <ul class="nav">
-                        <li class="nav-item active">
-                            <a href class="nav-link">
-                                <span>Todos</span>&nbsp;
-                                <small>/&nbsp;{{elementCount}}</small>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <hr class="my-3" />
-                {% if searchId is defined %}
-                    <div>
-                        <div class="form-group">
-                            <label>{{searchText|default("Search")}}</label>
-                            <div>
-                                <input id="{{searchId}}" class="form-control w-100" type="text" placeholder="" value />
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header justify-content-between d-flex align-items-center">
+                    <h4 class="card-title">{{handlerText}}</h4>
+                </div><!-- end card header -->
+                <div class="card-body">
+         
+                    <div class="row gx-3 gy-2 align-items-center">
+                        {% if searchId is defined %}
+                            <div class="col-sm-5">
+                                <label for="inputName">{{searchText}}</label>
+                                <input type="text" class="form-control" id="{{searchId}}" placeholder="">
                             </div>
+                        {% endif %}   
+                        <!-- end col -->
+                        <div class="col-auto align-self-end mt-4">
+                            <button type="button" class="btn btn-primary"  data-bs-toggle="modal"  data-bs-target="#user-form-modal_new">{{newElement}}</button>
                         </div>
-                    </div>
-                    <hr class="my-3" />
-                    <script defer type="text/javascript">
-                        $("#{{searchId}}").change(function (e) { 
-                            e.preventDefault();
-            
-                            let search = $(this).val();
-            
-                            $.ajax({
-                                type: 'GET',
-                                url: "{{searchPath}}",
-                                data: {'target': search},
-                                dataType: 'json',
-                                success: function (response) {
-                                    //console.log(response);
-                                    $("#output_table").html(response);
-                                }
-                            });
-                        });
-                    </script>
-                {% endif %}
-            </div>
-        </div>
+                        <!-- end col -->
+                    </div><!-- end form -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
+
+        <script defer type="text/javascript">
+            $("#{{searchId}}").change(function (e) { 
+                e.preventDefault();
+
+                let search = $(this).val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: "{{searchPath}}",
+                    data: {'target': search},
+                    dataType: 'json',
+                    success: function (response) {
+                        //console.log(response);
+                        $("#output_table").html(response);
+                    }
+                });
+            });
+        </script>
     </div>
 {% endblock %}

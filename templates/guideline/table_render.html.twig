@@ -1,41 +1,47 @@
 {% block body %}
-<div class="row flex-lg-nowrap">
-  <div class="col mb-3">
-    <div class="e-panel card">
-      <div class="card-body">
-        <div class="card-title">
-          <h6 class="mr-2">
-            <span>Pautas</span>
-          </h6>
-        </div>
-        <div class="e-table">
-          <div class="table-responsive table-lg mt-2">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th class="sortable">ID</th>
-                  <th class="max-width">Nombre de pauta</th>
-                  <th class="max-width">Numero de emisión</th>
-                  <th class="max-width">Fecha de creación</th>
-                  <th class="max-width">Locutor</th>
-                  <th class="max-width">Programas</th>
-                  <th>Acciones</th>
-                  <th class="max-width">Reporte</th>
-                </tr>
-              </thead>
-              <tbody id="output_table">
-                {% include 'guideline/all_guidelines.html.twig' %}
-              </tbody>
-            </table>
+  <div class="row flex-lg-nowrap">
+      <div class="col mb-3">
+          <div class="e-panel card">
+              <div class="card-body">
+                  <div class="card-title">
+                      <h6 class="mr-2">
+                          <span>Pautas</span>
+                      </h6>
+                  </div>
+                  <div class="e-table">
+                      <div class="table-responsive table-lg mt-2">
+                          <table class="table table-bordered">
+                              <thead>
+                                  <tr>
+                                      <th>ID</th>
+                                      <th>Nombre de pauta</th>
+                                      <th>Numero de emisión</th>
+                                      <th>Fecha de creación</th>
+                                      <th>Locutor</th>
+                                      <th>Programas</th>
+                                      <th>Acciones</th>
+                                      <th>Reporte</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="output_table">
+                                  {% include 'guideline/all_guidelines.html.twig' %}
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
+      {% include 'search.html.twig' with {
+          "newElement": "Nueva pauta.",
+          'elementCount': guidelines|length,
+          "searchText": "Buscar pauta por nombre",
+          "searchId": "busca_pautas",
+          "searchPath": path('app_search_guideline'),
+      } %}
+      {% include 'modal_base_form.html.twig' with {
+          'passedForm' : creationForm,
+          'titleForm': 'Creación de pauta',
+      } %}
   </div>
-  {% include 'search.html.twig' with { "newElement": "Nueva pauta.",
-  'elementCount': guidelines|length, "searchText": "Buscar pauta por nombre",
-  "searchId": "busca_pautas", "searchPath": path('app_search_guideline'), } %}
-  {% include 'modal_base_form.html.twig' with { 'passedForm' : creationForm,
-  'titleForm': 'Creación de pauta', }%}
-</div>
 {% endblock %}
