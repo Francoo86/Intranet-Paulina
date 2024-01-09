@@ -20,6 +20,19 @@ class CustomerController extends AbstractController
     //protected const POST_METHOD = "POST";
     protected const NEW_ELEMENT = "new_customer";
     protected const MAIN_PAGE = 'app_customer_index';
+
+    public function createCustomerForm(
+        Customer $customer = null, 
+        string $formName, 
+        Request $req, 
+        FormFactoryInterface $factory,
+        )
+    {
+        $form = $factory->createNamed($formName, CustomerType::class, $customer);
+        $form->handleRequest($req);
+    
+        return $form;
+    }
     
     #[Route('/', name: 'app_customer_index', methods: ['GET', 'POST'])]
     public function index(CustomerRepository $customerRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
@@ -29,16 +42,10 @@ class CustomerController extends AbstractController
     
         foreach ($allCustomers as $customer) {
             $formName = sprintf("customer_%s", $customer->getId());
-            $form = $factory->createNamed($formName, CustomerType::class, $customer);
-            $form->handleRequest($req);
-    
-            if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
-    
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $entityManager->persist($customer);
-                    $entityManager->flush();
-                }
-    
+            $form = $this->createCustomerForm($customer, $formName, $req, $factory);//$factory->createNamed($formName, CustomerType::class, $customer);
+
+            if(Helper::IsValidForm($req, $form, $formName)) {
+                Helper::SendPersonToDB($entityManager, $customer);
                 return $this->redirectToRoute(self::MAIN_PAGE);
             }
     
@@ -47,21 +54,16 @@ class CustomerController extends AbstractController
             ];
         }
     
-        $newCustomer = new Customer(); // Change "newBroadcaster" to "newCustomer"
-        $creationForm = $factory->createNamed(self::NEW_ELEMENT, CustomerType::class, $newCustomer); // Change "BroadcasterType::class" to "CustomerType::class"
-        $creationForm->handleRequest($req);
-    
-        if ($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)) {
-            if ($creationForm->isSubmitted() && $creationForm->isValid()) {
-                $entityManager->persist($newCustomer);
-                $entityManager->flush();
-    
-                return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
-            }
+        $newCustomer = new Customer();
+        $creationForm = $this->createCustomerForm($newCustomer, self::NEW_ELEMENT, $req, $factory);
+
+        if(Helper::IsValidForm($req, $creationForm, self::NEW_ELEMENT)){
+            Helper::SendPersonToDB($entityManager, $newCustomer);
+            return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
-    
-        return $this->render('customer/customer_index.html.twig', [ // Change "'broadcaster/broadcaster_index.html.twig'" to "'customer/customer_index.html.twig'"
-            'customers' => $allCustomers, // Change "'broadcasters'" to "'customers'"
+
+        return $this->render('customer/customer_index.html.twig', [
+            'customers' => $allCustomers,
             'allForms' => $allForms,
             'creationForm' => $creationForm
         ]);

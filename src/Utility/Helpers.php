@@ -2,9 +2,12 @@
 
 namespace App;
 
+use App\Interfaces\IPersonInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,6 +27,16 @@ class Helper {
     {
         return ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) &&
         ($form->isSubmitted() && $form->isValid());
+    }
+
+    public static function SendPersonToDB(EntityManagerInterface $manager, IPersonInterface $person){
+        $rut = $person->getRut();
+        $verifierDigit = Helper::GetVerifierDigit($rut);
+        $person->setDv($verifierDigit);
+
+        $manager->persist($person);
+        $manager->flush();
+        //return $controller->redirectToRoute($mainPage, status : $statusCode);
     }
 
     //Returns wrapper, what could i ask more.

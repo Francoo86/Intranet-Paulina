@@ -27,28 +27,10 @@ class BroadcasterController extends AbstractController
         FormFactoryInterface $factory,
         )
     {
-
         $form = $factory->createNamed($formName, BroadcasterType::class, $broadcaster);
         $form->handleRequest($req);
     
         return $form;
-    }
-
-    public function handleFormRedirect(
-        string $formName,
-        EntityManagerInterface $manager,
-        Broadcaster $broadcaster = null
-        )
-    {
-        //TODO: Refactorizar también para clientes.
-        $brRut = $broadcaster->getRut();
-        $verifierDigit = Helper::GetVerifierDigit($brRut);
-        $broadcaster->setDv($verifierDigit);
-
-        $manager->persist($broadcaster);
-        $manager->flush();
-
-        return $this->redirectToRoute(self::MAIN_PAGE, status : $formName == self::NEW_ELEMENT ? Response::HTTP_SEE_OTHER : 302);
     }
 
     #[Route('/', name: 'app_broadcaster_index', methods: ['GET', 'POST'])]
@@ -62,7 +44,8 @@ class BroadcasterController extends AbstractController
             $form = $this->createBroadcasterForm($broadcaster, $formName, $req, $factory);
 
             if(Helper::IsValidForm($req, $form, $formName)) {
-                return $this->handleFormRedirect($formName, $entityManager, $broadcaster);
+                Helper::SendPersonToDB($entityManager, $broadcaster);
+                return $this->redirectToRoute(self::MAIN_PAGE);
             }
 
             $allForms[] = [
@@ -74,7 +57,8 @@ class BroadcasterController extends AbstractController
         $creationForm = $this->createBroadcasterForm($newBroadcaster, self::NEW_ELEMENT, $req, $factory);
 
         if(Helper::IsValidForm($req, $creationForm, self::NEW_ELEMENT)){
-            return $this->handleFormRedirect(self::NEW_ELEMENT, $entityManager, $newBroadcaster);
+            Helper::SendPersonToDB($entityManager, $newBroadcaster);
+            return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
     
         return $this->render('broadcaster/broadcaster_index.html.twig', [
