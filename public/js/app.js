@@ -373,6 +373,33 @@
           }
         });
       });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check localStorage on page load
+        var darkPaulina = localStorage.getItem("darkPaulina");
+      
+        if (darkPaulina === "true") {
+          // Dark mode
+          document.body.setAttribute("data-layout-mode", "dark");
+          document.body.setAttribute("data-topbar", "dark");
+          document.body.setAttribute("data-sidebar", "dark");
+          if (n.hasAttribute("data-layout") && n.getAttribute("data-layout") === "horizontal") {
+            document.body.setAttribute("data-sidebar", "dark");
+          }
+          m("topbar-color-dark");
+          m("sidebar-color-dark");
+        } else {
+          // Light mode
+          document.body.setAttribute("data-layout-mode", "light");
+          document.body.setAttribute("data-topbar", "light");
+          document.body.setAttribute("data-sidebar", "light");
+          if (n.hasAttribute("data-layout") && n.getAttribute("data-layout") === "horizontal") {
+            document.body.setAttribute("data-sidebar", "light");
+          }
+          m("topbar-color-light");
+          m("sidebar-color-light");
+        }
+      });
+      
     document
       .querySelectorAll("input[name='layout-direction']")
       .forEach(function (e) {
