@@ -96,8 +96,7 @@
                     </button>
                     <div class="dropdown-menu dropdown-menu-end pt-0">
                         <h6 class="dropdown-header">¡Bienvenido! {{app.user.email}}</h6>
-                        <a class="dropdown-item" href="auth-lockscreen-cover.html"><i class="mdi mdi-lock text-muted font-size-16 align-middle me-1"></i> <span class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="auth-signout-cover.html"><i class="mdi mdi-logout text-muted font-size-16 align-middle me-1"></i> <span class="align-middle">Logout</span></a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="mdi mdi-logout text-muted font-size-16 align-middle me-1"></i> <span class="align-middle">Deslogearse</span></a>
                     </div>
                 </div>
             </div>
