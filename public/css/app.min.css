@@ -4146,63 +4146,6 @@ a.ck.ck-button:not(.ck-disabled):hover {
 .wizard-tab {
   display: none;
 }
-.apex-charts {
-  min-height: 10px !important;
-}
-.apex-charts text {
-  font-family: "Noto Sans", sans-serif !important;
-}
-.apex-charts .apexcharts-canvas {
-  margin: 0 auto;
-}
-.apexcharts-tooltip-text,
-.apexcharts-tooltip-title {
-  font-family: "Noto Sans", sans-serif !important;
-}
-.apexcharts-tooltip {
-  border: 1px solid var(--bs-border-color) !important;
-  background-color: var(--bs-card-bg) !important;
-  -webkit-box-shadow: 0 2px 3px rgba(52, 58, 64, 0.06) !important;
-  box-shadow: 0 2px 3px rgba(52, 58, 64, 0.06) !important;
-}
-.apexcharts-tooltip * {
-  font-family: "Noto Sans", sans-serif !important;
-  color: #959396 !important;
-}
-.apexcharts-tooltip .apexcharts-tooltip-title {
-  background-color: rgba(var(--bs-light-rgb), 0.75) !important;
-  border-bottom: 1px solid var(--bs-border-color) !important;
-}
-.apexcharts-tooltip.apexcharts-theme-dark * {
-  color: #fff !important;
-}
-.apexcharts-legend-series {
-  font-weight: 500;
-}
-.apexcharts-gridline {
-  pointer-events: none;
-  stroke: rgba(var(--bs-light-rgb), 0.75);
-}
-.apexcharts-legend-text {
-  color: #959396 !important;
-  font-family: "Noto Sans", sans-serif !important;
-  font-size: 13px !important;
-}
-.apexcharts-pie-label {
-  fill: #fff !important;
-}
-.apexcharts-subtitle-text,
-.apexcharts-title-text {
-  fill: #adb5bd;
-}
-.apexcharts-xaxis text,
-.apexcharts-yaxis text {
-  font-family: "Noto Sans", sans-serif !important;
-  fill: #adb5bd;
-}
-.apexcharts-yaxis-title {
-  font-weight: 500;
-}
 #dynamicloadedchart-wrap {
   margin: 0 auto;
   max-width: 800px;
