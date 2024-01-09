@@ -15,6 +15,7 @@ use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Guideline;
 use App\Entity\Manager;
+use App\Repository\AlertPriceRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\GuidelineRepository;
 use App\Repository\ShowRepository;
@@ -183,7 +184,7 @@ class SendEmailController extends AbstractController
     }
 
     #[Route('/send/AlertEmail/Data', name: 'app_send_alert_email_data', methods: ['GET', 'POST'])]
-    public function sendAlertEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, Environment $twig): Response
+    public function sendAlertEmailData(MailerInterface $mailer, CustomerRepository $customerRepository, AlertPriceRepository $alertRepo, Environment $twig): Response
     {
         try {
             $customers = $customerRepository->findAll();
@@ -191,7 +192,8 @@ class SendEmailController extends AbstractController
             return new Response('Error retrieving customers from the database');
         }
 
-        $alertAmount = 1000;
+        //$alertAmount = 1000;
+        $alertAmount = $alertRepo->findTheOnlyRow();
 
         foreach ($customers as $customer) {
             foreach ($customer->getPublicity() as $publicity) {
