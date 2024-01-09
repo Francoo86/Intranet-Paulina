@@ -29,13 +29,21 @@ class Helper {
         ($form->isSubmitted() && $form->isValid());
     }
 
-    public static function SendPersonToDB(EntityManagerInterface $manager, IPersonInterface $person){
+    public static function SendPersonToDB(EntityManagerInterface $manager, IPersonInterface $person) : bool {
         $rut = $person->getRut();
+        $rutStr = strval($rut);
+
+        if(strlen($rutStr) < 7 || strlen($rutStr) > 8){
+            return false;
+        }
+
         $verifierDigit = Helper::GetVerifierDigit($rut);
         $person->setDv($verifierDigit);
 
         $manager->persist($person);
         $manager->flush();
+
+        return true;
         //return $controller->redirectToRoute($mainPage, status : $statusCode);
     }
 

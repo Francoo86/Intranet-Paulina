@@ -44,7 +44,11 @@ class BroadcasterController extends AbstractController
             $form = $this->createBroadcasterForm($broadcaster, $formName, $req, $factory);
 
             if(Helper::IsValidForm($req, $form, $formName)) {
-                Helper::SendPersonToDB($entityManager, $broadcaster);
+                $res = Helper::SendPersonToDB($entityManager, $broadcaster);
+                if(!$res) {
+                    $this->addFlash("error", "El RUT no es válido, tiene que poseer 7 u 8 caracteres.");
+                }
+
                 return $this->redirectToRoute(self::MAIN_PAGE);
             }
 
@@ -57,7 +61,10 @@ class BroadcasterController extends AbstractController
         $creationForm = $this->createBroadcasterForm($newBroadcaster, self::NEW_ELEMENT, $req, $factory);
 
         if(Helper::IsValidForm($req, $creationForm, self::NEW_ELEMENT)){
-            Helper::SendPersonToDB($entityManager, $newBroadcaster);
+            $res = Helper::SendPersonToDB($entityManager, $newBroadcaster);
+            if(!$res) {
+                $this->addFlash("error", "El RUT no es válido, tiene que poseer 7 u 8 caracteres.");
+            }
             return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
     

@@ -48,7 +48,10 @@ class CustomerController extends AbstractController
             $form = $this->createCustomerForm($customer, $formName, $req, $factory);//$factory->createNamed($formName, CustomerType::class, $customer);
 
             if(Helper::IsValidForm($req, $form, $formName)) {
-                Helper::SendPersonToDB($entityManager, $customer);
+                $res = Helper::SendPersonToDB($entityManager, $customer);
+                if(!$res) {
+                    $this->addFlash("error", "El RUT no es válido, tiene que poseer 7 u 8 caracteres.");
+                }
                 return $this->redirectToRoute(self::MAIN_PAGE);
             }
     
@@ -61,7 +64,10 @@ class CustomerController extends AbstractController
         $creationForm = $this->createCustomerForm($newCustomer, self::NEW_ELEMENT, $req, $factory);
 
         if(Helper::IsValidForm($req, $creationForm, self::NEW_ELEMENT)){
-            Helper::SendPersonToDB($entityManager, $newCustomer);
+            $res = Helper::SendPersonToDB($entityManager, $newCustomer);
+            if(!$res) {
+                $this->addFlash("error", "El RUT no es válido, tiene que poseer 7 u 8 caracteres.");
+            }
             return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
         
