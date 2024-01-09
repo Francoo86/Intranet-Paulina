@@ -24,7 +24,7 @@ class PublicityController extends AbstractController
     #[Route('/', name: 'app_publicity_index', methods: ['GET', 'POST'])]
     public function index(PublicityRepository $publicityRepository, FormFactoryInterface $factory, Request $req, EntityManagerInterface $entityManager): Response
     {
-        $allPublicities = Helper::FindAllOrderedById($publicityRepository);//$publicityRepository->findAllOrderedById();
+        $allPublicities = Helper::FindAllOrderedById($publicityRepository);
         $allForms = [];
 
         foreach ($allPublicities as $publicity) {
