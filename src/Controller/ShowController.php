@@ -52,13 +52,16 @@ class ShowController extends AbstractController
         $creationForm = $factory->createNamed(self::NEW_ELEMENT, ShowType::class, $newshow);
         $creationForm->handleRequest($req);
 
+
+
         if($req->getMethod() === self::POST_METHOD && $req->request->has(self::NEW_ELEMENT)){
+
             if ($creationForm->isSubmitted() && $creationForm->isValid()) {
                 $entityManager->persist($newshow);
                 $entityManager->flush();
-    
-                return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
             }
+
+            return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('show/index.html.twig', [
