@@ -82,68 +82,25 @@
 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button">
-                                        <i class="bx bx-customize icon"></i>
-                                        <span data-key="t-apps">Apps</span> <div class="arrow-down"></div>
+                                        <i class="bx bx-edit-alt"></i>
+                                        <span data-key="t-apps">Gestion</span> <div class="arrow-down"></div>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-pages">
 
-                                        <a href="apps-calendar.html" class="dropdown-item" data-key="t-calendar">Calendar</a>
-                                        <a href="apps-chat.html" class="dropdown-item" data-key="t-chat">Chat</a>
-                                        <a href="apps-kanban-board.html" class="dropdown-item" data-key="t-kanban">Kanban Board</a>
-                                        <a href="apps-file-manager.html" class="dropdown-item" data-key="t-filemanager">File Manager</a>
+                                        <a href="{{path('app_guideline_index')}}" class="dropdown-item" data-key="t-calendar">Pautas</a>
+                                        <a href="{{path('app_show_index')}}" class="dropdown-item" data-key="t-chat">Programas</a>
+                                        <a href="{{path('app_publicity_index')}}" class="dropdown-item" data-key="t-kanban">Publicidades</a>
+                                        <a href="{{path('app_audience_index')}}" class="dropdown-item" data-key="t-filemanager">Audiencias</a>
+                                        <a href="{{path('app_stock_index')}}" class="dropdown-item" data-key="t-stocks">Stocks</a>
 
                                         <div class="dropdown">
                                             <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-ecommerce"
                                                 role="button">
-                                                <span data-key="t-ecommerce">Ecommerce</span> <div class="arrow-down"></div>
+                                                <span data-key="t-ecommerce">Recursos humanos</span> <div class="arrow-down"></div>
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
-                                                <a href="ecommerce-products.html" class="dropdown-item" data-key="t-products">Products</a>
-                                                <a href="ecommerce-product-detail.html" class="dropdown-item" data-key="t-product-detail">Product Detail</a>
-                                                <a href="ecommerce-orders.html" class="dropdown-item" data-key="t-orders">Orders</a>
-                                                <a href="ecommerce-customers.html" class="dropdown-item" data-key="t-customers">Customers</a>
-                                                <a href="ecommerce-cart.html" class="dropdown-item" data-key="t-cart">Cart</a>
-                                                <a href="ecommerce-checkout.html" class="dropdown-item" data-key="t-checkout">Checkout</a>
-                                                <a href="ecommerce-shops.html" class="dropdown-item" data-key="t-shops">Shops</a>
-                                                <a href="ecommerce-add-product.html" class="dropdown-item" data-key="t-add-product">Add Product</a>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-email"
-                                                role="button">
-                                                <span data-key="t-email">Email</span> <div class="arrow-down"></div>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="topnav-email">
-                                                <a href="email-inbox.html" class="dropdown-item" data-key="t-inbox">Inbox</a>
-                                                <a href="email-read.html" class="dropdown-item" data-key="t-read-email">Read Email</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-contact"
-                                                role="button">
-                                            <span data-key="t-contacts">Contacts</span> <div class="arrow-down"></div>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="topnav-contact">
-                                                <a href="contacts-grid.html" class="dropdown-item" data-key="t-user-grid">User Grid</a>
-                                                <a href="contacts-list.html" class="dropdown-item" data-key="t-user-list">User List</a>
-                                                <a href="contacts-settings.html" class="dropdown-item" data-key="t-user-settings">User Settings</a>
-                                            </div>
-                                        </div>
-
-                                        <a href="apps-gallery.html" class="dropdown-item" data-key="t-gallery">Gallery</a>
-
-                                
-                                        <div class="dropdown">
-                                            <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-projects"
-                                                role="button">
-                                            <span data-key="t-projects">Projects</span> <div class="arrow-down"></div>
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="topnav-projects">
-                                                <a href="projects-grid.html" class="dropdown-item" data-key="t-p-grid">Projects Grid</a>
-                                                <a href="projects-list.html" class="dropdown-item" data-key="t-p-list">Projects List</a>
-                                                <a href="projects-overview.html" class="dropdown-item" data-key="t-p-overview">Project Overview</a>
-                                                <a href="projects-create.html" class="dropdown-item" data-key="t-create-new">Create New</a>
+                                                <a href="{{path('app_customer_index')}}" class="dropdown-item" data-key="t-products">Clientes</a>
+                                                <a href="{{path('app_broadcaster_index')}}" class="dropdown-item" data-key="t-product-detail">Locutores</a>
                                             </div>
                                         </div>
                                     </div>
