@@ -193,13 +193,14 @@ class SendEmailController extends AbstractController
         }
 
         //$alertAmount = 1000;
-        $alertAmount = $alertRepo->findTheOnlyRow();
+        $alertAmount = $alertRepo->findTheOnlyRow()->getPrice();
 
         foreach ($customers as $customer) {
             foreach ($customer->getPublicity() as $publicity) {
                 $stock = $publicity->getStock();
 
                 if ($stock && $stock->getBalance() && $stock->getBalance()->getAmount() < $alertAmount) {
+                    //dd($stock->getBalance()->getAmount(), $alertAmount);
                     
                     $name = $customer->getName() ?? 'UndefinedName';
                     $organisation = $customer->getOrganisation() ?? 'UndefinedOrganisation';
