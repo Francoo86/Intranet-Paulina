@@ -28,7 +28,7 @@ class Customer implements IPersonInterface
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Publicity::class)]
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Publicity::class, fetch:"EAGER")]
     private Collection $Publicity;
 
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Payment::class)]

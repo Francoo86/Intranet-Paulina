@@ -36,10 +36,10 @@ class Publicity
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Audience $Audience = null;*/
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'], fetch: "EAGER")]
     private ?Stock $Stock = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Publicity')]
+    #[ORM\ManyToOne(inversedBy: 'Publicity', fetch: "EAGER")]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne(inversedBy: 'publicities')]

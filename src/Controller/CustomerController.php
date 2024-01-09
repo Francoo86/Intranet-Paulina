@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Enhancements\ChileanInvoicePrinter;
 use App\Entity\Customer;
 use App\Form\CustomerType;
 use App\Helper;
@@ -11,6 +12,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,9 +72,57 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/publicities', name: 'app_customer_publicities', methods: ['POST'])]
-    public function AllPublicities(Customer $ct, Request $req, CustomerRepository $repo){
+    #[Route('/{id}/boleta', name: 'app_customer_boletas', methods: ['GET'])]
+    public function Boleta(Customer $ct, Request $req) : Response {
+        $publicities = $ct->getPublicity();
 
+        if(count($publicities) <= 0){
+            return new JsonResponse([
+                'message' => 'Este cliente no posee publicidades como para crear una boleta.'
+            ]);
+        }
+
+        $invoice = new ChileanInvoicePrinter();
+            
+        /* Header settings */
+        $invoice->setLogo("images/better-logo.png");   //logo image path
+        $invoice->setColor("#007fff");      // pdf color scheme
+        $invoice->setType("BOLETA");    // Invoice Type
+        $invoice->setReference("BOL-55033645");   // Reference
+        $invoice->setDate(date('M dS ,Y',time()));   //Billing Date
+        $invoice->setTime(date('h:i:s A',time()));   //Billing Time
+        //$invoice->setDue(date('M dS ,Y',strtotime('+3 months')));    // Due Date
+        $invoice->setFrom(array("PRESTADOR DEL SERVICIO", "Radio Paulina"));//,"128 AA Juanita Ave","Glendora , CA 91740"));
+        $invoice->setTo(array("COMPRADOR", $ct->getName(), $ct->getOrganisation())); //"Glendora , CA 91740"));
+
+        $allPubsAmount = 0;
+        $allImpuestos = 0;
+
+        foreach($publicities as $pub){
+            $stock = $pub->getStock();
+            $total = $stock->getAmount();
+            $impuesto = $total * 0.19;
+
+            $totalDeTotales = $total + $impuesto;
+            
+            $invoice->addItem("Publicidad", $pub->getSentence(), 1, $impuesto, $total, 0, $totalDeTotales);
+
+            $allPubsAmount += $total;
+            $allImpuestos += $impuesto;
+        }
+        
+        $invoice->addTotal("Total", $allPubsAmount);
+        $invoice->addTotal("IVA 19%", $impuesto);
+        $invoice->addTotal("Monto final", $allPubsAmount + $impuesto, true);
+        
+        $invoice->setFooternote("Radio Paulina");
+        
+        $fileName = sprintf("%s_boleta_ref.pdf", $ct->getRut());
+        $invoice->render($fileName, 'D');
+
+        return new JsonResponse([
+            'message' => 'Downloaded with success',
+        ]);
     }
 
     #[Route('/{id}', name: 'app_customer_delete', methods: ['POST'])]

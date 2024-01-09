@@ -1,20 +1,84 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_rework.html.twig' %}
 
-{% block title %}Hello DTEController!{% endblock %}
+{% block content %}
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between d-flex align-items-center">
+                            <h4 class="card-title"> Obtener boleta de cliente </h4>
+                        </div><!-- end card header -->
+                        <div class="card-body">            
+                            <div class="row gx-3 gy-2 align-items-center">
+                                <div class="col-sm-5">
+                                    <label class="visually-hidden" for="boletaIdMoment">RUT</label>
+                                    <input type="text" class="form-control" id="boletaIdMoment" placeholder="RUT del cliente">
+                                </div>
+    
+                                <script defer type="text/javascript">
+                                $("#boletaIdMoment").change(function (e) { 
+                                    e.preventDefault();
+                    
+                                    let search = $(this).val();
+                    
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: "{{path('app_search_boletas')}}",
+                                        data: {'rut_boleta': search},
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            $("#customerTable tbody").empty();
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+                                            $.each(response, function(index, data) {
+                                                var row = "<tr>" +
+                                                    "<td>" + data.rut + "</td>" +
+                                                    "<td>" + data.nombre + "</td>" +
+                                                    "<td>" + data.empresa + "</td>" +
+                                                    "<td>" + data.pubcount + "</td>" +
+                                                    "<td><a href='" + data.link + "' target='_blank'>Ver Boleta</a></td>" +
+                                                    "</tr>";
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Franco/Documents/GitHub/SIG-Proyecto/src/Controller/DTEController.php'|file_link(0) }}">src/Controller/DTEController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Franco/Documents/GitHub/SIG-Proyecto/templates/dte/index.html.twig'|file_link(0) }}">templates/dte/index.html.twig</a></code></li>
-    </ul>
-</div>
+                                                $("#customerTable tbody").append(row);
+                                            });
+                                        }
+                                    });
+                                });
+                            </script>
+                                <!-- end col -->
+                            </div><!-- end form -->
+                        </div><!-- end card body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between d-flex align-items-center">
+                            <h4 class="card-title">Clientes disponibles</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="customerTable" class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>RUT Cliente</th>
+                                            <th>Nombre cliente</th>
+                                            <th>Empresa cliente</th>
+                                            <th>Cant. Publicidades</th>
+                                            <th>Enlace a boleta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Table rows will be dynamically added here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+        </div> <!-- container-fluid -->
+    </div>
 {% endblock %}

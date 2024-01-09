@@ -19,7 +19,7 @@ class Stock
     #[ORM\Column]
     private ?int $amount = null;
 
-    #[ORM\OneToOne(inversedBy: 'Stock')]
+    #[ORM\OneToOne(inversedBy: 'Stock', fetch: "EAGER")]
     private ?Publicity $Publicity = null;
 
     #[ORM\OneToOne(mappedBy: 'Stock', cascade: ['persist', 'remove'])]
