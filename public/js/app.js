@@ -10,25 +10,25 @@
     document.getElementById("header-lang-img") &&
       ("en" == e
         ? (document.getElementById("header-lang-img").src =
-            "assets/images/flags/us.jpg")
+            "images/flags/us.jpg")
         : "sp" == e
         ? (document.getElementById("header-lang-img").src =
-            "assets/images/flags/spain.jpg")
+            "images/flags/spain.jpg")
         : "gr" == e
         ? (document.getElementById("header-lang-img").src =
-            "assets/images/flags/germany.jpg")
+            "images/flags/germany.jpg")
         : "it" == e
         ? (document.getElementById("header-lang-img").src =
-            "assets/images/flags/italy.jpg")
+            "images/flags/italy.jpg")
         : "ru" == e &&
           (document.getElementById("header-lang-img").src =
-            "assets/images/flags/russia.jpg"),
+            "images/flags/russia.jpg"),
       localStorage.setItem("language", e),
       (o = localStorage.getItem("language")),
       (function () {
         null == o && l(s);
         var e = new XMLHttpRequest();
-        e.open("GET", "/assets/lang/" + o + ".json"),
+        e.open("GET", "/lang/" + o + ".json"),
           (e.onreadystatechange = function () {
             var n;
             4 === this.readyState &&
@@ -119,20 +119,20 @@
                 (document.getElementById("layout-direction-rtl").checked = !1),
                 document
                   .getElementById("bootstrap-style")
-                  .setAttribute("href", "assets/css/bootstrap.min.css"),
+                  .setAttribute("href", "css/bootstrap.min.css"),
                 document
                   .getElementById("app-style")
-                  .setAttribute("href", "assets/css/app.min.css"),
+                  .setAttribute("href", "css/app.min.css"),
                 sessionStorage.setItem("is_visited", "layout-direction-ltr"))
               : 1 == document.getElementById("layout-direction-rtl").checked &&
                 "layout-direction-rtl" === n &&
                 ((document.getElementById("layout-direction-ltr").checked = !1),
                 document
                   .getElementById("bootstrap-style")
-                  .setAttribute("href", "assets/css/bootstrap-rtl.min.css"),
+                  .setAttribute("href", "css/bootstrap-rtl.min.css"),
                 document
                   .getElementById("app-style")
-                  .setAttribute("href", "assets/css/app-rtl.min.css"),
+                  .setAttribute("href", "css/app-rtl.min.css"),
                 document
                   .getElementsByTagName("html")[0]
                   .setAttribute("dir", "rtl"),
@@ -410,17 +410,17 @@
                   .removeAttribute("dir"),
                 document
                   .getElementById("bootstrap-style")
-                  .setAttribute("href", "assets/css/bootstrap.min.css"),
+                  .setAttribute("href", "css/bootstrap.min.css"),
                 document
                   .getElementById("app-style")
-                  .setAttribute("href", "assets/css/app.min.css"),
+                  .setAttribute("href", "css/app.min.css"),
                 sessionStorage.setItem("is_visited", "layout-direction-ltr"))
               : (document
                   .getElementById("bootstrap-style")
-                  .setAttribute("href", "assets/css/bootstrap-rtl.min.css"),
+                  .setAttribute("href", "css/bootstrap-rtl.min.css"),
                 document
                   .getElementById("app-style")
-                  .setAttribute("href", "assets/css/app-rtl.min.css"),
+                  .setAttribute("href", "css/app-rtl.min.css"),
                 document
                   .getElementsByTagName("html")[0]
                   .setAttribute("dir", "rtl"),
