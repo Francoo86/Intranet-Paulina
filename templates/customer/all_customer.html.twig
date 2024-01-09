@@ -3,24 +3,11 @@
         {% set pagos = customer.Payment %}
             {% set publicities = customer.Publicity %}
         <tr>
-            <td class="text-nowrap align-middle">
-                <span>{{ customer.id }}</span>
-            </td>
-            <td class="text-justify align-middle">
-                <span>{{'%s-%s'|format(customer.rut, customer.dv)}}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{ customer.name}}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{customer.organisation}}</span>
-            </td>
-            <td class="text-nowrap align-middle">
-                <span>{{customer.email}}</span>
-            </td>
-            <td class="text-justify align-middle">
-                <span>{{ customer.phone }}</span>
-            </td>
+            <td>{{'%s-%s'|format(customer.rut, customer.dv)}}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.organisation }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phone }}</td>
             <td class="text-nowrap align-middle">
                 <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#publicidadesAsociadas-{{customer.id}}">
                     Ver

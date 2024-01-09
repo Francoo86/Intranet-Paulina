@@ -1,10 +1,5 @@
-{% extends 'base_crud.html.twig' %}
-    {% block crud %}
-        <head>
-            <title>Manejo de clientes</title>
-        </head>
+{% extends 'base_rework.html.twig' %}
 
-        {% include 'customer/table_render.html.twig' %}
-    
-    {% endblock %}
-    
+{% block content %}
+    {% include 'customer/table_render.html.twig' %}
+{% endblock %}

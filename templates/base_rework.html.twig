@@ -39,8 +39,13 @@
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
-        {% block content %}
 
+        
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!--
         <div class="main-content">
             <div class="page-content">
                 <div class="container-fluid">
@@ -931,7 +936,7 @@
                 </div>
             </footer>
         </div>-->
-        {% endblock %}
+
         <!-- end main content-->
 
     </div>

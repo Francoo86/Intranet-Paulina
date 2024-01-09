@@ -61,7 +61,7 @@ class CustomerController extends AbstractController
             Helper::SendPersonToDB($entityManager, $newCustomer);
             return $this->redirectToRoute(self::MAIN_PAGE, [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->render('customer/customer_index.html.twig', [
             'customers' => $allCustomers,
             'allForms' => $allForms,

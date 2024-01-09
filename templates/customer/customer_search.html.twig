@@ -1,4 +1,42 @@
 {% block body %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header justify-content-between d-flex align-items-center">
+                    <h4 class="card-title">Manejo de clientes</h4>
+                </div><!-- end card header -->
+                <div class="card-body">            
+                    <form class="row gx-3 gy-2 align-items-center">
+                        <div class="col-sm-3">
+                            <label class="visually-hidden" for="inputName">RUT del cliente</label>
+                            <input type="text" class="form-control" id="inputName" placeholder="Introduzca RUT">
+                        </div>
+                        <!-- end col -->
+                        <div class="col-sm-3">
+                            <label class="visually-hidden" for="specificSizeInputGroupUsername">Username</label>
+                            <div class="input-group">
+                            <div class="input-group-text">@</div>
+                            <input type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="Username">
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-auto">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                            <label class="form-check-label" for="autoSizingCheck2">
+                                Remember me
+                            </label>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-primary">Agregar nuevo cliente</button>
+                        </div>
+                        <!-- end col -->
+                    </form><!-- end form -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
     <div class="col-12 col-lg-3 mb-3">
         <div class="card">
             <div class="card-body">
@@ -42,6 +80,7 @@
                         }
 
                         // Configuración de los clics para ambos botones
+                        //Esto debería ir en otro lado.
                         $("#alertButton").click(function () {
                             handleButtonClick("#alertButton", "/send/AlertEmail/Data");
                         });

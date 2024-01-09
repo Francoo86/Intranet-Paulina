@@ -1,7 +1,5 @@
 {% extends 'base_rework.html.twig' %}
 
-{% block title %}Hello PersonController!{% endblock %}
-
 {% block content %}
 
     
@@ -10,10 +8,49 @@
     <div class="page-content">
         <div class="container-fluid">
             <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header justify-content-between d-flex align-items-center">
+                                        <h4 class="card-title"> Inline Forms </h4>
+                                    </div><!-- end card header -->
+                                    <div class="card-body">            
+                                        <form class="row gx-3 gy-2 align-items-center">
+                                            <div class="col-sm-5">
+                                                <label class="visually-hidden" for="specificSizeInputName">Name</label>
+                                                <input type="text" class="form-control" id="specificSizeInputName" placeholder="Enter Name">
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="col-sm-3">
+                                                <label class="visually-hidden" for="specificSizeInputGroupUsername">Username</label>
+                                                <div class="input-group">
+                                                <div class="input-group-text">@</div>
+                                                <input type="text" class="form-control" id="specificSizeInputGroupUsername" placeholder="Username">
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="col-auto">
+                                                <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="autoSizingCheck2">
+                                                <label class="form-check-label" for="autoSizingCheck2">
+                                                    Remember me
+                                                </label>
+                                                </div>
+                                            </div>
+                                            <!-- end col -->
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                            <!-- end col -->
+                                        </form><!-- end form -->
+                                    </div><!-- end card body -->
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+                        </div>
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header justify-content-between d-flex align-items-center">
-                            <h4 class="card-title">Responsive Tables</h4>
+                            <h4 class="card-title">Clientes</h4>
                         </div><!-- end card header -->
                         <div class="card-body">
                             <div class="table-responsive">
