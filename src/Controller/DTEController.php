@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DTEController extends AbstractController
 {
     #[Route('/boleta', name: 'app_boleta')]
-    public function index(CustomerRepository $customerRepo): Response
+    public function index(): Response
     {
         return $this->render('dte/index.html.twig', [
             'controller_name' => 'DTEController',

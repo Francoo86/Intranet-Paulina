@@ -1,47 +1,56 @@
-{% block body %} {% for audience in audiences %}
-<tr>
-  <td class="text-nowrap align-middle">
-    <span>{{ audience.id }}</span>
-  </td>
-  <td class="text-justify align-middle">
-    <span>{{ audience.demography }}</span>
-  </td>
-  <td class="text-nowrap align-middle">
-    <span>{{ audience.locality }}</span>
-  </td>
-  <td class="text-nowrap align-middle">
-    <span>{{ audience.type }}</span>
-  </td>
-  <td class="text-center align-middle">
-    <div class="btn-group align-top">
-      <button
-        class="btn btn-sm btn-outline-secondary badge"
-        type="button"
-        data-toggle="modal"
-        data-target="#user-form-modal_{{ audience.id }}"
-      >
-        Editar
-      </button>
-      <button
-        class="btn btn-sm btn-outline-secondary badge trash-borrado"
-        type="button"
-        data-toggle="modal"
-        data-id="{{ audience.id }}"
-        data-target="#deleteConfirmationModal_{{ audience.id }}"
-      >
-        <i class="fa fa-trash"></i>
-      </button>
-    </div>
-  </td>
-</tr>
+{% block body %}
+  {% for audience in audiences %}
+    <tr>
+      <td >
+        {{ audience.id }}
+      </td>
+      <td>
+        {{ audience.demography }}
+      </td>
+      <td >
+        {{ audience.locality }}
+      </td>
+      <td >
+        {{ audience.type }}
+      </td>
+      <td >
+        <div>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#user-form-modal_{{ audience.id }}"
+          >
+            Editar
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="modal"
+            data-id="{{ audience.id }}"
+            data-bs-target="#deleteConfirmationModal_{{ audience.id }}"
+          >
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </td>
+    </tr>
 
-{% include 'delete_form.html.twig' with { 'removeId': audience.id,
-'deleteTitle': 'Eliminación de audiencia', 'confirmMessage': '¿Está seguro de
-eliminar la audiencia: %s?'|format(audience), 'deletePath':
-'app_audience_delete' }%} {% endfor %}
+    {% include 'delete_form.html.twig' with {
+        'removeId': audience.id,
+        'deleteTitle': 'Eliminación de audiencia',
+        'confirmMessage': '¿Está seguro de eliminar la audiencia: %s?'|format(audience),
+        'deletePath': 'app_audience_delete'
+    }%}
+  {% endfor %}
 
-<!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->
-{% for edit_form in allForms %} {% set id = edit_form.form.vars.value.id %} {%
-include 'modal_base_form.html.twig' with { 'passedForm' : edit_form.form,
-'titleForm': 'Edición de audiencia', 'actualId': id, }%} {% endfor %} {%
-endblock %}
+  <!-- CARGAR FORMULARIOS PARA CADA UNO EN MODAL. -->
+  {% for edit_form in allForms %}
+    {% set id = edit_form.form.vars.value.id %}
+    {% include 'modal_base_form.html.twig' with {
+        'passedForm' : edit_form.form,
+        'titleForm': 'Edición de audiencia',
+        'actualId': id,
+    }%}
+  {% endfor %}
+{% endblock %}
