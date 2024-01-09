@@ -8,8 +8,6 @@ use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Konekt\PdfInvoice\InvoicePrinter;
-
 class DTEController extends AbstractController
 {
     #[Route('/boleta', name: 'app_boleta')]
@@ -30,7 +28,7 @@ class DTEController extends AbstractController
         /* Header settings */
         $invoice->setLogo("images/better-logo.png");   //logo image path
         $invoice->setColor("#007fff");      // pdf color scheme
-        $invoice->setType("Sale Invoice");    // Invoice Type
+        $invoice->setType("BOLETA");    // Invoice Type
         $invoice->setReference("BOL-55033645");   // Reference
         $invoice->setDate(date('M dS ,Y',time()));   //Billing Date
         $invoice->setTime(date('h:i:s A',time()));   //Billing Time
@@ -39,28 +37,33 @@ class DTEController extends AbstractController
         $invoice->setTo(array("COMPRADOR", $customer->getName(), $customer->getOrganisation())); //"Glendora , CA 91740"));
 
         $publicities = $actualCustomer->getPublicity();
+        $allPubsAmount = 0;
+        $allImpuestos = 0;
 
         foreach($publicities as $pub){
-            //$invoice->addItem($pub->getStock()->getAmount());
+            $stock = $pub->getStock();
+            $total = $stock->getAmount();
+            $impuesto = $total * 0.19;
+
+            $totalDeTotales = $total + $impuesto;
+
+            $invoice->addItem("Publicidad", $pub->getSentence(), 1, $impuesto, $total, 0, $totalDeTotales);
+
+            $allPubsAmount += $total;
+            $allImpuestos += $impuesto;
         }
         
+        $invoice->addTotal("Total", $allPubsAmount);
+        $invoice->addTotal("IVA 19%", $impuesto);
+        $invoice->addTotal("Monto final", $allPubsAmount + $impuesto, true);
         
-        $invoice->addItem("AMD Athlon X2DC-7450","2.4GHz/1GB/160GB/SMP-DVD/VB",6,0,580,0,3480);
-        $invoice->addItem("PDC-E5300","2.6GHz/1GB/320GB/SMP-DVD/FDD/VB",4,0,645,0,2580);
-        $invoice->addItem('LG 18.5" WLCD',"",10,0,230,0,2300);
-        $invoice->addItem("HP LaserJet 5200","",1,0,1100,0,1100);
+        //$invoice->addBadge("Payment Paid");
         
-        $invoice->addTotal("Total",9460);
-        $invoice->addTotal("VAT 21%",1986.6);
-        $invoice->addTotal("Total due",11446.6,true);
+        //$invoice->addTitle("Important Notice");
         
-        $invoice->addBadge("Payment Paid");
+        //$invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
         
-        $invoice->addTitle("Important Notice");
-        
-        $invoice->addParagraph("No item will be replaced or refunded if you don't have the invoice with you.");
-        
-        $invoice->setFooternote("My Company Name Here");
+        $invoice->setFooternote("Radio Paulina");
         
         $invoice->render('example1.pdf','D'); 
     
