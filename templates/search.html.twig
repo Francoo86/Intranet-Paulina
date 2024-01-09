@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header justify-content-between d-flex align-items-center">
-                    <h4 class="card-title">{{handlerText}}</h4>
+                    <h4 class="card-title">{{handlerText|default('xd')}}</h4>
                 </div><!-- end card header -->
                 <div class="card-body">
          
@@ -13,6 +13,25 @@
                                 <label for="inputName">{{searchText}}</label>
                                 <input type="text" class="form-control" id="{{searchId}}" placeholder="">
                             </div>
+
+                            <script defer type="text/javascript">
+                                $("#{{searchId}}").change(function (e) { 
+                                    e.preventDefault();
+                    
+                                    let search = $(this).val();
+                    
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: "{{searchPath}}",
+                                        data: {'target': search},
+                                        dataType: 'json',
+                                        success: function (response) {
+                                            //console.log(response);
+                                            $("#output_table").html(response);
+                                        }
+                                    });
+                                });
+                            </script>
                         {% endif %}   
                         <!-- end col -->
                         <div class="col-auto align-self-end mt-4">
@@ -23,24 +42,5 @@
                 </div><!-- end card body -->
             </div><!-- end card -->
         </div><!-- end col -->
-
-        <script defer type="text/javascript">
-            $("#{{searchId}}").change(function (e) { 
-                e.preventDefault();
-
-                let search = $(this).val();
-
-                $.ajax({
-                    type: 'GET',
-                    url: "{{searchPath}}",
-                    data: {'target': search},
-                    dataType: 'json',
-                    success: function (response) {
-                        //console.log(response);
-                        $("#output_table").html(response);
-                    }
-                });
-            });
-        </script>
     </div>
 {% endblock %}
