@@ -30,4 +30,17 @@ class APIController extends AbstractController
 
         return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
     }
+
+    #[Route('/broadcaster', name: 'api_manager', methods: ['GET'])]
+    public function APIBroadcaster(ManagerRepository $managerRepository, SerializerInterface $serial): Response
+    {
+        $allManagers = $managerRepository->findAll();
+    
+        $jsonObject = $serial->serialize($allManagers, 'json', [    
+            'circular_reference_handler' => function ($object) {
+            return $object->getId();
+        }]);
+
+        return new Response($jsonObject, 200, ['Content-Type' => 'application/json']);
+    }
 }
