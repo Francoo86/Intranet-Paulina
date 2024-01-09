@@ -3,9 +3,8 @@
         <div class="container-fluid">
             {% include 'customer/customer_search.html.twig' with {
                 "newElement": "Añadir cliente",
-                'elementCount': customers|length,
                 "searchText": "Buscar cliente por RUT",
-                "searchId": "busca_pautas",
+                "searchId": "busca_clientes",
                 "searchPath": path('app_search_customer'),
             } %}
     

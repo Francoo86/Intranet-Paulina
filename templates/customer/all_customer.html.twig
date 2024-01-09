@@ -9,18 +9,17 @@
             <td>{{ customer.email }}</td>
             <td>{{ customer.phone }}</td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#publicidadesAsociadas-{{customer.id}}">
+                <button type="button" class="btn btn-primary {{publicities|length > 0 ? 'enabled' : 'disabled'}}" data-bs-toggle="modal" data-bs-target="#publicidadesAsociadas-{{customer.id}}">
                     Ver
                 </button>
                 <!-- Modal -->
                 {% if publicities|length > 0 %}
                     <div class="modal fade" id="publicidadesAsociadas-{{customer.id}}" tabindex="-1" role="dialog" aria-labelledby="publicidadesAsociadasLabel{{customer.id}}" aria-hidden="true">
-                        <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="publicidadesAsociadasLabel{{customer.id}}">Publicidad solicitada por cliente</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
                                 <div class="modal-body">
@@ -52,7 +51,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +59,7 @@
                 {% endif %}
             </td>
             <td class="text-nowrap align-middle">
-                <button type="button" class="btn btn-primary {{pagos|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#pagosAsociadas-{{customer.id}}">
+                <button type="button" class="btn btn-primary {{pagos|length > 0 ? 'enabled' : 'disabled'}}" data-bs-toggle="modal" data-bs-target="#pagosAsociadas-{{customer.id}}">
                     Ver
                 </button>
                 <!-- Modal -->
@@ -70,12 +69,11 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="pagosAsociadasLabel{{customer.id}}">Pagos del cliente</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <table class="table">
+                                    <table class="table-responsive">
                                         <thead>
                                         <tr>
                                             <th scope="col">ID</th>
@@ -100,7 +98,7 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -109,11 +107,11 @@
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
-                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
-                        data-target="#user-form-modal_{{ customer.id }}">
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal"
+                        data-bs-target="#user-form-modal_{{ customer.id }}">
                         Editar
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{customer.id}} data-target="#deleteConfirmationModal_{{customer.id}}">
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-bs-toggle="modal" data-id={{customer.id}} data-bs-target="#deleteConfirmationModal_{{customer.id}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>
@@ -133,7 +131,7 @@
         {% set id = edit_form.form.vars.value.id %}
         {% include 'modal_base_form.html.twig' with {
             'passedForm' : edit_form.form,
-            'titleForm': 'Edición de pauta',
+            'titleForm': 'Edición de cliente',
             'actualId': id,
         }%}
     {% endfor %}

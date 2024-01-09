@@ -4,8 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{titleForm|default('Creación de pauta')}}</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">×</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
 
@@ -27,7 +26,7 @@
                             {% endif %}
                         {% endfor %}
 
-                        <div class="row">
+                        <div class="modal-footer">
                             <div class="col d-flex justify-content-end">
                                 {{ form_widget(passedForm.saveEdit) }}
                             </div>
