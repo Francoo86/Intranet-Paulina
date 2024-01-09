@@ -22,12 +22,6 @@ class BroadcasterType extends AbstractType
                 'attr' => ['class' => 'form-control'],
                 'html5' => true,
             ])
-            /*
-            ->add('dv', NumberType::class, [
-                'label' => 'Digito verificador.',
-                'attr' => ['class' => 'form-control'],
-                'html5' => true,
-            ])*/
             ->add('first_name', TextType::class, [
                 'label' => 'Nombre',
                 'attr' => ['class' => 'form-control'],

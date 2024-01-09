@@ -20,7 +20,6 @@ class GuidelineType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //dd($options);
         $builder
             ->add('show_name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -47,16 +46,7 @@ class GuidelineType extends AbstractType
                     return $er->createQueryBuilder('g')
                         ->where('g.DeletedAt is NULL');
                 },
-                ])
-            /*
-            ->add('manager', EntityType::class, [
-                'class' => Manager::class,
-                'attr' => ['class' => 'form-control'],
-                'label' => 'Manager del programa',
-                'empty_data' => null,
-                'required' => false,
-                'placeholder' => 'Seleccionar manager',
-                ])*/
+            ])
             ->add('saveEdit', SubmitType::class, [
                 'label' => "Guardar cambios",
                 'attr' => [
