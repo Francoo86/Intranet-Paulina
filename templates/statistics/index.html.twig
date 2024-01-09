@@ -1,20 +1,125 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_rework.html.twig' %}
 
 {% block title %}Hello StatisticsController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart" style="max-width:100%" id="piechart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart" style="max-width:100%" id="locationchart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart" style="max-width:100%" id="publicity_chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart" style="max-width:100%" id="bolsas_chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['corechart']});
+        google.charts.setOnLoadCallback(drawAllCharts);
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Gonza/Documents/GitHub/Php/SIG-Proyecto/src/Controller/StatisticsController.php'|file_link(0) }}">src/Controller/StatisticsController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Gonza/Documents/GitHub/Php/SIG-Proyecto/templates/statistics/index.html.twig'|file_link(0) }}">templates/statistics/index.html.twig</a></code></li>
-    </ul>
-</div>
+        function drawAllCharts() {
+            drawDemographicsChart();
+            drawLocationChart();
+            drawPublicityChart();
+            drawBolsasChart();
+        }
+
+        function drawDemographicsChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Demografía', 'Count'],
+                {% for item in demographicsCount %}
+                    ['{{ item.demography }}', {{ item.count }}],
+                {% endfor %}
+            ]);
+
+            var options = {'title': 'Distribución de Audiencia por Demografía'};
+            drawChart('piechart', data, options);
+        }
+
+        function drawLocationChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Localidad', 'Count'],
+                {% for item in locationCount %}
+                    ['{{ item.locality }}', {{ item.count }}],
+                {% endfor %}
+            ]);
+
+            var options = {
+                'title': 'Distribución de Audiencia por Localidad',
+                width: '100%',
+                height: '100%',
+            };
+            drawChart('locationchart', data, options);
+        }
+
+        function drawPublicityChart() {
+            drawPieChart('publicity_chart', 'Distribución de Anuncios Activos', [
+                ['Type', 'Count'],
+                ['Publicidad Activa', {{ activeNotCritCount }}],
+                ['Publicidad Critica', {{ activeCritic }}]
+            ]);
+        }
+
+        function drawBolsasChart() {
+            drawPieChart('bolsas_chart', 'Distribución de bolsas: Emitidas vs Usadas', [
+                ['Type', 'Amount'],
+                ['Bolsas por Emitir', {{ total }}],
+                ['Bolsas Usadas', {{ totalBalanceAmount }}]
+            ]);
+        }
+
+        function drawChart(elementId, dataTable, options) {
+            var chart = new google.visualization.PieChart(document.getElementById(elementId));
+            drawAndListen(chart, dataTable, options);
+        }
+
+        function drawPieChart(elementId, title, dataArray) {
+            var data = google.visualization.arrayToDataTable(dataArray);
+
+            var options = {
+                title: title,
+                width: '100%',
+                height: '100%',
+            };
+            drawChart(elementId, data, options);
+        }
+
+        function drawAndListen(chart, dataTable, options) {
+            window.addEventListener('load', function() {
+                chart.draw(dataTable, options);
+            })
+
+            window.addEventListener('resize', function () {
+                chart.draw(dataTable, options);
+            });
+        }
+    </script>
 {% endblock %}
