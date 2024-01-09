@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use App\Interfaces\IPersonInterface;
 use App\Repository\BroadcasterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: BroadcasterRepository::class)]
-class Broadcaster extends Person
+class Broadcaster extends Person implements IPersonInterface
 {
     #[ORM\OneToMany(mappedBy: 'broadcaster', targetEntity: Guideline::class)]
     private Collection $Guideline;

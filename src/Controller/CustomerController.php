@@ -17,19 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/customer')]
 class CustomerController extends AbstractController
 {
-    protected const POST_METHOD = "POST";
-    protected const NEW_ELEMENT = "new_customer"; // Change "new_broadcaster" to "new_customer"
-    protected const MAIN_PAGE = 'app_customer_index'; // Change "app_broadcaster_index" to "app_customer_index"
+    //protected const POST_METHOD = "POST";
+    protected const NEW_ELEMENT = "new_customer";
+    protected const MAIN_PAGE = 'app_customer_index';
     
-    #[Route('/', name: 'app_customer_index', methods: ['GET', 'POST'])] // Change "app_broadcaster_index" to "app_customer_index"
+    #[Route('/', name: 'app_customer_index', methods: ['GET', 'POST'])]
     public function index(CustomerRepository $customerRepository, Request $req, EntityManagerInterface $entityManager, FormFactoryInterface $factory): Response
     {
-        $allCustomers = Helper::FindAllOrderedById($customerRepository); // Change "$broadcasterRepository" to "$customerRepository"
+        $allCustomers = Helper::FindAllOrderedById($customerRepository);
         $allForms = [];
     
-        foreach ($allCustomers as $customer) { // Change "$broadcaster" to "$customer"
-            $formName = sprintf("customer_%s", $customer->getId()); // Change "broadcaster_%s" to "customer_%s"
-            $form = $factory->createNamed($formName, CustomerType::class, $customer); // Change "BroadcasterType::class" to "CustomerType::class"
+        foreach ($allCustomers as $customer) {
+            $formName = sprintf("customer_%s", $customer->getId());
+            $form = $factory->createNamed($formName, CustomerType::class, $customer);
             $form->handleRequest($req);
     
             if ($req->getMethod() === self::POST_METHOD && $req->request->has($formName)) {
@@ -71,7 +71,6 @@ class CustomerController extends AbstractController
     public function delete(Request $request, Customer $customer, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
-            //$entityManager->remove($customer);
             $customer->setDeletedAt(new DateTimeImmutable());
             $entityManager->flush();
         }
