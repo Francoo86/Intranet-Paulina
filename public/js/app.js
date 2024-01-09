@@ -142,6 +142,9 @@
   function m(e) {
     document.getElementById(e) && (document.getElementById(e).checked = !0);
   }
+  function ChangeTheme(e, changed) {
+    document.getElementById(e) && (document.getElementById(e).checked = !0);
+  }
   function g() {
     document.webkitIsFullScreen ||
       document.mozFullScreen ||
@@ -330,73 +333,46 @@
       : m("layout-vertical"),
     n.hasAttribute("data-layout-mode") &&
     "dark" == n.getAttribute("data-layout-mode")
-      ? m("layout-mode-dark")
-      : m("layout-mode-light"),
-    n.hasAttribute("data-layout-size") &&
-    "boxed" == n.getAttribute("data-layout-size")
-      ? m("layout-width-boxed")
-      : m("layout-width-fluid"),
-    n.hasAttribute("data-layout-scrollable") &&
-    "true" == n.getAttribute("data-layout-scrollable")
-      ? m("layout-position-scrollable")
-      : m("layout-position-fixed"),
+      ? ChangeTheme("layout-mode-dark", true)//m("layout-mode-dark")
+      : ChangeTheme("layout-mode-light", false)//m("layout-mode-light"),
     n.hasAttribute("data-topbar") && "dark" == n.getAttribute("data-topbar")
       ? m("topbar-color-dark")
       : m("topbar-color-light"),
-    n.hasAttribute("data-sidebar-size") &&
-    "sm" == n.getAttribute("data-sidebar-size")
-      ? m("sidebar-size-small")
-      : n.hasAttribute("data-sidebar-size") &&
-        "md" == n.getAttribute("data-sidebar-size")
-      ? m("sidebar-size-compact")
-      : m("sidebar-size-default"),
     n.hasAttribute("data-sidebar") && "brand" == n.getAttribute("data-sidebar")
       ? m("sidebar-color-brand")
       : n.hasAttribute("data-sidebar") &&
         "dark" == n.getAttribute("data-sidebar")
       ? m("sidebar-color-dark")
       : m("sidebar-color-light"),
-    document.getElementsByTagName("html")[0].hasAttribute("dir") &&
-    "rtl" == document.getElementsByTagName("html")[0].getAttribute("dir")
-      ? m("layout-direction-rtl")
-      : m("layout-direction-ltr"),
-    document.querySelectorAll("input[name='layout'").forEach(function (e) {
-      e.addEventListener("change", function (e) {
-        e &&
-          e.target &&
-          e.target.value &&
-          (window.location.href =
-            "vertical" == e.target.value
-              ? "layout-vertical.html"
-              : "index.html");
-      });
-    }),
-    document
+      document
       .querySelectorAll("input[name='layout-mode']")
       .forEach(function (e) {
         e.addEventListener("change", function (e) {
-          e &&
-            e.target &&
-            e.target.value &&
-            ("light" == e.target.value
-              ? (document.body.setAttribute("data-layout-mode", "light"),
-                document.body.setAttribute("data-topbar", "light"),
-                document.body.setAttribute("data-sidebar", "light"),
-                (n.hasAttribute("data-layout") &&
-                  "horizontal" == n.getAttribute("data-layout")) ||
-                  document.body.setAttribute("data-sidebar", "light"),
-                m("topbar-color-light"),
-                m("sidebar-color-light"))
-              : (document.body.setAttribute("data-layout-mode", "dark"),
-                document.body.setAttribute("data-topbar", "dark"),
-                document.body.setAttribute("data-sidebar", "dark"),
-                (n.hasAttribute("data-layout") &&
-                  "horizontal" == n.getAttribute("data-layout")) ||
-                  document.body.setAttribute("data-sidebar", "dark"),
-                m("topbar-color-dark"),
-                m("sidebar-color-dark")));
+          if (e && e.target && e.target.value) {
+            if ("light" == e.target.value) {
+              document.body.setAttribute("data-layout-mode", "light");
+              document.body.setAttribute("data-topbar", "light");
+              document.body.setAttribute("data-sidebar", "light");
+              if (n.hasAttribute("data-layout") && n.getAttribute("data-layout") === "horizontal") {
+                document.body.setAttribute("data-sidebar", "light");
+              }
+              m("topbar-color-light");
+              m("sidebar-color-light");
+              localStorage.setItem("darkPaulina", "false");
+            } else {
+              document.body.setAttribute("data-layout-mode", "dark");
+              document.body.setAttribute("data-topbar", "dark");
+              document.body.setAttribute("data-sidebar", "dark");
+              if (n.hasAttribute("data-layout") && n.getAttribute("data-layout") === "horizontal") {
+                document.body.setAttribute("data-sidebar", "dark");
+              }
+              m("topbar-color-dark");
+              m("sidebar-color-dark");
+              localStorage.setItem("darkPaulina", "true");
+            }
+          }
         });
-      }),
+      });
     document
       .querySelectorAll("input[name='layout-direction']")
       .forEach(function (e) {
