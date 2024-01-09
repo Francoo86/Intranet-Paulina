@@ -4,7 +4,7 @@
             {% include 'search.html.twig' with {
                 "newElement": "Nueva pauta",
                 "searchText": "Buscar pautas por nombre",
-                "searchId": "busca_broadcaster",
+                "searchId": "busca_pautas",
                 "searchPath": path('app_search_guideline'),
                 "handlerText": "Manejo de pautas"
             } %}
@@ -41,4 +41,8 @@
         </div>
     </div>
   </div>
+  {% include 'modal_base_form.html.twig' with {
+    'passedForm' : creationForm,
+    'titleForm': 'Creación de pauta',
+}%}
 {% endblock %}

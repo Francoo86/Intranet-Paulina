@@ -42,4 +42,8 @@
             </div><!-- end row -->  
         </div>
     </div>
+    {% include 'modal_base_form.html.twig' with {
+        'passedForm' : creationForm,
+        'titleForm': 'Creación de locutor',
+    }%}
 {% endblock %}
