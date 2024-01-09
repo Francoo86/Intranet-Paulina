@@ -1,24 +1,117 @@
 {% block body %}
     {% set customerSearch = 'customer_search' %}
     {% set guidelineSearch = 'guideline_search'%}
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header justify-content-between d-flex align-items-center">
+                        <h4 class="card-title"> Búsqueda de publicidad </h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">            
+                        <div class="row gx-3 gy-2 align-items-center">
+                            <div class="col-sm-4">
+                                <label class="" for="specificSizeInputName">Buscar por cliente</label>
+                                <input type="text" id="{{customerSearch}}" class="form-control" id="specificSizeInputName" placeholder="Cliente...">
+                            </div>
+                            <!-- end col -->
+                            <div class="col-sm-4">
+                                <label class="" for="specificSizeInputGroupUsername">Buscar por pauta</label>
+                                <div class="input-group">
+                                <input type="text" id="{{guidelineSearch}}" class="form-control" id="specificSizeInputGroupUsername" placeholder="Pauta...">
+                                </div>
+                            </div>
+                            <!-- end col -->
+                            <div class="col-auto align-self-end mt-4">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#user-form-modal_new" class="btn btn-primary">Nueva publicidad</button>
+                            </div>
+                            <!-- end col -->
+                        </div><!-- end form -->
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+            </div><!-- end col -->
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header justify-content-between d-flex align-items-center">
+                        <h4 class="card-title"> Opciones </h4>
+                    </div><!-- end card header -->
+                    <div class="card-body">        
+                        <p>Recuerde que puede buscar una publicidad que pueda tener los dos al mismo tiempo.</p>    
+                        <div class="col-auto form-check form-switch form-switch-md mb-2">
+                            <div class="form-check">
+                            <input class="form-check-input search-checkbox" type="checkbox" id="autoSizingCheck2" id="only_guidelines">
+                            <label class="form-check-label" for="autoSizingCheck2">
+                                Solo pautas
+                            </label>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-auto form-check form-switch form-switch-md mb-2">
+                            <div class="form-check">
+                            <input class="form-check-input search-checkbox" type="checkbox" id="autoSizingCheck2">
+                            <label class="form-check-label" for="autoSizingCheck2" id="only_customers">
+                                Solo clientes
+                            </label>
+                            </div>
+                        </div>
+                        <script defer type="text/javascript">
+                        function fetchData() {
+                            let customer = $("#{{customerSearch}}").val();
+                            let guideline = $("#{{guidelineSearch}}").val();
+            
+                            let customerCheck = $("#only_customers");
+                            let guidelineCheck = $("#only_guidelines");
+            
+                            if (customerCheck.is(':checked')) {
+                                guideline = "";
+                            }
+            
+                            if (guidelineCheck.is(':checked')) {
+                                customer = "";
+                            }
+            
+                            $.ajax({
+                                type: 'GET',
+                                url: "{{searchPath}}",
+                                data: {
+                                    'customer': customer,
+                                    'guideline': guideline,
+                                },
+                                dataType: 'json',
+                                success: function (response) {
+                                    //console.log(response);
+                                    $("#output_table").html(response);
+                                }
+                            });
+                        }
+            
+                        $("#{{customerSearch}}").change(function (e) {
+                            e.preventDefault();
+                            fetchData();
+                        });
+            
+                        $("#{{guidelineSearch}}").change(function (e) {
+                            e.preventDefault();
+                            fetchData();
+                        });
+            
+                        $('.search-checkbox').on('change', function() {
+                            $('.search-checkbox').not(this).prop('checked', false);  
+                        });
+                    </script>
+                            <!-- end col -->
+                            <!-- end col -->
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+            </div><!-- end col -->
+        </div>
+    {##
     <div class="col-12 col-lg-3 mb-3">
         <div class="card">
             <div class="card-body">
                 <div class="text-center px-xl-3">
-                    <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal_new">
+                    <button class="btn btn-success btn-block" type="button" data-bs-toggle="modal" data-bs-target="#user-form-modal_new">
                         {{newElement|default('New element')}}
                     </button>
-                </div>
-                <hr class="my-3" />
-                <div class="e-navlist e-navlist--active-bold">
-                    <ul class="nav">
-                        <li class="nav-item active">
-                            <a href class="nav-link">
-                                <span>Todos</span>&nbsp;
-                                <small>/&nbsp;{{elementCount}}</small>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
                 <hr class="my-3" />
                 <div>
@@ -96,5 +189,5 @@
                 $('.search-checkbox').not(this).prop('checked', false);  
             });
         </script>
-    </div>
+    </div> ##}
 {% endblock %}

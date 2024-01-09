@@ -1,21 +1,21 @@
 {% block body %}
     {% for publicity in publicities %}
         <tr>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.id}}</span>
+            <td>
+                {{publicity.id}}
             </td>
-            <td class="text-justify align-middle">
-                <span>{{publicity.sentence}}</span>
+            <td>
+                {{publicity.sentence}}
             </td>
-            <td class="text-justify align-middle">
-                <span>{{publicity.duration}}</span>
+            <td>
+                {{publicity.duration}}
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.background ? publicity.background : "SIN FONDO"}}</span>
+            <td>
+                {{publicity.background ? publicity.background : "SIN FONDO"}}
             </td>
             <td class="align-middle">
                 {% if publicity.description |length > 50 %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#publicidadesAsociados-Desc{{publicity.id}}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#publicidadesAsociados-Desc{{publicity.id}}">
                         Ver
                     </button>
                     <div class="modal fade" id="publicidadesAsociados-Desc{{publicity.id}}" tabindex="-1" role="dialog" aria-labelledby="publicidadesAsociadosLabel{{publicity.id}}" aria-hidden="true">
@@ -23,8 +23,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="publicidadesAsociadosLabel{{publicity.id}}">Descripción de la publicidad</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                     </button>
                                 </div>
                                 
@@ -32,7 +31,7 @@
                                     <p class="text-justify">{{publicity.description}}</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
                         </div>
@@ -42,28 +41,28 @@
                 {% endif %}
 
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.Stock ? publicity.Stock : 'Sin stock.'}}</span>
+            <td>
+                {{publicity.Stock ? publicity.Stock : 'Sin stock.'}}
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.customer}}</span>
+            <td>
+                {{publicity.customer}}
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.audience}}</span>
+            <td>
+                {{publicity.audience}}
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.Show}}</span>
+            <td>
+                {{publicity.Show}}
             </td>
-            <td class="text-nowrap align-middle">
-                <span>{{publicity.guideline}}</span>
+            <td>
+                {{publicity.guideline}}
             </td>
             <td class="text-center align-middle">
                 <div class="btn-group align-top">
-                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal"
-                        data-target="#user-form-modal_{{publicity.id }}">
+                    <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal"
+                        data-bs-target="#user-form-modal_{{publicity.id }}">
                         Editar
                     </button>
-                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id={{publicity.id}} data-target="#deleteConfirmationModal_{{publicity.id}}">
+                    <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-bs-toggle="modal" data-id="{{publicity.id}}" data-bs-target="#deleteConfirmationModal_{{publicity.id}}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </div>

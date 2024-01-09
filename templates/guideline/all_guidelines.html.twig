@@ -17,7 +17,7 @@
               {{ (guideline.broadcaster and guideline.broadcaster.DeletedAt is null) ? guideline.broadcaster : 'Ninguno' }}
           </td>
           <td>
-              <button type="button" class="btn btn-primary {{guideline.nonDeletedShows|length > 0 ? 'enabled' : 'disabled'}}" data-toggle="modal" data-target="#showsAsociados-{{ guideline.id }}">
+              <button type="button" class="btn btn-primary {{guideline.nonDeletedShows|length > 0 ? 'enabled' : 'disabled'}}" data-bs-toggle="modal" data-bs-target="#showsAsociados-{{ guideline.id }}">
                   Ver
               </button>
               <!-- Modal -->
@@ -29,8 +29,7 @@
                                   <h5 class="modal-title" id="showsAsociadosLabel{{ guideline.id }}">
                                       Programas asociados a la pauta
                                   </h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                   </button>
                               </div>
                               <div class="modal-body">
@@ -56,7 +55,7 @@
                                   </table>
                               </div>
                               <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                       Cerrar
                                   </button>
                               </div>
@@ -67,17 +66,18 @@
           </td>
           <td>
               <div class="btn-group align-top">
-                  <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal_{{ guideline.id }}">
+                  <button class="btn btn-sm btn-outline-secondary badge" type="button" data-bs-toggle="modal" data-bs-target="#user-form-modal_{{ guideline.id }}">
                       Editar
                   </button>
-                  <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-toggle="modal" data-id="{{ guideline.id }}" data-target="#deleteConfirmationModal_{{ guideline.id }}">
+                  <button class="btn btn-sm btn-outline-secondary badge trash-borrado" type="button" data-bs-toggle="modal" data-id="{{ guideline.id }}" data-target="#deleteConfirmationModal_{{ guideline.id }}">
                       <i class="fa fa-trash"></i>
                   </button>
               </div>
           </td>
           <td>
+              <!-- TODO: Hacer para PDF también -->
               <button class="btn btn-sm btn-outline-secondary badge" type="button" onclick="sendGuidelineEmail('{{ guideline.emissionNumber | raw }}')">
-                  Send Email
+                  Obtener reporte
               </button>
           </td>
       </tr>

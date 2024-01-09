@@ -1,51 +1,52 @@
 {% block body %}
-    <div class="row flex-lg-nowrap">
-        <div class="col mb-3">
-            <div class="e-panel card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h6 class="mr-2">
-                            <span>Publicidades</span>
-                        </h6>
-                    </div>
-                    <div class="e-table">
-                        <div class="table-responsive table mt-2">
-                            <table class="table-responsive table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th class="sortable">ID</th>
-                                        <th class="max-width">Frase</th>
-                                        <th class="max-width">Duracion</th>
-                                        <th class="max-width">Fondo</th>
-                                        <th class="max-width">Descripción</th>
-                                        <th class="max-width">Stock</th>
-                                        <th class="max-width">Cliente</th>
-                                        <th class="max-width">Audiencia</th>
-                                        <th class="max-width">Programa</th>
-                                        <th class="max-width">Pauta</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="output_table">
-                                    {% include 'publicity/all_publicities.html.twig' %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="page-content">
+        <div class="container-fluid">
+            {% include 'publicity/extra_search.html.twig' with {
+                "newElement": "Nueva publicidad",
+                'elementCount': publicities|length,
+                "searchText": "Buscar publicidad por pauta",
+                "searchId": "busca_publicidad",
+                "searchPath": path('app_search_publicity'),
+            } %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header justify-content-between d-flex align-items-center">
+                            <h4 class="card-title">Todas las pautas</h4>
+                        </div><!-- end card header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Frase</th>
+                                            <th>Duracion</th>
+                                            <th>Fondo</th>
+                                            <th>Descripción</th>
+                                            <th>Stock</th>
+                                            <th>Cliente</th>
+                                            <th>Audiencia</th>
+                                            <th>Programa</th>
+                                            <th>Pauta</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>      
+                                    <tbody id="output_table">
+                                        {% include 'publicity/all_publicities.html.twig' %}
+                                    </tbody>
+                                </table>
+                            </div><!-- end responsive --> 
+                        </div><!-- end card body --> 
+                    </div><!-- end card --> 
+                </div><!-- end col --> 
+            </div><!-- end row -->  
         </div>
-        {% include 'publicity/extra_search.html.twig' with {
-            "newElement": "Nueva publicidad",
-            'elementCount': publicities|length,
-            "searchText": "Buscar publicidad por pauta",
-            "searchId": "busca_publicidad",
-            "searchPath": path('app_search_publicity'),
-        } %}
-
-        {% include 'modal_base_form.html.twig' with {
-            'passedForm' : creationForm,
-            'titleForm': 'Creación de publicidad',
-        }%}
     </div>
+
+
+    {% include 'modal_base_form.html.twig' with {
+        'passedForm' : creationForm,
+        'titleForm': 'Creación de publicidad',
+    }%}
 {% endblock %}
